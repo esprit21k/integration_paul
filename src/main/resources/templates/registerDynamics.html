@@ -1,0 +1,134 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="user" th:content="${session.sessionUser}" th:unless="${session == null}">
+    <title>Login</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @charset "UTF-8";
+        body {
+            width: 100px;
+            height: 100px;
+            background: -webkit-linear-gradient(90deg, #16222A 10%, #3A6073 90%);
+            /* Chrome 10+, Saf5.1+ */
+            
+            background: -moz-linear-gradient(90deg, #16222A 10%, #3A6073 90%);
+            /* FF3.6+ */
+            
+            background: -ms-linear-gradient(90deg, #16222A 10%, #3A6073 90%);
+            /* IE10 */
+            
+            background: -o-linear-gradient(90deg, #16222A 10%, #3A6073 90%);
+            /* Opera 11.10+ */
+            
+            background: linear-gradient(90deg, #16222A 10%, #3A6073 90%);
+            /* W3C */
+            
+            font-family: 'Raleway', sans-serif;
+        }
+        p {
+            color: #CCC;
+        }
+        .spacing {
+            padding-top: 7px;
+            padding-bottom: 7px;
+        }
+        .middlePage {
+            width: 680px;
+            height: 500px;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+        .logo {
+            color: #CCC;
+        }
+    </style>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript"></script>
+</head>
+
+<body>
+    <link href="http://fonts.googleapis.com/css?family=Raleway:500" rel="stylesheet" type="text/css">
+
+
+    <div class="middlePage">
+        <div class="page-header">
+            <h1 class="logo">Microsoft Dynamics</h1>
+        </div>
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Please enter the domain of your Dynamics CRM instance.</h3>
+            </div>
+            <div class="panel-body">
+
+                <div class="row">
+
+                    <div class="col-md-12" style="border-left:1px solid #ccc;height:85px">
+                        <form class="form-horizontal">
+                            <fieldset>
+
+                                <input id="url" name="url" type="text" placeholder="your-company.crm(optional-nr).dynamics.com" class="form-control input-md">
+                                <div class="spacing">
+                                </div>
+                                <button id="singlebutton" name="singlebutton" class="btn btn-info btn-sm pull-right" onclick="process()">Register</button>
+                                
+
+
+                            </fieldset>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+<script>
+    function isURL(str) {
+        var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+        '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+        return pattern.test(str);
+    }
+    function process() {
+        event.preventDefault();
+        
+	    var metas = document.getElementsByTagName('meta'); 
+		var user = "";
+	    for (var i=0; i<metas.length; i++) { 
+	       if (metas[i].getAttribute("property") == "user") { 
+	          user = metas[i].getAttribute("content"); 
+	       } 
+	    } 
+        var loginUrl = "https://login.windows.net/9761ea90-3e53-4f31-a11b-bf6ab472c41c/oauth2/authorize?client_id=0e2611d0-3b94-46e3-9648-a6868b062a9b&response_type=code&redirect_uri=https://guarded-ravine-17563.herokuapp.com/oauth/dynamics&response_mode=query&resource=";
+        var inp = document.getElementById('url'); 
+        var inpValue = inp.value;
+        if (!isURL(inpValue)) {
+            return window.location.replace("https://guarded-ravine-17563.herokuapp.com/dynamics");
+        }
+        inpValue = "https://" + inpValue.replace(/(^\w+:|^)\/\//, '');
+        inpValue = inpValue.toLowerCase();
+        loginUrl = loginUrl + inpValue;
+        loginUrl = loginUrl + "&state=" + btoa(user + "=" + inpValue);
+        return window.location.replace(loginUrl);
+        
+    }
+</script>
+    
+</body>
+
+</html>
