@@ -67,7 +67,7 @@ public class DynamicsController {
 		if (p_error == null) {
 			String localAddr = request.getLocalName();
 			if (!localAddr.contains("http")) //Resolving hostname when run locally with localhost as the address
-				localAddr = "https://guarded-ravine-17563.herokuapp.com/dynamics"; 
+				localAddr = "https://174.35.126.191/dynamics"; 
 			String requestURL = baseURL + "oauth2/token";
 			String valueDecoded = null;
 			try {
