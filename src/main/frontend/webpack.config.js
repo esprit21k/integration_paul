@@ -19,14 +19,14 @@ const common = {
     module: {
         loaders: [{
             exclude: /node_modules/,
-            loader: 'babel'
+            loader: 'babel-loader'
         }, {
             test: /\.css$/,
             loader: 'style!css'
         }]
     },
     resolve: {
-        extensions: ['', '.js', '.jsx']
+        extensions: ['.js', '.jsx']
     }
 };
 
