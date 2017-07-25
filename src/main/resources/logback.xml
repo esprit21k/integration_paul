@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<target>System.out</target>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>debug</level>
+		</filter>
+		<encoder>
+			<pattern><![CDATA[%-20(%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread]) %-5level %logger{80}[%L] - %msg%n]]></pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="DEBUG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/logs/integration-hub/DEBUG/debug.log</file>
+	   	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">    	
+	     		<!-- daily rollover -->
+	     		<fileNamePattern>/logs/integration-hub/DEBUG/debug.%d{yyyy-MM-dd}.log</fileNamePattern>
+	     		<maxHistory>30</maxHistory>
+	   	</rollingPolicy>
+	   	<encoder>
+	     		<pattern><![CDATA[%-20(%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread]) %-5level %logger{80}[%L] - %msg%n]]></pattern>
+	   	</encoder>
+ 	</appender>	
+	
+	<appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/logs/integration-hub/ERROR/error.log</file>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>error</level>
+		</filter>
+	   	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">    	
+	     		<!-- daily rollover -->
+	     		<fileNamePattern>/logs/integration-hub/ERROR/error.%d{yyyy-MM-dd}.log</fileNamePattern>
+	     		<maxHistory>30</maxHistory>
+	   	</rollingPolicy>
+	   	<encoder>
+	     		<pattern><![CDATA[%-20(%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread]) %-5level %logger{80}[%L] - %msg%n]]></pattern>
+	   	</encoder>
+ 	</appender>	
+	
+	<appender name="INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/logs/integration-hub/INFO/info.log</file>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>info</level>
+		</filter>
+	   	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">    	
+	     		<!-- daily rollover -->
+	     		<fileNamePattern>/logs/integration-hub/INFO/info.%d{yyyy-MM-dd}.log</fileNamePattern>
+	     		<maxHistory>30</maxHistory>
+	   	</rollingPolicy>
+	   	<encoder>
+	     		<pattern><![CDATA[%-20(%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread]) %-5level %logger{80}[%L] - %msg%n]]></pattern>
+	   	</encoder>
+ 	</appender>	
+	
+	<root level="DEBUG">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="DEBUG_FILE" />
+		<appender-ref ref="ERROR_FILE" />
+		<appender-ref ref="INFO_FILE" />
+	</root>
+</configuration>

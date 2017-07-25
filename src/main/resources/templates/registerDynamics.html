@@ -118,7 +118,7 @@
         var inp = document.getElementById('url'); 
         var inpValue = inp.value;
         if (!isURL(inpValue)) {
-            return window.location.replace("https://174.35.126.191/dynamics");
+            return window.location.replace("http://174.35.126.191/dynamics");
         }
         inpValue = "https://" + inpValue.replace(/(^\w+:|^)\/\//, '');
         inpValue = inpValue.toLowerCase();
