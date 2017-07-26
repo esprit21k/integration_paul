@@ -21,13 +21,13 @@ public class DynamicsAccountEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	@Column(length=200)
+	@Column(length=500)
 	private String resourceUrl;
 	
 	@Column(length=2000)
 	private String accessToken;
 	
-	@Column(length=200)
+	@Column(length=2000)
 	private String refreshToken;
 	
 	@Column(columnDefinition="timestamp")
