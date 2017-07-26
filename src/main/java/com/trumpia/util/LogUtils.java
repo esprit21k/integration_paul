@@ -1,13 +1,13 @@
 package com.trumpia.util;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LogUtils {
 
 	public static Logger getLogger(Object instance) {
-		return LogManager.getLogger(instance.getClass());
+		return LoggerFactory.getLogger(instance.getClass());
 	}
 	public static Logger getLogger(Class<?> classType) {
-		return LogManager.getLogger(classType);
+		return LoggerFactory.getLogger(classType);
 	}
 }
