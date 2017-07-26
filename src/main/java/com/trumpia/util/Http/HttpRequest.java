@@ -1,5 +1,7 @@
 package com.trumpia.util.Http;
 
+import static com.trumpia.util.LogUtils.getLogger;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,6 +10,7 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.trumpia.dynamics.views.DynamicsController;
 
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -55,11 +58,11 @@ public class HttpRequest {
 				responseObj = client.newCall(request.post(body).build())
 						   .execute();
 				if (responseObj.code() >= 400) {
-					System.out.println(responseObj.message());
-					System.out.println(responseObj.body().string());
+					getLogger(HttpRequest.class).error(responseObj.message());
+					getLogger(HttpRequest.class).error(responseObj.body().string());
 					final Buffer buffer = new Buffer();
 			        body.writeTo(buffer);
-					System.out.println(buffer.readUtf8());
+					getLogger(HttpRequest.class).error(buffer.readUtf8());
 					throw new UnsuccessfulRequestException("Content : " + response + "\nStatus code : " + String.valueOf(responseObj.code()), responseObj.code());
 				}
 				response = responseObj.body().string();
@@ -80,6 +83,11 @@ public class HttpRequest {
 						   .execute();
 				response = responseObj.body().string();
 				if (responseObj.code() >= 400) {
+					getLogger(HttpRequest.class).error(responseObj.message());
+					getLogger(HttpRequest.class).error(responseObj.body().string());
+					final Buffer buffer = new Buffer();
+			        body.writeTo(buffer);
+					getLogger(HttpRequest.class).error(buffer.readUtf8());
 					throw new UnsuccessfulRequestException("Content : " + response + "\nStatus code : " + String.valueOf(responseObj.code()), responseObj.code());
 				}
 			} catch (Exception e) {
@@ -199,7 +207,10 @@ public class HttpRequest {
 				url = setUrl(url, tempHttpUrl);
 				url = setQueryParameters(url);
 				request = request.url(url.build());
+				getLogger(HttpRequest.class).debug("URL : {}, body: {}", url, requestBody.toString());
 				return new HttpRequest(requestBody, request);
+				
+				
 			}
 			
 		}

@@ -49,7 +49,7 @@
             color: #CCC;
         }
     </style>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script type="text/javascript"></script>
 </head>
@@ -78,7 +78,7 @@
                                 <input id="url" name="url" type="text" placeholder="your-company.crm(optional-nr).dynamics.com" class="form-control input-md">
                                 <div class="spacing">
                                 </div>
-                                <button id="singlebutton" name="singlebutton" class="btn btn-info btn-sm pull-right" onclick="process()">Register</button>
+                                <button id="singlebutton" name="singlebutton" class="btn btn-info btn-sm pull-right" onclick="">Register</button>
                                 
 
 
@@ -104,8 +104,10 @@
         '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
         return pattern.test(str);
     }
-    function process() {
-        //event.preventDefault();
+
+
+    $( "#singlebutton" ).click(function( event) {
+event.preventDefault();
         
 	    var metas = document.getElementsByTagName('meta'); 
 		var user = "";
@@ -118,15 +120,16 @@
         var inp = document.getElementById('url'); 
         var inpValue = inp.value;
         if (!isURL(inpValue)) {
-            return window.location.replace("http://174.35.126.191/dynamics");
+            return window.location.replace("http://174.35.126.191/registerDynamics");
         }
         inpValue = "https://" + inpValue.replace(/(^\w+:|^)\/\//, '');
         inpValue = inpValue.toLowerCase();
         loginUrl = loginUrl + inpValue;
         loginUrl = loginUrl + "&state=" + btoa(user + "=" + inpValue);
         return window.location.replace(loginUrl);
+    });
+
         
-    }
 </script>
     
 </body>
