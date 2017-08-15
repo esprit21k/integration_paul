@@ -26,9 +26,12 @@ public class UserEntity {
 	
 	@Column( length=50)
 	private String username;
+
+	@Column( length=200)
+	private String email;
 	
-	@Column(nullable=false, length=32)
-	private String apikey;
+	@Column( length=200)
+	private String password;
 
 	@Column(columnDefinition="DATE") // @Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
@@ -36,19 +39,9 @@ public class UserEntity {
 	@Column(columnDefinition="DATE")
 	private Date updatedDate;
 	
-	protected UserEntity() {
-		
-	}
 	
-	public UserEntity(String username, String apikey) {
-		this.username = username;
-		this.apikey = apikey;
-		this.uniqueId = UUID.nameUUIDFromBytes(apikey.getBytes()).toString();
+	public UserEntity() {
 		this.createdDate = new Date();
-	}
-	
-	public String getApikey() {
-		return this.apikey;
 	}
 	
 	public String getUsername() {
@@ -57,6 +50,14 @@ public class UserEntity {
 	
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	
+	public String getPassword() {
+		return this.password;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 	public Date getCreatedDate() {
@@ -75,10 +76,6 @@ public class UserEntity {
 		this.id = id;
 	}
 
-	public void setApikey(String apikey) {
-		this.apikey = apikey;
-	}
-
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
@@ -95,10 +92,18 @@ public class UserEntity {
 		this.uniqueId = uniqueId;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@Override
 	public String toString() {
-		return "User [id=" + StringUtils.nullTextIfNull(id) + ", uniqueId=" + StringUtils.nullTextIfNull(uniqueId) + ", apikey=" + StringUtils.nullTextIfNull(apikey)
-			 + ", createdDate=" + StringUtils.nullTextIfNull(createdDate)  + ", updatedDate=" + StringUtils.nullTextIfNull(updatedDate) + "]";
+		return "User [id=" + StringUtils.nullTextIfNull(id) + ", uniqueId=" + StringUtils.nullTextIfNull(uniqueId) + ", password=" + StringUtils.nullTextIfNull(password)
+		+ ", email=" + StringUtils.nullTextIfNull(email) + ", createdDate=" + StringUtils.nullTextIfNull(createdDate)  + ", updatedDate=" + StringUtils.nullTextIfNull(updatedDate) + "]";
 	}
 	
 }

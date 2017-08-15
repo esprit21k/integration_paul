@@ -56,6 +56,11 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
+	<dependency>
+	    <groupId>io.jsonwebtoken</groupId>
+	    <artifactId>jjwt</artifactId>
+	    <version>0.7.0</version>
+	</dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -171,6 +176,8 @@
 			<nodeVersion>${node.version}</nodeVersion>
 			<npmVersion>${npm.version}</npmVersion>
 			<installDirectory>target</installDirectory>
+			<environmentVariables>
+			</environmentVariables>
 		</configuration>
 		<executions>
 			<execution>
@@ -191,13 +198,39 @@
 				</configuration>
 			</execution>
 			<execution>
-				<id>webpack build</id>
+				<id>npm run build</id>
 				<goals>
-					<goal>webpack</goal>
+					<goal>npm</goal>
 				</goals>
+				<configuration>
+					<arguments>run build</arguments>
+                    <workingDirectory>src/main/frontend</workingDirectory>
+				</configuration>
 			</execution>
+            
 		</executions>
 	  </plugin>
+	  <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <executions>
+            <execution>
+            <phase>generate-resources</phase>
+                <configuration>
+                    <executable>python</executable>
+                    <workingDirectory></workingDirectory>
+                    <arguments>
+                        <argument>relocateScript.py</argument>
+                    </arguments>    
+
+                </configuration>
+                <id>python-build</id>
+                <goals>
+                    <goal>exec</goal>
+                </goals>
+            </execution>
+        </executions>
+   	 </plugin>
     </plugins>
   </build>
 
