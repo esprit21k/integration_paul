@@ -52,9 +52,10 @@ function* loginFlow(username, password) {
   let resp;
   try {
     resp = yield call(loginApi, username, password);
-    yield put(setClient(resp.headers.get('Authorization')));
+    const tok = resp.data.token;
+    yield put(setClient(tok));
     yield put({ type: LOGIN_SUCCESS });
-    localStorage.setItem('token', JSON.stringify(resp.headers.get('Authorization')));
+    localStorage.setItem('token', JSON.stringify(tok));
     browserHistory.push('/#/widgets');
   } catch (error) {
     const putBody = { type: LOGIN_ERROR, error };
