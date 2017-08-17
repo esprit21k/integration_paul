@@ -2,7 +2,7 @@
 // actual errors since it's technically completing the response...
 
 export function handleApiErrors(response) {
-  if (!response.ok) {
+  if (response.status >= 400 || response.error) {
     throw response.message;
   }
   return response;

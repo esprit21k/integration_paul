@@ -2,6 +2,8 @@ package com.trumpia.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trumpia.model.UserEntity;
+import com.trumpia.util.APIResponse;
+import com.trumpia.util.JSONUtils;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -62,5 +64,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .signWith(SignatureAlgorithm.HS512, SECRET)
                 .compact();
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+        APIResponse apiresp = new APIResponse();
+		apiresp.setError(false);
+		apiresp.setMessage("Successfully logged in.");
+		apiresp.setData(JSONUtils.getNewObjectNode().put("token", token));
+		res.getWriter().write(apiresp.getJSONResponse());
     }
 }
