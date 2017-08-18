@@ -81,9 +81,17 @@ public class TestTrumpiaAccountRepository {
 		TrumpiaAccountEntity fetchedAndUpdatedEntity = trumRepo.findOne(fetchedEntity.getId());
 		assertEquals(fetchedEntity.getAPIkey(), fetchedAndUpdatedEntity.getAPIkey());
 
+		//findByUserEntity
+		TrumpiaAccountEntity fetchedUserEntity = trumRepo.findByUserEntity(userEntity);
+		assertEquals(userEntity.getId(),fetchedUserEntity.getUserEntity().getId());
+		
+		
 		//Delete
 		trumRepo.delete(fetchedEntity);
 		assertNull(trumRepo.findOne(fetchedEntity.getId()));
 	}
+	
+	
+	
 }
 
