@@ -1,4 +1,4 @@
-package com.trumpia.account.schema;
+package com.trumpia.trumpia.schema;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +23,7 @@ public class CustomData {
 	}
 	
 	public JSONArray getCustomdata() throws IOException, JSONException {
+		
 		splitID(extractID(getCustomList()));
 		return customData;
 	}
@@ -31,12 +32,11 @@ public class CustomData {
 		return extractID(getCustomList());
 	}
 
-	private JSONObject getCustomList() throws IOException, JSONException { // get customdata list and return as JSONOBject
+	private JSONObject getCustomList() throws IOException, JSONException { // get customdata list and return as JSONObject
 		HashMap<String, String> headers = new HashMap<String, String>();
 		
 		headers.put("content-type", "application/json");
 		headers.put("x-apikey", aPIKey);
-		
 		HttpRequest request = new HttpRequest.Builder()
 				.URL(customDataUrl)
 				.headers(headers)
@@ -88,10 +88,9 @@ public class CustomData {
 			customArray.put(data);
 		}
 		customData = customArray;
-		System.out.println(customData.toString());
 	}
 
-	String inputTypeMatch(Object inputType) {
+	public String inputTypeMatch(Object inputType) {
 		String stringType = null;
 		int intType = (Integer)inputType;
 		switch(intType) {
@@ -105,7 +104,7 @@ public class CustomData {
 		return stringType;
 	}
 	
-	String requiredMatch(Object required) {
+	public String requiredMatch(Object required) {
 		String stringRequired = null;
 		int intRequired = (Integer)required;
 		switch(intRequired) {

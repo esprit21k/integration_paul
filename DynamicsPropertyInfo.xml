@@ -1,0 +1,884 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><root>
+        <Key>
+          <PropertyRef Name="contactid"/>
+        </Key>
+        <Property Name="spousesname" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the name of the contact's spouse or partner for reference during calls, events, or other communications with the contact." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="emailaddress3" Type="Edm.String" Unicode="false">
+          <Annotation String="Type an alternate email address for the contact." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address3_telephone3" Type="Edm.String" Unicode="false">
+          <Annotation String="Type a third phone number associated with the primary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="entityimage_timestamp" Type="Edm.Int64">
+          <Annotation String="" Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="address2_shippingmethodcode" Type="Edm.Int32">
+          <Annotation String="Select a shipping method for deliveries sent to this address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="_preferredserviceid_value" Type="Edm.Guid">
+          <Annotation String="Choose the contact's preferred service to make sure services are scheduled correctly for the customer." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Bool="true" Term="Org.OData.Core.V1.Computed"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="address3_shippingmethodcode" Type="Edm.Int32">
+          <Annotation String="Select a shipping method for deliveries sent to this address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property ConcurrencyMode="Fixed" Name="versionnumber" Type="Edm.Int64">
+          <Annotation String="Version number of the contact." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="annualincome" Scale="Variable" Type="Edm.Decimal">
+          <Annotation String="Type the contact's annual income for use in profiling and financial analysis." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address2_line2" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the second line of the secondary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="stageid" Type="Edm.Guid">
+          <Annotation String="Shows the ID of the stage." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="telephone3" Type="Edm.String" Unicode="false">
+          <Annotation String="Type a third phone number for this contact." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="preferredappointmentdaycode" Type="Edm.Int32">
+          <Annotation String="Select the preferred day of the week for service appointments." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address3_city" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the city for the 3rd address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="lastonholdtime" Type="Edm.DateTimeOffset">
+          <Annotation String="Contains the date and time stamp of the last on hold time." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="_createdby_value" Type="Edm.Guid">
+          <Annotation String="Shows who created the record." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Bool="true" Term="Org.OData.Core.V1.Computed"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="address2_line1" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the first line of the secondary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="lastusedincampaign" Type="Edm.DateTimeOffset">
+          <Annotation String="Shows the date when the contact was last included in a marketing campaign or quick campaign." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address3_freighttermscode" Type="Edm.Int32">
+          <Annotation String="Select the freight terms for the third address to make sure shipping orders are processed correctly." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address3_telephone2" Type="Edm.String" Unicode="false">
+          <Annotation String="Type a second phone number associated with the third address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="pager" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the pager number for the contact." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="employeeid" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the employee ID or number for the contact for reference in orders, service cases, or other communications with the contact's organization." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="territorycode" Type="Edm.Int32">
+          <Annotation String="Select a region or territory for the contact for use in segmentation and analysis." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="_parentcustomerid_value" Type="Edm.Guid">
+          <Annotation String="Select the parent account or parent contact for the contact to provide a quick link to additional details, such as financial information, activities, and opportunities." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="birthdate" Type="Edm.Date">
+          <Annotation String="Enter the contact's birthday for use in customer gift programs or other communications." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="numberofchildren" Type="Edm.Int32">
+          <Annotation String="Type the number of children the contact has for reference in follow-up phone calls and other communications." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address2_latitude" Type="Edm.Double">
+          <Annotation String="Type the latitude value for the secondary address for use in mapping and other applications." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address2_postalcode" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the ZIP Code or postal code for the secondary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="home2" Type="Edm.String" Unicode="false">
+          <Annotation String="Type a second home phone number for this contact." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address1_latitude" Type="Edm.Double">
+          <Annotation String="Type the latitude value for the primary address for use in mapping and other applications." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="_owninguser_value" Type="Edm.Guid">
+          <Annotation String="Unique identifier of the user who owns the contact." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Bool="true" Term="Org.OData.Core.V1.Computed"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="assistantphone" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the phone number for the contact's assistant." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="_masterid_value" Type="Edm.Guid">
+          <Annotation String="Unique identifier of the master contact for merge." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Bool="true" Term="Org.OData.Core.V1.Computed"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="_createdonbehalfby_value" Type="Edm.Guid">
+          <Annotation String="Shows who created the record on behalf of another user." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Bool="true" Term="Org.OData.Core.V1.Computed"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="subscriptionid" Type="Edm.Guid">
+          <Annotation String="For internal use only." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Write</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="address3_county" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the county for the third address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="mobilephone" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the mobile phone number for the contact." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="customertypecode" Type="Edm.Int32">
+          <Annotation String="Select the category that best describes the relationship between the contact and your organization." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="managerphone" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the phone number for the contact's manager." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address1_freighttermscode" Type="Edm.Int32">
+          <Annotation String="Select the freight terms for the primary address to make sure shipping orders are processed correctly." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address1_longitude" Type="Edm.Double">
+          <Annotation String="Type the longitude value for the primary address for use in mapping and other applications." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address1_addresstypecode" Type="Edm.Int32">
+          <Annotation String="Select the primary address type." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="statuscode" Type="Edm.Int32">
+          <Annotation String="Select the contact's status." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="yomifullname" Type="Edm.String" Unicode="false">
+          <Annotation String="Shows the combined Yomi first and last names of the contact so that the full phonetic name can be displayed in views and reports." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="aging90_base" Scale="Variable" Type="Edm.Decimal">
+          <Annotation String="Shows the Aging 90 field converted to the system's default base currency. The calculations use the exchange rate specified in the Currencies area." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="_accountid_value" Type="Edm.Guid">
+          <Annotation String="Unique identifier of the account with which the contact is associated." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Bool="true" Term="Org.OData.Core.V1.Computed"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="address3_postalcode" Type="Edm.String" Unicode="false">
+          <Annotation String="the ZIP Code or postal code for the 3rd address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address1_upszone" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the UPS zone of the primary address to make sure shipping charges are calculated correctly and deliveries are made promptly, if shipped by UPS." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address3_primarycontactname" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the name of the main contact at the account's third address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="familystatuscode" Type="Edm.Int32">
+          <Annotation String="Select the marital status of the contact for reference in follow-up phone calls and other communications." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address3_addressid" Type="Edm.Guid">
+          <Annotation String="Unique identifier for address 3." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="firstname" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the contact's first name to make sure the contact is addressed correctly in sales calls, email, and marketing campaigns." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="_createdbyexternalparty_value" Type="Edm.Guid">
+          <Annotation String="Shows the external party who created the record." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Bool="true" Term="Org.OData.Core.V1.Computed"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="department" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the department or business unit where the contact works in the parent company or business." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="_originatingleadid_value" Type="Edm.Guid">
+          <Annotation String="Shows the lead that the contact was created if the contact was created by converting a lead in Microsoft Dynamics 365. This is used to relate the contact to the data on the originating lead for use in reporting and analytics." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Bool="true" Term="Org.OData.Core.V1.Computed"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="address3_addresstypecode" Type="Edm.Int32">
+          <Annotation String="Select the third address type." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="aging60" Scale="Variable" Type="Edm.Decimal">
+          <Annotation String="For system use only." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="traversedpath" Type="Edm.String" Unicode="false">
+          <Annotation String="For internal use only." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="statecode" Type="Edm.Int32">
+          <Annotation String="Shows whether the contact is active or inactive. Inactive contacts are read-only and can't be edited unless they are reactivated." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address2_freighttermscode" Type="Edm.Int32">
+          <Annotation String="Select the freight terms for the secondary address to make sure shipping orders are processed correctly." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="followemail" Type="Edm.Boolean">
+          <Annotation String="Information about whether to allow following email activity like opens, attachment views and link clicks for emails sent to the contact." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address1_name" Type="Edm.String" Unicode="false">
+          <Annotation String="Type a descriptive name for the primary address, such as Corporate Headquarters." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="yomimiddlename" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the phonetic spelling of the contact's middle name, if the name is specified in Japanese, to make sure the name is pronounced correctly in phone calls with the contact." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="description" Type="Edm.String" Unicode="false">
+          <Annotation String="Type additional information to describe the contact, such as an excerpt from the company's website." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address3_utcoffset" Type="Edm.Int32">
+          <Annotation String="Select the time zone, or UTC offset, for this address so that other people can reference it when they contact someone at this address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="participatesinworkflow" Type="Edm.Boolean">
+          <Annotation String="Shows whether the contact participates in workflow rules." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address1_telephone3" Type="Edm.String" Unicode="false">
+          <Annotation String="Type a third phone number associated with the primary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="managername" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the name of the contact's manager for use in escalating issues or other follow-up communications with the contact." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="_owningteam_value" Type="Edm.Guid">
+          <Annotation String="Unique identifier of the team who owns the contact." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Bool="true" Term="Org.OData.Core.V1.Computed"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="address2_telephone1" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the main phone number associated with the secondary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="gendercode" Type="Edm.Int32">
+          <Annotation String="Select the contact's gender to make sure the contact is addressed correctly in sales calls, email, and marketing campaigns." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="_ownerid_value" Type="Edm.Guid">
+          <Annotation String="Enter the user or team who is assigned to manage the record. This field is updated every time the record is assigned to a different user." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address2_addresstypecode" Type="Edm.Int32">
+          <Annotation String="Select the secondary address type." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address1_composite" Type="Edm.String" Unicode="false">
+          <Annotation String="Shows the complete primary address." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="address1_utcoffset" Type="Edm.Int32">
+          <Annotation String="Select the time zone, or UTC offset, for this address so that other people can reference it when they contact someone at this address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="websiteurl" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the contact's professional or personal website or blog URL." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="aging60_base" Scale="Variable" Type="Edm.Decimal">
+          <Annotation String="Shows the Aging 60 field converted to the system's default base currency. The calculations use the exchange rate specified in the Currencies area." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="address3_line1" Type="Edm.String" Unicode="false">
+          <Annotation String="the first line of the 3rd address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address1_county" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the county for the primary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="_owningbusinessunit_value" Type="Edm.Guid">
+          <Annotation String="Unique identifier of the business unit that owns the contact." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Bool="true" Term="Org.OData.Core.V1.Computed"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="jobtitle" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the job title of the contact to make sure the contact is addressed correctly in sales calls, email, and marketing campaigns." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="entityimageid" Type="Edm.Guid">
+          <Annotation String="For internal use only." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="processid" Type="Edm.Guid">
+          <Annotation String="Shows the ID of the process." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address1_telephone2" Type="Edm.String" Unicode="false">
+          <Annotation String="Type a second phone number associated with the primary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="timezoneruleversionnumber" Type="Edm.Int32">
+          <Annotation String="For internal use only." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address1_fax" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the fax number associated with the primary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address2_postofficebox" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the post office box number of the secondary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="emailaddress2" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the secondary email address for the contact." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="marketingonly" Type="Edm.Boolean">
+          <Annotation String="Whether is only for marketing" Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address1_line2" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the second line of the primary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address3_line2" Type="Edm.String" Unicode="false">
+          <Annotation String="the second line of the 3rd address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="creditlimit_base" Scale="Variable" Type="Edm.Decimal">
+          <Annotation String="Shows the Credit Limit field converted to the system's default base currency for reporting purposes. The calculations use the exchange rate specified in the Currencies area." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="_slaid_value" Type="Edm.Guid">
+          <Annotation String="Choose the service level agreement (SLA) that you want to apply to the Contact record." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Bool="true" Term="Org.OData.Core.V1.Computed"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="donotpostalmail" Type="Edm.Boolean">
+          <Annotation String="Select whether the contact allows direct mail. If Do Not Allow is selected, the contact will be excluded from letter activities distributed in marketing campaigns." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address2_utcoffset" Type="Edm.Int32">
+          <Annotation String="Select the time zone, or UTC offset, for this address so that other people can reference it when they contact someone at this address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="exchangerate" Scale="Variable" Type="Edm.Decimal">
+          <Annotation String="Shows the conversion rate of the record's currency. The exchange rate is used to convert all money fields in the record from the local currency to the system's default currency." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="createdon" Type="Edm.DateTimeOffset">
+          <Annotation String="Shows the date and time when the record was created. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="importsequencenumber" Type="Edm.Int32">
+          <Annotation String="Unique identifier of the data import or data migration that created this record." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address2_line3" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the third line of the secondary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address2_addressid" Type="Edm.Guid">
+          <Annotation String="Unique identifier for address 2." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="overriddencreatedon" Type="Edm.DateTimeOffset">
+          <Annotation String="Date and time that the record was migrated." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address3_upszone" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the UPS zone of the third address to make sure shipping charges are calculated correctly and deliveries are made promptly, if shipped by UPS." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="company" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the company phone of the contact." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address1_telephone1" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the main phone number associated with the primary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address3_composite" Type="Edm.String" Unicode="false">
+          <Annotation String="Shows the complete third address." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="address3_fax" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the fax number associated with the third address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="childrensnames" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the names of the contact's children for reference in communications and client programs." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="preferredcontactmethodcode" Type="Edm.Int32">
+          <Annotation String="Select the preferred method of contact." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address2_fax" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the fax number associated with the secondary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="yomilastname" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the phonetic spelling of the contact's last name, if the name is specified in Japanese, to make sure the name is pronounced correctly in phone calls with the contact." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="aging90" Scale="Variable" Type="Edm.Decimal">
+          <Annotation String="For system use only." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="donotbulkpostalmail" Type="Edm.Boolean">
+          <Annotation String="Select whether the contact accepts bulk postal mail sent through marketing campaigns or quick campaigns. If Do Not Allow is selected, the contact can be added to marketing lists, but will be excluded from the letters." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="emailaddress1" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the primary email address for the contact." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="donotbulkemail" Type="Edm.Boolean">
+          <Annotation String="Select whether the contact accepts bulk email sent through marketing campaigns or quick campaigns. If Do Not Allow is selected, the contact can be added to marketing lists, but will be excluded from the email." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="customersizecode" Type="Edm.Int32">
+          <Annotation String="Select the size of the contact's company for segmentation and reporting purposes." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address1_city" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the city for the primary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="fullname" Type="Edm.String" Unicode="false">
+          <Annotation String="Combines and shows the contact's first and last names so that the full name can be displayed in views and reports." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="preferredappointmenttimecode" Type="Edm.Int32">
+          <Annotation String="Select the preferred time of day for service appointments." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address3_latitude" Type="Edm.Double">
+          <Annotation String="Type the latitude value for the third address for use in mapping and other applications." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="_transactioncurrencyid_value" Type="Edm.Guid">
+          <Annotation String="Choose the local currency for the record to make sure budgets are reported in the correct currency." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Bool="true" Term="Org.OData.Core.V1.Computed"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="entityimage" Type="Edm.Binary">
+          <Annotation String="Shows the default image for the record." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="_modifiedbyexternalparty_value" Type="Edm.Guid">
+          <Annotation String="Shows the external party who modified the record." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Bool="true" Term="Org.OData.Core.V1.Computed"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="paymenttermscode" Type="Edm.Int32">
+          <Annotation String="Select the payment terms to indicate when the customer needs to pay the total amount." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address3_name" Type="Edm.String" Unicode="false">
+          <Annotation String="Type a descriptive name for the third address, such as Corporate Headquarters." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="aging30" Scale="Variable" Type="Edm.Decimal">
+          <Annotation String="For system use only." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="leadsourcecode" Type="Edm.Int32">
+          <Annotation String="Select the primary marketing source that directed the contact to your organization." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="merged" Type="Edm.Boolean">
+          <Annotation String="Shows whether the account has been merged with a master contact." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="address2_telephone3" Type="Edm.String" Unicode="false">
+          <Annotation String="Type a third phone number associated with the secondary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address1_shippingmethodcode" Type="Edm.Int32">
+          <Annotation String="Select a shipping method for deliveries sent to this address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="_modifiedby_value" Type="Edm.Guid">
+          <Annotation String="Shows who last updated the record." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Bool="true" Term="Org.OData.Core.V1.Computed"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="ftpsiteurl" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the URL for the contact's FTP site to enable users to access data and share documents." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="_preferredsystemuserid_value" Type="Edm.Guid">
+          <Annotation String="Choose the regular or preferred customer service representative for reference when scheduling service activities for the contact." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Bool="true" Term="Org.OData.Core.V1.Computed"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="address2_telephone2" Type="Edm.String" Unicode="false">
+          <Annotation String="Type a second phone number associated with the secondary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="_slainvokedid_value" Type="Edm.Guid">
+          <Annotation String="Last SLA that was applied to this case. This field is for internal use only." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Bool="true" Term="Org.OData.Core.V1.Computed"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="address1_addressid" Type="Edm.Guid">
+          <Annotation String="Unique identifier for address 1." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address3_stateorprovince" Type="Edm.String" Unicode="false">
+          <Annotation String="the state or province of the third address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address3_telephone1" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the main phone number associated with the third address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="nickname" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the contact's nickname." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address1_postofficebox" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the post office box number of the primary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="_preferredequipmentid_value" Type="Edm.Guid">
+          <Annotation String="Choose the contact's preferred service facility or equipment to make sure services are scheduled correctly for the customer." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Bool="true" Term="Org.OData.Core.V1.Computed"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="assistantname" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the name of the contact's assistant." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address2_country" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the country or region for the secondary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="modifiedon" Type="Edm.DateTimeOffset">
+          <Annotation String="Shows the date and time when the record was last updated. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="externaluseridentifier" Type="Edm.String" Unicode="false">
+          <Annotation String="Identifier for an external user." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address2_name" Type="Edm.String" Unicode="false">
+          <Annotation String="Type a descriptive name for the secondary address, such as Corporate Headquarters." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="creditonhold" Type="Edm.Boolean">
+          <Annotation String="Select whether the contact is on a credit hold, for reference when addressing invoice and accounting issues." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address3_longitude" Type="Edm.Double">
+          <Annotation String="Type the longitude value for the third address for use in mapping and other applications." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="onholdtime" Type="Edm.Int32">
+          <Annotation String="Shows how long, in minutes, that the record was on hold." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="address3_country" Type="Edm.String" Unicode="false">
+          <Annotation String="the country or region for the 3rd address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="donotphone" Type="Edm.Boolean">
+          <Annotation String="Select whether the contact accepts phone calls. If Do Not Allow is selected, the contact will be excluded from any phone call activities distributed in marketing campaigns." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="accountrolecode" Type="Edm.Int32">
+          <Annotation String="Select the contact's role within the company or sales process, such as decision maker, employee, or influencer." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="contactid" Type="Edm.Guid">
+          <Annotation String="Unique identifier of the contact." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="donotfax" Type="Edm.Boolean">
+          <Annotation String="Select whether the contact allows faxes. If Do Not Allow is selected, the contact will be excluded from any fax activities distributed in marketing campaigns." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="aging30_base" Scale="Variable" Type="Edm.Decimal">
+          <Annotation String="Shows the Aging 30 field converted to the system's default base currency. The calculations use the exchange rate specified in the Currencies area." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="_modifiedonbehalfby_value" Type="Edm.Guid">
+          <Annotation String="Shows who last updated the record on behalf of another user." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Bool="true" Term="Org.OData.Core.V1.Computed"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="salutation" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the salutation of the contact to make sure the contact is addressed correctly in sales calls, email messages, and marketing campaigns." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="suffix" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the suffix used in the contact's name, such as Jr. or Sr. to make sure the contact is addressed correctly in sales calls, email, and marketing campaigns." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address1_primarycontactname" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the name of the main contact at the account's primary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="business2" Type="Edm.String" Unicode="false">
+          <Annotation String="Type a second business phone number for this contact." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="utcconversiontimezonecode" Type="Edm.Int32">
+          <Annotation String="Time zone code that was in use when the record was created." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="governmentid" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the passport number or other government ID for the contact for use in documents or reports." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address2_primarycontactname" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the name of the main contact at the account's secondary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address2_stateorprovince" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the state or province of the secondary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="donotsendmm" Type="Edm.Boolean">
+          <Annotation String="Select whether the contact accepts marketing materials, such as brochures or catalogs. Contacts that opt out can be excluded from marketing initiatives." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="annualincome_base" Scale="Variable" Type="Edm.Decimal">
+          <Annotation String="Shows the Annual Income field converted to the system's default base currency. The calculations use the exchange rate specified in the Currencies area." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="address1_country" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the country or region for the primary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="lastname" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the contact's last name to make sure the contact is addressed correctly in sales calls, email, and marketing campaigns." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address2_city" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the city for the secondary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="donotemail" Type="Edm.Boolean">
+          <Annotation String="Select whether the contact allows direct email sent from Microsoft Dynamics 365. If Do Not Allow is selected, Microsoft Dynamics 365 will not send the email." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address3_postofficebox" Type="Edm.String" Unicode="false">
+          <Annotation String="the post office box number of the 3rd address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address2_longitude" Type="Edm.Double">
+          <Annotation String="Type the longitude value for the secondary address for use in mapping and other applications." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address1_stateorprovince" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the state or province of the primary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="yomifirstname" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the phonetic spelling of the contact's first name, if the name is specified in Japanese, to make sure the name is pronounced correctly in phone calls with the contact." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="telephone1" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the main phone number for this contact." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address1_line1" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the first line of the primary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address2_composite" Type="Edm.String" Unicode="false">
+          <Annotation String="Shows the complete secondary address." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="address2_county" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the county for the secondary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="shippingmethodcode" Type="Edm.Int32">
+          <Annotation String="Select a shipping method for deliveries sent to this address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="creditlimit" Scale="Variable" Type="Edm.Decimal">
+          <Annotation String="Type the credit limit of the contact for reference when you address invoice and accounting issues with the customer." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="anniversary" Type="Edm.Date">
+          <Annotation String="Enter the date of the contact's wedding or service anniversary for use in customer gift programs or other communications." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="telephone2" Type="Edm.String" Unicode="false">
+          <Annotation String="Type a second phone number for this contact." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="_parentcontactid_value" Type="Edm.Guid">
+          <Annotation String="Unique identifier of the parent contact." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Bool="true" Term="Org.OData.Core.V1.Computed"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="educationcode" Type="Edm.Int32">
+          <Annotation String="Select the contact's highest level of education for use in segmentation and analysis." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="haschildrencode" Type="Edm.Int32">
+          <Annotation String="Select whether the contact has any children for reference in follow-up phone calls and other communications." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="isbackofficecustomer" Type="Edm.Boolean">
+          <Annotation String="Select whether the contact exists in a separate accounting or other system, such as Microsoft Dynamics GP or another ERP database, for use in integration processes." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="fax" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the fax number for the contact." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="entityimage_url" Type="Edm.String" Unicode="false">
+          <Annotation String="" Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="address1_line3" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the third line of the primary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address2_upszone" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the UPS zone of the secondary address to make sure shipping charges are calculated correctly and deliveries are made promptly, if shipped by UPS." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="_defaultpricelevelid_value" Type="Edm.Guid">
+          <Annotation String="Choose the default price list associated with the contact to make sure the correct product prices for this customer are applied in sales opportunities, quotes, and orders." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Bool="true" Term="Org.OData.Core.V1.Computed"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <Property Name="middlename" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the contact's middle name or initial to make sure the contact is addressed correctly." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address1_postalcode" Type="Edm.String" Unicode="false">
+          <Annotation String="Type the ZIP Code or postal code for the primary address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="address3_line3" Type="Edm.String" Unicode="false">
+          <Annotation String="the third line of the 3rd address." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="callback" Type="Edm.String" Unicode="false">
+          <Annotation String="Type a callback phone number for this contact." Term="Org.OData.Core.V1.Description"/>
+        </Property>
+        <Property Name="timespentbymeonemailandmeetings" Type="Edm.String" Unicode="false">
+          <Annotation String="Total time spent for emails (read and write) and meetings by me in relation to the contact record." Term="Org.OData.Core.V1.Description"/>
+          <Annotation Term="Org.OData.Core.V1.Permissions">
+            <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
+          </Annotation>
+        </Property>
+        <NavigationProperty Name="contactquotes_association" Partner="contactquotes_association" Type="Collection(mscrm.quote)"/>
+        <NavigationProperty Name="listcontact_association" Partner="listcontact_association" Type="Collection(mscrm.list)"/>
+        <NavigationProperty Name="contactinvoices_association" Partner="contactinvoices_association" Type="Collection(mscrm.invoice)"/>
+        <NavigationProperty Name="contactorders_association" Partner="contactorders_association" Type="Collection(mscrm.salesorder)"/>
+        <NavigationProperty Name="servicecontractcontacts_association" Partner="servicecontractcontacts_association" Type="Collection(mscrm.contract)"/>
+        <NavigationProperty Name="contactleads_association" Partner="contactleads_association" Type="Collection(mscrm.lead)"/>
+        <NavigationProperty Name="contact_entitlement_ContactId" Partner="contactid" Type="Collection(mscrm.entitlement)"/>
+        <NavigationProperty Name="contact_bookableresource_ContactId" Partner="ContactId" Type="Collection(mscrm.bookableresource)"/>
+        <NavigationProperty Name="contact_connections1" Partner="record1id_contact" Type="Collection(mscrm.connection)"/>
+        <NavigationProperty Name="opportunity_parent_contact" Partner="parentcontactid" Type="Collection(mscrm.opportunity)"/>
+        <NavigationProperty Name="Contact_Feedback" Partner="ContactId" Type="Collection(mscrm.feedback)"/>
+        <NavigationProperty Name="stageid_processstage" Nullable="false" Partner="processstage_contact" Type="mscrm.processstage">
+          <ReferentialConstraint Property="stageid" ReferencedProperty="processstageid"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Contact_ActivityPointers" Partner="regardingobjectid_contact" Type="Collection(mscrm.activitypointer)"/>
+        <NavigationProperty Name="Contact_SocialActivities" Partner="regardingobjectid_contact_socialactivity" Type="Collection(mscrm.socialactivity)"/>
+        <NavigationProperty Name="lk_contact_feedback_createdonbehalfby" Partner="CreatedOnBehalfByContact" Type="Collection(mscrm.feedback)"/>
+        <NavigationProperty Name="contact_PostFollows" Partner="regardingobjectid_contact" Type="Collection(mscrm.postfollow)"/>
+        <NavigationProperty Name="contact_PostRegardings" Partner="regardingobjectid_contact" Type="Collection(mscrm.postregarding)"/>
+        <NavigationProperty Name="socialactivity_postauthor_contacts" Partner="postauthor_contact" Type="Collection(mscrm.socialactivity)"/>
+        <NavigationProperty Name="invoice_customer_contacts" Partner="customerid_contact" Type="Collection(mscrm.invoice)"/>
+        <NavigationProperty Name="quote_customer_contacts" Partner="customerid_contact" Type="Collection(mscrm.quote)"/>
+        <NavigationProperty Name="CreatedContact_BulkOperationLogs" Partner="createdobjectid_contact" Type="Collection(mscrm.bulkoperationlog)"/>
+        <NavigationProperty Name="Contact_Phonecalls" Partner="regardingobjectid_contact_phonecall" Type="Collection(mscrm.phonecall)"/>
+        <NavigationProperty Name="Contact_Tasks" Partner="regardingobjectid_contact_task" Type="Collection(mscrm.task)"/>
+        <NavigationProperty Name="Contact_SyncErrors" Partner="regardingobjectid_contact_syncerror" Type="Collection(mscrm.syncerror)"/>
+        <NavigationProperty Name="entitlementcontacts_association" Partner="entitlementcontacts_association" Type="Collection(mscrm.entitlement)"/>
+        <NavigationProperty Name="slainvokedid_contact_sla" Nullable="false" Partner="sla_contact" Type="mscrm.sla">
+          <ReferentialConstraint Property="_slainvokedid_value" ReferencedProperty="slaid"/>
+        </NavigationProperty>
+        <NavigationProperty Name="sla_contact_sla" Nullable="false" Partner="manualsla_contact" Type="mscrm.sla">
+          <ReferentialConstraint Property="_slaid_value" ReferencedProperty="slaid"/>
+        </NavigationProperty>
+        <NavigationProperty Name="createdonbehalfby" Nullable="false" Partner="lk_contact_createdonbehalfby" Type="mscrm.systemuser">
+          <ReferentialConstraint Property="_createdonbehalfby_value" ReferencedProperty="systemuserid"/>
+        </NavigationProperty>
+        <NavigationProperty Name="lead_customer_contacts" Partner="customerid_contact" Type="Collection(mscrm.lead)"/>
+        <NavigationProperty Name="Contact_Annotation" Partner="objectid_contact" Type="Collection(mscrm.annotation)"/>
+        <NavigationProperty Name="masterid" Nullable="false" Partner="contact_master_contact" Type="mscrm.contact">
+          <ReferentialConstraint Property="_masterid_value" ReferencedProperty="contactid"/>
+        </NavigationProperty>
+        <NavigationProperty Name="contact_master_contact" Partner="masterid" Type="Collection(mscrm.contact)"/>
+        <NavigationProperty Name="originatingleadid" Nullable="false" Partner="contact_originating_lead" Type="mscrm.lead">
+          <ReferentialConstraint Property="_originatingleadid_value" ReferencedProperty="leadid"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Contact_ServiceAppointments" Partner="regardingobjectid_contact_serviceappointment" Type="Collection(mscrm.serviceappointment)"/>
+        <NavigationProperty Name="modifiedonbehalfby" Nullable="false" Partner="lk_contact_modifiedonbehalfby" Type="mscrm.systemuser">
+          <ReferentialConstraint Property="_modifiedonbehalfby_value" ReferencedProperty="systemuserid"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Contact_Email_EmailSender" Partner="emailsender_contact" Type="Collection(mscrm.email)"/>
+        <NavigationProperty Name="account_primary_contact" Partner="primarycontactid" Type="Collection(mscrm.account)"/>
+        <NavigationProperty Name="createdby" Nullable="false" Partner="lk_contactbase_createdby" Type="mscrm.systemuser">
+          <ReferentialConstraint Property="_createdby_value" ReferencedProperty="systemuserid"/>
+        </NavigationProperty>
+        <NavigationProperty Name="contract_customer_contacts" Partner="customerid_contact" Type="Collection(mscrm.contract)"/>
+        <NavigationProperty Name="contact_actioncard" Partner="regardingobjectid_contact_actioncard" Type="Collection(mscrm.actioncard)"/>
+        <NavigationProperty Name="contract_billingcustomer_contacts" Partner="billingcustomerid_contact" Type="Collection(mscrm.contract)"/>
+        <NavigationProperty Name="contact_entitlement_Customer" Partner="customerid_contact" Type="Collection(mscrm.entitlement)"/>
+        <NavigationProperty Name="socialactivity_postauthoraccount_contacts" Partner="postauthoraccount_contact" Type="Collection(mscrm.socialactivity)"/>
+        <NavigationProperty Name="Socialprofile_customer_contacts" Partner="customerid_contact" Type="Collection(mscrm.socialprofile)"/>
+        <NavigationProperty Name="Contact_CustomerAddress" Partner="parentid_contact" Type="Collection(mscrm.customeraddress)"/>
+        <NavigationProperty Name="owningbusinessunit" Nullable="false" Partner="business_unit_contacts" Type="mscrm.businessunit">
+          <ReferentialConstraint Property="_owningbusinessunit_value" ReferencedProperty="businessunitid"/>
+        </NavigationProperty>
+        <NavigationProperty Name="incident_customer_contacts" Partner="customerid_contact" Type="Collection(mscrm.incident)"/>
+        <NavigationProperty Name="owningteam" Nullable="false" Partner="team_contacts" Type="mscrm.team">
+          <ReferentialConstraint Property="_owningteam_value" ReferencedProperty="teamid"/>
+        </NavigationProperty>
+        <NavigationProperty Name="parentcustomerid_account" Nullable="false" Partner="contact_customer_accounts" Type="mscrm.account">
+          <ReferentialConstraint Property="_parentcustomerid_value" ReferencedProperty="accountid"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Contact_DuplicateMatchingRecord" Partner="duplicaterecordid_contact" Type="Collection(mscrm.duplicaterecord)"/>
+        <NavigationProperty Name="lk_contact_feedback_createdby" Partner="CreatedByContact" Type="Collection(mscrm.feedback)"/>
+        <NavigationProperty Name="slakpiinstance_contact" Partner="regarding_contact" Type="Collection(mscrm.slakpiinstance)"/>
+        <NavigationProperty Name="order_customer_contacts" Partner="customerid_contact" Type="Collection(mscrm.salesorder)"/>
+        <NavigationProperty Name="preferredsystemuserid" Nullable="false" Partner="system_user_contacts" Type="mscrm.systemuser">
+          <ReferentialConstraint Property="_preferredsystemuserid_value" ReferencedProperty="systemuserid"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Contact_Faxes" Partner="regardingobjectid_contact_fax" Type="Collection(mscrm.fax)"/>
+        <NavigationProperty Name="contact_as_primary_contact" Partner="primarycontactid" Type="Collection(mscrm.incident)"/>
+        <NavigationProperty Name="preferredserviceid" Nullable="false" Partner="service_contacts" Type="mscrm.service">
+          <ReferentialConstraint Property="_preferredserviceid_value" ReferencedProperty="serviceid"/>
+        </NavigationProperty>
+        <NavigationProperty Name="contact_as_responsible_contact" Partner="responsiblecontactid" Type="Collection(mscrm.incident)"/>
+        <NavigationProperty Name="Contact_Appointments" Partner="regardingobjectid_contact_appointment" Type="Collection(mscrm.appointment)"/>
+        <NavigationProperty Name="owninguser" Nullable="false" Partner="contact_owning_user" Type="mscrm.systemuser">
+          <ReferentialConstraint Property="_owninguser_value" ReferencedProperty="systemuserid"/>
+        </NavigationProperty>
+        <NavigationProperty Name="lead_parent_contact" Partner="parentcontactid" Type="Collection(mscrm.lead)"/>
+        <NavigationProperty Name="preferredequipmentid" Nullable="false" Partner="equipment_contacts" Type="mscrm.equipment">
+          <ReferentialConstraint Property="_preferredequipmentid_value" ReferencedProperty="equipmentid"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Contact_AsyncOperations" Partner="regardingobjectid_contact" Type="Collection(mscrm.asyncoperation)"/>
+        <NavigationProperty Name="ownerid" Nullable="false" Partner="owner_contacts" Type="mscrm.principal">
+          <ReferentialConstraint Property="_ownerid_value" ReferencedProperty="ownerid"/>
+        </NavigationProperty>
+        <NavigationProperty Name="SourceContact_BulkOperationLogs" Partner="regardingobjectid_contact" Type="Collection(mscrm.bulkoperationlog)"/>
+        <NavigationProperty Name="transactioncurrencyid" Nullable="false" Partner="transactioncurrency_contact" Type="mscrm.transactioncurrency">
+          <ReferentialConstraint Property="_transactioncurrencyid_value" ReferencedProperty="transactioncurrencyid"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Contact_RecurringAppointmentMasters" Partner="regardingobjectid_contact_recurringappointmentmaster" Type="Collection(mscrm.recurringappointmentmaster)"/>
+        <NavigationProperty Name="Contact_BulkDeleteFailures" Partner="regardingobjectid_contact" Type="Collection(mscrm.bulkdeletefailure)"/>
+        <NavigationProperty Name="parentcustomerid_contact" Nullable="false" Partner="contact_customer_contacts" Type="mscrm.contact">
+          <ReferentialConstraint Property="_parentcustomerid_value" ReferencedProperty="contactid"/>
+        </NavigationProperty>
+        <NavigationProperty Name="contact_customer_contacts" Partner="parentcustomerid_contact" Type="Collection(mscrm.contact)"/>
+        <NavigationProperty Name="contact_connections2" Partner="record2id_contact" Type="Collection(mscrm.connection)"/>
+        <NavigationProperty Name="Contact_DuplicateBaseRecord" Partner="baserecordid_contact" Type="Collection(mscrm.duplicaterecord)"/>
+        <NavigationProperty Name="contractlineitem_customer_contacts" Partner="customerid_contact" Type="Collection(mscrm.contractdetail)"/>
+        <NavigationProperty Name="modifiedby" Nullable="false" Partner="lk_contactbase_modifiedby" Type="mscrm.systemuser">
+          <ReferentialConstraint Property="_modifiedby_value" ReferencedProperty="systemuserid"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Contact_Emails" Partner="regardingobjectid_contact_email" Type="Collection(mscrm.email)"/>
+        <NavigationProperty Name="opportunity_customer_contacts" Partner="customerid_contact" Type="Collection(mscrm.opportunity)"/>
+        <NavigationProperty Name="defaultpricelevelid" Nullable="false" Partner="price_level_contacts" Type="mscrm.pricelevel">
+          <ReferentialConstraint Property="_defaultpricelevelid_value" ReferencedProperty="pricelevelid"/>
+        </NavigationProperty>
+        <NavigationProperty Name="contact_activity_parties" Partner="partyid_contact" Type="Collection(mscrm.activityparty)"/>
+        <NavigationProperty Name="Contact_Letters" Partner="regardingobjectid_contact_letter" Type="Collection(mscrm.letter)"/>
+        <NavigationProperty Name="contact_msdyn_bookingalerts" Partner="regardingobjectid_contact_msdyn_bookingalert" Type="Collection(mscrm.msdyn_bookingalert)"/>
+        <NavigationProperty Name="msdyn_contact_msdyn_actual_ContactCustomer" Partner="msdyn_ContactCustomer" Type="Collection(mscrm.msdyn_actual)"/>
+        <NavigationProperty Name="msdyn_contact_msdyn_actual_ContactVendor" Partner="msdyn_ContactVendor" Type="Collection(mscrm.msdyn_actual)"/>
+        <NavigationProperty Name="contact_msdyn_approvals" Partner="regardingobjectid_contact_msdyn_approval" Type="Collection(mscrm.msdyn_approval)"/>
+        <NavigationProperty Name="msdyn_contact_msdyn_contactpricelist_Contact" Partner="msdyn_Contact" Type="Collection(mscrm.msdyn_contactpricelist)"/>
+        <NavigationProperty Name="msdyn_contact_msdyn_estimateline_ContactCustomer" Partner="msdyn_ContactCustomer" Type="Collection(mscrm.msdyn_estimateline)"/>
+        <NavigationProperty Name="msdyn_contact_msdyn_estimateline_ContactVendor" Partner="msdyn_ContactVendor" Type="Collection(mscrm.msdyn_estimateline)"/>
+        <NavigationProperty Name="msdyn_contact_msdyn_fact_ContactCustomer" Partner="msdyn_ContactCustomer" Type="Collection(mscrm.msdyn_fact)"/>
+        <NavigationProperty Name="msdyn_contact_msdyn_fact_ContactVendor" Partner="msdyn_ContactVendor" Type="Collection(mscrm.msdyn_fact)"/>
+        <NavigationProperty Name="msdyn_contact_msdyn_invoicelinetransaction_ContactCustomer" Partner="msdyn_ContactCustomer" Type="Collection(mscrm.msdyn_invoicelinetransaction)"/>
+        <NavigationProperty Name="msdyn_contact_msdyn_invoicelinetransaction_ContactVendor" Partner="msdyn_ContactVendor" Type="Collection(mscrm.msdyn_invoicelinetransaction)"/>
+        <NavigationProperty Name="msdyn_contact_msdyn_journalline_ContactCustomer" Partner="msdyn_ContactCustomer" Type="Collection(mscrm.msdyn_journalline)"/>
+        <NavigationProperty Name="msdyn_contact_msdyn_journalline_ContactVendor" Partner="msdyn_ContactVendor" Type="Collection(mscrm.msdyn_journalline)"/>
+        <NavigationProperty Name="msdyn_contact_msdyn_opportunitylinetransaction_ContactCustomer" Partner="msdyn_ContactCustomer" Type="Collection(mscrm.msdyn_opportunitylinetransaction)"/>
+        <NavigationProperty Name="msdyn_contact_msdyn_opportunitylinetransaction_ContactVendor" Partner="msdyn_ContactVendor" Type="Collection(mscrm.msdyn_opportunitylinetransaction)"/>
+        <NavigationProperty Name="msdyn_contact_msdyn_orderlinetransaction_ContactCustomer" Partner="msdyn_ContactCustomer" Type="Collection(mscrm.msdyn_orderlinetransaction)"/>
+        <NavigationProperty Name="msdyn_contact_msdyn_orderlinetransaction_ContactVendor" Partner="msdyn_ContactVendor" Type="Collection(mscrm.msdyn_orderlinetransaction)"/>
+        <NavigationProperty Name="msdyn_contact_msdyn_quotelinetransaction_ContactCustomer" Partner="msdyn_ContactCustomer" Type="Collection(mscrm.msdyn_quotelinetransaction)"/>
+        <NavigationProperty Name="msdyn_contact_msdyn_quotelinetransaction_ContactVendor" Partner="msdyn_ContactVendor" Type="Collection(mscrm.msdyn_quotelinetransaction)"/>
+        <NavigationProperty Name="msdyn_contact_msdyn_rma_RequestedByContact" Partner="msdyn_requestedbycontact" Type="Collection(mscrm.msdyn_rma)"/>
+        <NavigationProperty Name="msdyn_contact_msdyn_rtv_VendorContact" Partner="msdyn_vendorcontact" Type="Collection(mscrm.msdyn_rtv)"/>
+        <NavigationProperty Name="msdyn_contact_msdyn_workorder_ReportedByContact" Partner="msdyn_reportedbycontact" Type="Collection(mscrm.msdyn_workorder)"/>
+        <Annotation String="Person with whom a business unit has a relationship, such as customer, supplier, and colleague." Term="Org.OData.Core.V1.Description"/>
+      </root>
