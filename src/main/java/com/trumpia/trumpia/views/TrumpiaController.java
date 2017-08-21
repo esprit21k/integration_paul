@@ -37,8 +37,9 @@ public class TrumpiaController {
 		
 		String aPIkey = fetchedTrumpia.getAPIkey();
 		String user = fetchedTrumpia.getUniqueId();
+		String baseURL = fetchedTrumpia.getBaseURL();
 		
-		ContactSchema trumpiaUserSchema = new ContactSchema(aPIkey, user);
+		ContactSchema trumpiaUserSchema = new ContactSchema(aPIkey, user, baseURL);
 		
 		JSONObject trumpiaUserSchemaJSON = null;
 		

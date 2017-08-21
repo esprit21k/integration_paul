@@ -35,7 +35,7 @@ public class CustomdataTest {
 
 	@Before 
 	public void before() {
-		custom = new CustomData("594c862a4bfe227e3a537be359d3381b","paulkim");
+		custom = new CustomData("594c862a4bfe227e3a537be359d3381b","paulkim", "api.trumpia.com");
 		headers.put("content-type", "application/json");
 		headers.put("x-apikey", "594c862a4bfe227e3a537be359d3381b");
 	}

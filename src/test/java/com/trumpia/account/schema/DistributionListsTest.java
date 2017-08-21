@@ -17,7 +17,7 @@ public class DistributionListsTest {
 	
 	@Before
 	public void before() {
-		lists = new DistributionList("594c862a4bfe227e3a537be359d3381b","paulkim");
+		lists = new DistributionList("594c862a4bfe227e3a537be359d3381b","paulkim", "http://api.trumpia.com");
 		headers.put("Content-Type", "application/json");
 		headers.put("X-Apikey", "594c862a4bfe227e3a537be359d3381b");
 	}

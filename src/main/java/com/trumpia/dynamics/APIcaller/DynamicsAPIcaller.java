@@ -13,19 +13,22 @@ import com.trumpia.dynamics.APIcaller.RefreshAccessToken;
 import com.trumpia.util.Http.HttpRequest;
 
 public class DynamicsAPIcaller {
-	public static String ACCESS_TOKEN;
-	//URL should be changed by USER
-	public static String POST_URL; 
-	private static String DELTA_KEY_URL= null;
+	private String accessToken;
+	private String initializeURL;
+	private String deltaKeyURL;
 
 	public JSONObject dynamicsResponse;
 	private ArrayList<Subscription> changedSubscription = new ArrayList<Subscription>();
+	
+	public DynamicsAPIcaller(String accessToken, String resourseURL) {
+		this.accessToken = accessToken;
+		this.initializeURL = resourseURL+"/api/data/v8.2/contacts?&$select=firstname,lastname,mobilephone";
+	}
 
 	public ArrayList<Subscription> getContactChange() {
 		try {
-			ACCESS_TOKEN = RefreshAccessToken.updateAccessToken();
-			System.out.println(ACCESS_TOKEN);
-			if(DELTA_KEY_URL == null)
+			System.out.println(accessToken);
+			if(deltaKeyURL == null)
 				getDeltaKey();
 			else
 				retrieveChangedData();
@@ -40,13 +43,13 @@ public class DynamicsAPIcaller {
 
 	private void getDeltaKey() throws IOException, JSONException {
 		HashMap<String, String> headers = new HashMap<String, String>();
-		headers.put("Authorization", ACCESS_TOKEN);
+		headers.put("Authorization", accessToken);
 		headers.put("OData-MaxVersion", "4.0");
 		headers.put("OData-Version", "4.0");
 		headers.put("Prefer", "odata.track-changes");		
 
 		HttpRequest request = new HttpRequest.Builder()
-				.URL(POST_URL)
+				.URL(initializeURL)
 				.headers(headers)
 				.build();
 		JSONObject json = new JSONObject(request.get());
@@ -63,12 +66,12 @@ public class DynamicsAPIcaller {
 	}
 	private String sendSearchRequest() throws IOException {
 		HashMap<String, String> headers = new HashMap<String, String>();
-		headers.put("Authorization", ACCESS_TOKEN);
+		headers.put("Authorization", accessToken);
 		headers.put("OData-MaxVersion", "4.0");
 		headers.put("OData-Version", "4.0");
 
 		HttpRequest request = new HttpRequest.Builder()
-				.URL(DELTA_KEY_URL)
+				.URL(deltaKeyURL)
 				.headers(headers)
 				.build();
 		System.out.println("hi: "+request.get());
@@ -76,7 +79,7 @@ public class DynamicsAPIcaller {
 	}
 	
 	private void updateDeltaKey(String key) {
-		DELTA_KEY_URL = key;
+		deltaKeyURL = key;
 	}
 	
 	private void getChangedData(JSONArray arr) throws JSONException {

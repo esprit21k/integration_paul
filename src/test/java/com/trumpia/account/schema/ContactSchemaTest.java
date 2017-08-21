@@ -14,7 +14,7 @@ public class ContactSchemaTest {
 	ContactSchema schema;
 	@Before
 	public void before() {
-		schema = new ContactSchema("594c862a4bfe227e3a537be359d3381b", "paulkim");
+		schema = new ContactSchema("594c862a4bfe227e3a537be359d3381b", "paulkim", "http://api.trumpia.com");
 	}
 	
 	@Test

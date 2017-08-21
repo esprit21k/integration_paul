@@ -23,6 +23,9 @@ public class TrumpiaAccountEntity {
 
 	@Column( length=36)
 	private String APIkey;
+	
+	@Column
+	private String baseURL;
 
 	@OneToOne
 	@JoinColumn(name = "e_user_id")
@@ -47,6 +50,10 @@ public class TrumpiaAccountEntity {
 	public String getAPIkey() {
 		return APIkey;
 	}
+	
+	public String getBaseURL() {
+		return baseURL;
+	}
 
 	public void setId(Long id) {
 		this.id = id;
@@ -59,9 +66,14 @@ public class TrumpiaAccountEntity {
 	public void setAPIkey(String aPIkey) {
 		APIkey = aPIkey;
 	}
+	
+	public void setBaseURL(String baseURL) {
+		this.baseURL = baseURL;
+	}
 
 	@Override
 	public String toString() {
-		return "TrumpiaAccountRepository [id=" + id + ", uniqueId=" + uniqueId + ", APIkey=" + APIkey + "]";
+		return "TrumpiaAccountEntity [id=" + id + ", uniqueId=" + uniqueId + ", APIkey=" + APIkey + ", baseURL="
+				+ baseURL + ", userEntity=" + userEntity + "]";
 	}
 }

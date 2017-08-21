@@ -13,8 +13,8 @@ public class DistributionList {
 	private String listUrl;
 	private String aPIKey;
 	
-	public DistributionList(String aPIKey, String user) {
-		this.listUrl= "http://api.trumpia.com/rest/v1/"+ user +"/list";
+	public DistributionList(String aPIKey, String user, String baseURL) {
+		this.listUrl= baseURL+"/rest/v1/"+ user +"/list";
 		this.aPIKey = aPIKey;
 	}
 	

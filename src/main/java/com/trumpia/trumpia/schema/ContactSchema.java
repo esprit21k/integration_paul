@@ -9,15 +9,17 @@ public class ContactSchema {
 	JSONObject trumpiaSchema;
 	DistributionList lists;
 	CustomData custom;
-	String aPIKey;
+	String APIKey;
 	String user;
+	String baseURL;
 	
-	public ContactSchema(String aPIKey, String user) {
-		this.aPIKey = aPIKey;
+	public ContactSchema(String APIKey, String user, String baseURL) {
+		this.APIKey = APIKey;
 		this.user = user;
+		this.baseURL = baseURL;
 		trumpiaSchema = new JSONObject();
-		lists = new DistributionList(aPIKey, user);
-		custom = new CustomData(aPIKey, user);
+		lists = new DistributionList(APIKey, user, baseURL);
+		custom = new CustomData(APIKey, user, baseURL);
 	}
 	
 	public JSONObject getContactSchema() throws JSONException, IOException {

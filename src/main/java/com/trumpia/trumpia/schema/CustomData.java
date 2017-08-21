@@ -15,11 +15,12 @@ public class CustomData {
 	private String customDataUrl;
 	public JSONArray customData;
 	public String customID; //for test
-	private String aPIKey;
+	private String APIKey;
+	
 
-	public CustomData(String aPIKey, String user) {
-		this.customDataUrl= "http://api.trumpia.com/rest/v1/"+ user +"/customdata";
-		this.aPIKey = aPIKey;
+	public CustomData(String APIKey, String user, String baseURL) {
+		this.customDataUrl= baseURL+"/rest/v1/"+ user +"/customdata";
+		this.APIKey = APIKey;
 	}
 	
 	public JSONArray getCustomdata() throws IOException, JSONException {
@@ -36,7 +37,7 @@ public class CustomData {
 		HashMap<String, String> headers = new HashMap<String, String>();
 		
 		headers.put("content-type", "application/json");
-		headers.put("x-apikey", aPIKey);
+		headers.put("x-apikey", APIKey);
 		HttpRequest request = new HttpRequest.Builder()
 				.URL(customDataUrl)
 				.headers(headers)
@@ -50,7 +51,7 @@ public class CustomData {
 		HashMap<String, String> headers = new HashMap<String, String>();
 		
 		headers.put("content-type", "application/json");
-		headers.put("x-apikey", aPIKey);
+		headers.put("x-apikey", APIKey);
 		
 		HttpRequest request = new HttpRequest.Builder()
 				.URL(customDataUrl+"/"+customid)
