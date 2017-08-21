@@ -1,4 +1,4 @@
-package com.trumpia.account.schema;
+package com.trumpia.trumpia.schema;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -54,7 +54,7 @@ public class TestStringValidation {
 		assertEquals(testNumber.getCountryCode(), 45);
 		assertEquals(testNumber.getNationalNumber(), 7142545256L);
 
-		testNumber = PhoneNumberValidationUtils.parsingPhoneNumber("+45(714)-254-5256");
+		testNumber = PhoneNumberValidationUtils.parsingPhoneNumber("+45-714-254-5256");
 		assertEquals(testNumber.getCountryCode(), 45);
 		assertEquals(testNumber.getNationalNumber(), 7142545256L);
 

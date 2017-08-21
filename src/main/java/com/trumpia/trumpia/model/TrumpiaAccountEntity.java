@@ -1,4 +1,4 @@
-package com.trumpia.account.model;
+package com.trumpia.trumpia.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

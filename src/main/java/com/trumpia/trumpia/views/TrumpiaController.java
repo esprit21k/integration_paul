@@ -1,4 +1,4 @@
-package com.trumpia.account.views;
+package com.trumpia.trumpia.views;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.trumpia.account.data.TrumpiaAccountRepository;
-import com.trumpia.account.model.TrumpiaAccountEntity;
-import com.trumpia.account.schema.ContactSchema;
 import com.trumpia.data.UserRepository;
 import com.trumpia.model.UserEntity;
+import com.trumpia.trumpia.data.TrumpiaAccountRepository;
+import com.trumpia.trumpia.model.TrumpiaAccountEntity;
+import com.trumpia.trumpia.schema.ContactSchema;
 
 
 @RestController

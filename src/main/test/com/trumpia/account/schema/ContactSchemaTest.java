@@ -5,6 +5,8 @@ import java.io.IOException;
 import org.json.JSONException;
 import org.junit.Test;
 
+import com.trumpia.trumpia.schema.ContactSchema;
+
 public class ContactSchemaTest {
 	
 	@Test

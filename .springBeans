@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[3.9.0.201707061730-RELEASE]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[false]]></enableImports>
+	<configs>
+		<config>java:com.trumpia.trumpia.data.TrumpiaRepositoryConfig</config>
+	</configs>
+	<autoconfigs>
+		<config>java:com.trumpia.dynamics.data.DynamicsRepositoryConfig</config>
+		<config>java:com.trumpia.Main</config>
+		<config>java:com.trumpia.data.UserRepositoryConfig</config>
+	</autoconfigs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>

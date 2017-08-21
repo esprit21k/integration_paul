@@ -16,9 +16,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.trumpia.account.model.TrumpiaAccountEntity;
 import com.trumpia.data.UserRepository;
 import com.trumpia.model.UserEntity;
+import com.trumpia.trumpia.data.TrumpiaAccountRepository;
+import com.trumpia.trumpia.data.TrumpiaRepositoryConfig;
+import com.trumpia.trumpia.model.TrumpiaAccountEntity;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {TrumpiaRepositoryConfig.class})

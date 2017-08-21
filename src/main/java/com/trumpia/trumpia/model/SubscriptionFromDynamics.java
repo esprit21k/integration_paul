@@ -1,30 +1,34 @@
-package com.trumpia.util;
+package com.trumpia.trumpia.model;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
+import com.trumpia.util.PhoneNumberValidationUtils;
 
 
-public class Subscription {
-		
-	
+
+public class SubscriptionFromDynamics implements Subscription {
+
+
 	private String mobileNumber = null;
 	private String landLine;
 	private String firstName;
 	private String lastName;
 	private String email = null;
-	private ArrayList<CustomField> customField;
+	private HashMap<String, String> customField; // HashMap<customData_name, customData_Value>
+	private HashMap<String, String> customDataSchema; // HashMap<customData_name, customDataId>
 
-	public Subscription(JSONObject jsonObject) {
+	public SubscriptionFromDynamics(JSONObject jsonObject, HashMap<String, String> customDataSchema) {
 
-		System.out.println(jsonObject.toString());
+		this.customDataSchema = customDataSchema;
 		this.lastName = (String)jsonObject.remove("lastname");
-		
-		this.customField = new ArrayList<CustomField>();
-		
+
 		if(!jsonObject.isNull("firstname"))
 			this.firstName = (String)jsonObject.remove("firstnmae");
 		if(!jsonObject.isNull("mobilephone"))
@@ -33,55 +37,63 @@ public class Subscription {
 			this.landLine = (String)jsonObject.remove("telephone1");
 		if(!jsonObject.isNull("emailaddress1"))
 			this.email = (String)jsonObject.remove("emailaddress1");
-		
-		String[] keys = JSONObject.getNames(jsonObject);
-		System.out.println(keys);
 
-		for(String key : keys) {
-			if(jsonObject.isNull(key)) {jsonObject.remove(key); break;}
-			CustomField customData = new CustomField(key, jsonObject.get(key).toString());
-			customField.add(customData);
+		getCustomField(jsonObject, JSONObject.getNames(jsonObject));
+	}
+
+	private void getCustomField(JSONObject jsonObject, String[] keys) {
+		for(String key: keys) {
+			if(jsonObject.isNull(key)) {
+				jsonObject.remove(key);
+				break;
+			}
+			customField.put(key, jsonObject.get(key).toString());
 		}
 	}
 
 	public JSONObject toJSON() throws JSONException {
-		JSONObject lastObject = new JSONObject();
-		JSONObject subscriptionInfo = new JSONObject();
-		
-		JSONArray customDataInfo = new JSONArray();
-
-		/*for(int i = 0 ; i < customField.size(); i++) {
-			CustomField customData = customField.get(i);			
-			if(CustomDataInfoHolder.customDataField.get(customData.getKey()) == null) continue;
-			JSONObject tmp = new JSONObject();
-			tmp.put("value", customData.getValue());
-			tmp.put("customdata_id", CustomDataInfoHolder.customDataField.get(customData.getKey()));
-			customDataInfo.put(tmp);
-		}*/
+		JSONObject subscription = new JSONObject();
+		JSONArray customData = getCustomDataJSONArray();
 
 		if(mobileNumber != null) {
-			JSONObject mobileInfo = new JSONObject();
-			mobileInfo.put("number", mobileNumber);
-			mobileInfo.put("country_code", "1");
-			subscriptionInfo.put("mobile", mobileInfo);
+			getContactJSONobjectAndPut(subscription, "mobile", mobileNumber);
 		}
 		if(landLine != null) {
-			JSONObject landLineInfo = new JSONObject();
-			landLineInfo.put("number", mobileNumber);
-			landLineInfo.put("country_code", "1");
-			subscriptionInfo.put("landLine", landLineInfo);
+			getContactJSONobjectAndPut(subscription, "landLine", landLine);
 		}
 		if(email != null)
-			subscriptionInfo.put("email", email);
+			subscription.put("email", email);
+		if(firstName != null)
+			subscription.put("first_name", firstName);
 
-		subscriptionInfo.put("first_name", firstName);
-		subscriptionInfo.put("last_name", lastName);
-		subscriptionInfo.put("customdata", customDataInfo);
+		subscription.put("last_name", lastName);
+		subscription.put("customdata", customData);
 
-		lastObject.put("list_name", "APIMobile"); //List name can modified
-		lastObject.append("subscriptions", subscriptionInfo);
-	
-		return lastObject; //{"subscriptions":[{"mobile":{"number":"4156351895","country_code":"1"},"last_name":"last","customdata":[],"first_name":"first","email":"test@test13.com"}],"list_name":"APIMobile"}
+		return subscription; 
+	}
+
+	private void getContactJSONobjectAndPut(JSONObject subscription, String contactKey, String contactValue) {
+		try {
+			JSONObject contactInfo = new JSONObject();
+			PhoneNumber contactNumber = PhoneNumberValidationUtils.parsingPhoneNumber(contactValue);
+			contactInfo.put("number", contactNumber.getNationalNumber() + "");
+			contactInfo.put("country_code", contactNumber.getCountryCode() + "");
+			subscription.put(contactKey, contactValue);
+		} catch (NumberParseException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private JSONArray getCustomDataJSONArray() {
+		JSONArray jsonArray = new JSONArray();
+
+		for(Map.Entry<String, String> entry : customField.entrySet()) {
+			JSONObject tmp = new JSONObject();
+			tmp.put("value", entry.getValue());
+			tmp.put("customdata_id", customDataSchema.get(entry.getKey()));
+			jsonArray.put(tmp);
+		}
+		return jsonArray;
 	}
 
 	public String toString() {
@@ -117,23 +129,14 @@ public class Subscription {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	@Override
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	@Override
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
 }
-
-class CustomField{
-	private String key;
-	private String value;
-
-	public CustomField(String key, String value) {
-		this.key = key;
-		this.value = value;
-	}
-
-	public String getKey() {
-		return key;
-	}	
-
-	public String getValue() {
-		return value;
-	}
-} 
