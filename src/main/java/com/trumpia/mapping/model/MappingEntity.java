@@ -25,6 +25,8 @@ public class MappingEntity {
 	private String trumpiaFieldName;
 	@Column
 	private String dynamicFieldName;
+	@Column(nullable = true)
+	private String customDataId;
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private UserEntity userEntity;
@@ -47,7 +49,12 @@ public class MappingEntity {
 	public String getDescription() {
 		return description;
 	}
-
+	public String getCustomDataId() {
+		return customDataId;
+	}
+	public void setCustomDataId(String customDataId) {
+		this.customDataId = customDataId;
+	}
 	public void setDescription(String description) {
 		this.description = description;
 	}

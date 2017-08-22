@@ -1,0 +1,97 @@
+package com.trumpia.trumpia.model;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.junit.Before;
+import org.junit.Test;
+
+import com.trumpia.mapping.model.MappingEntity;
+
+
+
+public class TestSubscriptionFromDynamics {
+	List<MappingEntity> testSchema;
+	JSONObject testObject;
+	
+	@Before
+	public void setUp() {
+
+	}
+	@Test
+	public void TestSubscriptiontoJSON() {
+		//testScheam
+		testSchema = new ArrayList<MappingEntity>();
+		testSchema.add(makeEntity("firstname", "first_name"));
+		testSchema.add(makeEntity("lastname", "last_name"));
+		testSchema.add(makeEntity("mobilephone", "mobile"));
+		testSchema.add(makeCustomEntity("customData1", "customData1", "12345"));
+		testSchema.add(makeCustomEntity("customData2", "customData2", "78901"));
+		testSchema.add(makeCustomEntity("customData3", "customData3", "45621"));
+		
+		//testJSON
+		testObject = new JSONObject();
+		testObject.put("firstname", "firstname");
+		testObject.put("lastname", "lastname");
+		testObject.put("mobilephone", "7142545256");
+		testObject.put("customData1", "data_customData1");
+		testObject.put("customData2", "data_customData2");
+		testObject.put("customData3", "data_customData3");
+		
+		//TEST
+		Subscription subscriptiontest = new SubscriptionFromDynamics(testObject, testSchema);
+		System.out.println(subscriptiontest);
+		JSONObject result = subscriptiontest.toJSON();
+		
+		assertNotNull(result.remove("first_name"));
+		assertNotNull(result.remove("last_name"));
+		assertNotNull(result.remove("mobile"));
+		assertEquals(((JSONArray)result.get("customdata")).length() , 3);
+	}
+	
+	@Test
+	public void TestSubscriptionPrivateField() {
+		//testScheam
+		testSchema = new ArrayList<MappingEntity>();
+		testSchema.add(makeEntity("firstname", "first_name"));
+		testSchema.add(makeEntity("lastname", "last_name"));
+		testSchema.add(makeEntity("mobilephone", "mobile"));
+		testSchema.add(makeCustomEntity("customData1", "customData1", "12345"));
+		testSchema.add(makeCustomEntity("customData2", "customData2", "78901"));
+		testSchema.add(makeCustomEntity("customData3", "customData3", "45621"));
+		//testJSON
+		testObject = new JSONObject();
+		testObject.put("firstname", "firstname");
+		testObject.put("lastname", "lastname");
+		testObject.put("mobilephone", "7142545256");
+		testObject.put("customData1", "data_customData1");
+		testObject.put("customData2", "data_customData2");
+		testObject.put("customData3", "data_customData3");
+		
+		//TEST
+		Subscription subscriptiontest = new SubscriptionFromDynamics(testObject, testSchema);
+		assertEquals(subscriptiontest.getFirstName(), "firstname");
+		assertEquals(subscriptiontest.getLastName(), "lastname");
+		assertEquals(subscriptiontest.getMobileNumber(), "7142545226");
+		
+	}
+
+	private MappingEntity makeEntity(String dynamic, String trumpia) {
+		MappingEntity tmp = new MappingEntity();
+		tmp.setDynamicFieldName(dynamic);
+		tmp.setTrumpiaFieldName(trumpia);
+		return tmp;
+	}
+	private MappingEntity makeCustomEntity(String dynamic, String trumpia, String Id) {
+		MappingEntity customData = new MappingEntity();
+		customData.setCustomDataId(Id);
+		customData.setTrumpiaFieldName(trumpia);
+		customData.setDynamicFieldName(dynamic);
+		return customData;
+	}
+}

@@ -1,6 +1,7 @@
 package com.trumpia.trumpia.model;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -9,6 +10,7 @@ import org.json.JSONObject;
 
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
+import com.trumpia.mapping.model.MappingEntity;
 import com.trumpia.util.PhoneNumberValidationUtils;
 
 
@@ -21,34 +23,53 @@ public class SubscriptionFromDynamics implements Subscription {
 	private String firstName;
 	private String lastName;
 	private String email = null;
-	private HashMap<String, String> customField; // HashMap<customData_name, customData_Value>
-	private HashMap<String, String> customDataSchema; // HashMap<customData_name, customDataId>
+	private HashMap<String, String> customField; // HashMap<customData_ID, customData_Value>
 
-	public SubscriptionFromDynamics(JSONObject jsonObject, HashMap<String, String> customDataSchema) {
-
-		this.customDataSchema = customDataSchema;
-		this.lastName = (String)jsonObject.remove("lastname");
-
-		if(!jsonObject.isNull("firstname"))
-			this.firstName = (String)jsonObject.remove("firstnmae");
-		if(!jsonObject.isNull("mobilephone"))
-			this.mobileNumber = (String)jsonObject.remove("mobilephone");
-		if(!jsonObject.isNull("telephone1"))
-			this.landLine = (String)jsonObject.remove("telephone1");
-		if(!jsonObject.isNull("emailaddress1"))
-			this.email = (String)jsonObject.remove("emailaddress1");
-
-		getCustomField(jsonObject, JSONObject.getNames(jsonObject));
+	public SubscriptionFromDynamics(JSONObject input, List<MappingEntity> schema) {
+		customField = new HashMap<String, String>();
+		
+		parsingJSONBasedOnSchema(input, schema);		
 	}
 
-	private void getCustomField(JSONObject jsonObject, String[] keys) {
-		for(String key: keys) {
-			if(jsonObject.isNull(key)) {
-				jsonObject.remove(key);
-				break;
-			}
-			customField.put(key, jsonObject.get(key).toString());
+	private void parsingJSONBasedOnSchema(JSONObject input, List<MappingEntity> schema) {
+		for(MappingEntity column : schema) {
+			parsingColumn(input, column);
 		}
+	}
+
+	private void parsingColumn(JSONObject input, MappingEntity column) {
+		if(isCustomData(column.getTrumpiaFieldName()))
+			putCustomDataIntoCustomField(column.getCustomDataId(), (String)input.remove(column.getDynamicFieldName()));
+		else
+			putData(column.getTrumpiaFieldName(), (String)input.remove(column.getDynamicFieldName()));
+	}
+
+	private boolean isCustomData(String trumpiaFieldName) {
+		if(trumpiaFieldName.equals("first_name")
+				|trumpiaFieldName.equals("last_name")
+				|trumpiaFieldName.equals("mobile")
+				|trumpiaFieldName.equals("landline")
+				|trumpiaFieldName.equals("email"))
+			return false;
+		else
+			return true;
+	}
+
+	private void putCustomDataIntoCustomField(String customDataID, String customDataValue) {
+		customField.put(customDataID, customDataValue);
+	}
+
+	private void putData(String dataName, String value) {
+		if(dataName.equals("first_name"))
+			this.firstName = value;
+		if(dataName.equals("last_name"))
+			this.lastName = value;
+		if(dataName.equals("mobile"))
+			this.mobileNumber = value;
+		if(dataName.equals("landline"))
+			this.landLine = value;
+		if(dataName.equals("email"))
+			this.email = value;
 	}
 
 	public JSONObject toJSON() throws JSONException {
@@ -78,7 +99,7 @@ public class SubscriptionFromDynamics implements Subscription {
 			PhoneNumber contactNumber = PhoneNumberValidationUtils.parsingPhoneNumber(contactValue);
 			contactInfo.put("number", contactNumber.getNationalNumber() + "");
 			contactInfo.put("country_code", contactNumber.getCountryCode() + "");
-			subscription.put(contactKey, contactValue);
+			subscription.put(contactKey, contactInfo);
 		} catch (NumberParseException e) {
 			e.printStackTrace();
 		}
@@ -90,7 +111,7 @@ public class SubscriptionFromDynamics implements Subscription {
 		for(Map.Entry<String, String> entry : customField.entrySet()) {
 			JSONObject tmp = new JSONObject();
 			tmp.put("value", entry.getValue());
-			tmp.put("customdata_id", customDataSchema.get(entry.getKey()));
+			tmp.put("customdata_id", entry.getKey());
 			jsonArray.put(tmp);
 		}
 		return jsonArray;
@@ -129,12 +150,9 @@ public class SubscriptionFromDynamics implements Subscription {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	@Override
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-
-	@Override
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
