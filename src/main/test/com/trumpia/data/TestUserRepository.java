@@ -46,7 +46,6 @@ public class TestUserRepository {
 		testEntity.setUpdatedDate(new Date());
 
 		//Save
-		
 		assertNull(testEntity.getId());
 		repo.save(testEntity);
 		assertNotNull(testEntity.getId());

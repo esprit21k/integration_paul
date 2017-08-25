@@ -5,12 +5,12 @@ import static com.trumpia.util.LogUtils.getLogger;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.trumpia.dynamics.views.DynamicsController;
 
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -22,7 +22,7 @@ import okio.Buffer;
 
 public class HttpRequest {
 	public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-	public static final OkHttpClient client = new OkHttpClient();
+	public static OkHttpClient client = new OkHttpClient();
 	
 		private final RequestBody body;
 		private final Request.Builder request;
@@ -30,6 +30,9 @@ public class HttpRequest {
 		private HttpRequest (RequestBody body, Request.Builder request) {
 			this.body = body;
 			this.request = request;
+			client = new OkHttpClient.Builder()
+					.readTimeout(60, TimeUnit.SECONDS)
+					.build();
 		}
 		
 		public String get() throws IOException {
@@ -207,12 +210,10 @@ public class HttpRequest {
 				url = setUrl(url, tempHttpUrl);
 				url = setQueryParameters(url);
 				request = request.url(url.build());
-				getLogger(HttpRequest.class).debug("URL : {}, body: {}", url, requestBody.toString());
+				String requestBodyAsString = requestBody == null ? "" : requestBody.toString();
+				getLogger(HttpRequest.class).debug("URL : {}, body: {}", url, requestBodyAsString);
 				return new HttpRequest(requestBody, request);
-				
-				
-			}
-			
+			}	
 		}
 		
 		public class UnsuccessfulRequestException extends RuntimeException {
