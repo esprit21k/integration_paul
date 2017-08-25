@@ -28,10 +28,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableConfigurationProperties
 @EnableAutoConfiguration( )
-@ComponentScan({"com.trumpia"})
+@ComponentScan(basePackages = "com.trumpia")
 @SpringBootApplication
-@EnableJpaRepositories("com.trumpia")
-@EntityScan("com.trumpia")
+@EnableJpaRepositories(basePackages = "com.trumpia")
+@EntityScan(basePackages = "com.trumpia")
 public class Main {
 
 	@Bean

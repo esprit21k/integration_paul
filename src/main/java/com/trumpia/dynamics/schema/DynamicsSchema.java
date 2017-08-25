@@ -7,8 +7,10 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.annotation.concurrent.ThreadSafe;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Result;
@@ -20,77 +22,89 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+import org.springframework.test.context.ContextConfiguration;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.trumpia.dynamics.model.DynamicsAccountEntity;
+import com.trumpia.dynamics.schema.data.DynamicsSchemaRepository;
+import com.trumpia.dynamics.schema.data.DynamicsSchemaRepositoryConfig;
+import com.trumpia.dynamics.schema.model.DynamicsSchemaEntity;
+import com.trumpia.util.AuthenticationInfo;
+import com.trumpia.util.EntityUtil;
 import com.trumpia.util.Http.HttpRequest;
 
+
+@Component
 public class DynamicsSchema {
+	@Autowired
+	private DynamicsSchemaRepository dynamicsSchemaRepository;
+
 	final static String METADATA_URL = "https://trumpia.crm.dynamics.com/api/data/v8.2/$metadata#contact";
-	final static String PATH = "DynamicsPropertyInfo.xml";
+	//final static String PATH = "DynamicsPropertyInfo.xml";
 	private HashMap<String, String> properties;
 	private NodeList propertiesInfo;
 	private String accessToken;
+	private DynamicsAccountEntity dynamicsAccountEntity;
+	public List<DynamicsSchemaEntity> dynamicsSchemaEntityLists;
+	private DynamicsSchemaEntity dynamicsSchemaEntity;
 
-	public DynamicsSchema(String accessToken){
-		properties = new HashMap<String, String>();
-		this.accessToken = accessToken;
-		//getDynamicsSchema();
-	}
-	
-	public HashMap<String, String>getProperties() {
+	public HashMap<String, String> getProperties() {
 		return properties;
 	}
-	
+
 	public JSONObject propertiesToJSON() {
 		JSONObject property = new JSONObject();
 		JSONArray propertyArray = new JSONArray();
-		
+
 		for(Map.Entry<String, String> entry : properties.entrySet()) {
 			JSONObject json = new JSONObject();
 			json.put(entry.getKey(), entry.getValue());
 			propertyArray.put(json);
 		}
-		
+
 		property.put("Properties", propertyArray);
 		return property;
 	}
-	
-	public void getDynamicsSchema() {
-		if(new File(PATH).isFile())
-			getDynamicsSchemaFromLocal();
-		else
+
+	public void getDynamicsSchema(DynamicsAccountEntity dynamicsAccountEntity) throws InterruptedException {
+		properties = new HashMap<String, String>();
+		this.accessToken = dynamicsAccountEntity.getAccessToken();
+		this.dynamicsAccountEntity = dynamicsAccountEntity;
+		//		dynamicsAccountEntity = EntityUtil.findDynamicEntityByPrincipal();
+
+		dynamicsSchemaEntityLists = dynamicsSchemaRepository.findByDynamicsAccountEntity(dynamicsAccountEntity);
+		if(dynamicsSchemaEntityLists.isEmpty()) {
 			getDynamicsSchemaFromDynamicsAPI();
-	}
-	
-	private void getDynamicsSchemaFromLocal() {
-		try {
-			File file = new File(PATH);
-			FileInputStream inputStream = new FileInputStream(file);
-			BufferedReader rd = new BufferedReader(new InputStreamReader(inputStream));
-			String line;
-			StringBuffer response = new StringBuffer(); 
-			while((line = rd.readLine()) != null) {
-			 response.append(line);
-			 response.append('\r');
-			}
-			rd.close();
-			Document doc = parseXML(response.toString());
-			doc.getDocumentElement().normalize();
-			propertiesInfo = doc.getElementsByTagName("Property");
-			storePropertyInfoToMap(propertiesInfo);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
+
+		}
+		else {
+			getDynamicsSchemaFromDB(dynamicsSchemaEntityLists);
 		}
 	}
-	
-	private void getDynamicsSchemaFromDynamicsAPI(){
+
+	public void getDynamicsSchemaFromDB(List<DynamicsSchemaEntity> schema) {
+		System.out.println(schema.size());
+		for(DynamicsSchemaEntity entity : schema)
+			setPropertiesFromDB(entity);
+	}
+
+	private void setPropertiesFromDB(DynamicsSchemaEntity entity) {
+		System.out.println("setPropertiesFromDB");
+		properties.put(entity.getName(), entity.getType());
+	}
+
+	public void getDynamicsSchemaFromDynamicsAPI() {
 		try {
-			
 			String XMLstring = getMetaDataSchema();
 			Document doc = parseXML(XMLstring);
 			doc.getDocumentElement().normalize();
@@ -101,9 +115,9 @@ public class DynamicsSchema {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private NodeList findPropertiesInfo(NodeList entityTypeList) throws Exception {
-		
+
 		for (int i = 0; i < entityTypeList.getLength(); i++) {
 			Node nNode = entityTypeList.item(i);
 			String valueOfNameAttribute = nNode.getAttributes().getNamedItem("Name").getNodeValue(); 
@@ -123,23 +137,16 @@ public class DynamicsSchema {
 			}
 		}
 	}
-	
-	public void storeDynamicsSchemaAsXML() throws Exception {
-		Document newXmlDocument = DocumentBuilderFactory.newInstance()
-                .newDocumentBuilder().newDocument();
-        Element root = newXmlDocument.createElement("root");
-        newXmlDocument.appendChild(root);
-        for (int i = 0; i < propertiesInfo.getLength(); i++) {
-            Node node = propertiesInfo.item(i);
-            Node copyNode = newXmlDocument.importNode(node, true);
-            root.appendChild(copyNode);
-        }
-        
-        Transformer transformer = TransformerFactory.newInstance().newTransformer();
-        Result output = new StreamResult(new File(PATH));
-        Source input = new DOMSource(newXmlDocument);
 
-        transformer.transform(input, output);
+	public void storeDynamicsSchemaDB() throws Exception {
+		for(Map.Entry<String, String> entry : properties.entrySet()) {
+			dynamicsSchemaEntity = new DynamicsSchemaEntity();
+			dynamicsSchemaEntity.setName(entry.getKey());
+			dynamicsSchemaEntity.setType(entry.getValue());
+			dynamicsSchemaEntity.setDynamicsAccountEntity(dynamicsAccountEntity);
+			dynamicsSchemaRepository.save(dynamicsSchemaEntity);
+			dynamicsSchemaEntityLists.add(dynamicsSchemaEntity);
+		}
 	}
 
 	private String getMetaDataSchema() throws Exception {
@@ -153,7 +160,6 @@ public class DynamicsSchema {
 				.URL(METADATA_URL)
 				.headers(headers)
 				.build();
-
 		return request.get();
 	}
 
