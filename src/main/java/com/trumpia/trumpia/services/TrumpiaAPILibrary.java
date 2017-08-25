@@ -15,7 +15,7 @@ import okhttp3.RequestBody;
 
 
 
-public class TrumpiaAPIcaller {
+public class TrumpiaAPILibrary {
 	private final static String BASE_URL = "http://api.trumpia.com/rest/v1/";
 	
 	/* 

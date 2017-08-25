@@ -21,10 +21,6 @@ public class TestSubscriptionFromDynamics {
 	
 	@Before
 	public void setUp() {
-
-	}
-	@Test
-	public void TestSubscriptiontoJSON() {
 		//testScheam
 		testSchema = new ArrayList<MappingEntity>();
 		testSchema.add(makeEntity("firstname", "first_name"));
@@ -33,7 +29,6 @@ public class TestSubscriptionFromDynamics {
 		testSchema.add(makeCustomEntity("customData1", "customData1", "12345"));
 		testSchema.add(makeCustomEntity("customData2", "customData2", "78901"));
 		testSchema.add(makeCustomEntity("customData3", "customData3", "45621"));
-		
 		//testJSON
 		testObject = new JSONObject();
 		testObject.put("firstname", "firstname");
@@ -42,42 +37,36 @@ public class TestSubscriptionFromDynamics {
 		testObject.put("customData1", "data_customData1");
 		testObject.put("customData2", "data_customData2");
 		testObject.put("customData3", "data_customData3");
-		
+	}
+	@Test
+	public void TestSubscriptiontoJSON() {	
 		//TEST
 		Subscription subscriptiontest = new SubscriptionFromDynamics(testObject, testSchema);
 		System.out.println(subscriptiontest);
 		JSONObject result = subscriptiontest.toJSON();
-		
 		assertNotNull(result.remove("first_name"));
 		assertNotNull(result.remove("last_name"));
 		assertNotNull(result.remove("mobile"));
 		assertEquals(((JSONArray)result.get("customdata")).length() , 3);
 	}
-	
+	@Test
+	public void TestDeletedSubscriptionToJSON() {
+		//DeletedJSON object
+		JSONObject deletedObject =new JSONObject();
+		deletedObject.put("id", "something-id-is-inside");
+		deletedObject.put("reason", "deleted");
+		
+		//DeletedSubscription
+		Subscription subscriptiontest = new SubscriptionFromDynamics(deletedObject, testSchema);
+		assertEquals(subscriptiontest.toJSON().get("deletedDynamicID"), "something-id-is-inside");
+	}
 	@Test
 	public void TestSubscriptionPrivateField() {
-		//testScheam
-		testSchema = new ArrayList<MappingEntity>();
-		testSchema.add(makeEntity("firstname", "first_name"));
-		testSchema.add(makeEntity("lastname", "last_name"));
-		testSchema.add(makeEntity("mobilephone", "mobile"));
-		testSchema.add(makeCustomEntity("customData1", "customData1", "12345"));
-		testSchema.add(makeCustomEntity("customData2", "customData2", "78901"));
-		testSchema.add(makeCustomEntity("customData3", "customData3", "45621"));
-		//testJSON
-		testObject = new JSONObject();
-		testObject.put("firstname", "firstname");
-		testObject.put("lastname", "lastname");
-		testObject.put("mobilephone", "7142545256");
-		testObject.put("customData1", "data_customData1");
-		testObject.put("customData2", "data_customData2");
-		testObject.put("customData3", "data_customData3");
-		
 		//TEST
 		Subscription subscriptiontest = new SubscriptionFromDynamics(testObject, testSchema);
 		assertEquals(subscriptiontest.getFirstName(), "firstname");
 		assertEquals(subscriptiontest.getLastName(), "lastname");
-		assertEquals(subscriptiontest.getMobileNumber(), "7142545226");
+		assertEquals(subscriptiontest.getMobileNumber(), "7142545256");
 		
 	}
 

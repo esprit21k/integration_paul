@@ -27,7 +27,7 @@ import com.trumpia.trumpia.model.TrumpiaAccountEntity;
 	]
   } 
 */
-public class TestTrumpiaAPIcaller {
+public class TestTrumpiaAPILibrary {
 	TrumpiaAccountEntity trumpia;
 	String sampleSubscriptionBody = "{\"list_name\" : \"APIMobile\", \"subscriptions\":[    {      \"first_name\" : \"" + "firstname" + "\",      \"last_name\" : \"" + "lastname" + "\",\"mobile\" :      {        \"number\" : \"" + "7142545256" + "\",        \"country_code\" : \"1\"      },      \"voice_device\" : \"mobile\"    }  ]}";
 	String sampleSubscriptionBodyForPost = "{\"list_name\" : \"APIMobile\",\"subscriptions\" :[{\"first_name\":\""+"post" + "\",\"last_name\" : \"" + "post" + "\",\"email\" : \"" + "test@test.com" + "\",\"landline\" :{\"number\" : \"" + "3004005000" + "\",\"country_code\" : \"1\"      },      \"voice_device\" : \"mobile\"    }  ]}";
@@ -44,35 +44,35 @@ public class TestTrumpiaAPIcaller {
 		JSONObject response;
 		//SEARCH TEST : MPSE2305	No subscription was found with given criteria - search type and search data.
 		//SEARCH BY MOBILE
-		response = TrumpiaAPIcaller.searchSubscriptionByMobile("7142545256", trumpia);
+		response = TrumpiaAPILibrary.searchSubscriptionByMobile("7142545256", trumpia);
 		assertEquals(response.get("status_code"), "MPSE2305");
 
 		//PUT
-		TrumpiaAPIcaller.putNewSubscriptionInfo(sampleSubscriptionBody, trumpia);
-		JSONObject searchSubscriptionResponse = TrumpiaAPIcaller.searchSubscriptionByMobile("7142545256", trumpia);
+		TrumpiaAPILibrary.putNewSubscriptionInfo(sampleSubscriptionBody, trumpia);
+		JSONObject searchSubscriptionResponse = TrumpiaAPILibrary.searchSubscriptionByMobile("7142545256", trumpia);
 		JSONArray subscriptionList = (JSONArray)searchSubscriptionResponse.get("subscription_id_list");
 		assertEquals(subscriptionList.length(), 1);
 
 		String InsertedSubscriptionId = subscriptionList.get(0).toString();
 		
 		//POST
-		TrumpiaAPIcaller.postChangedSubscriptionInfo(sampleSubscriptionBodyForPost, InsertedSubscriptionId, trumpia);
+		TrumpiaAPILibrary.postChangedSubscriptionInfo(sampleSubscriptionBodyForPost, InsertedSubscriptionId, trumpia);
 		
 		//SEARCH BY LANDLINE
-		response = TrumpiaAPIcaller.searchSubscriptionByLandline("3004005000", trumpia);
+		response = TrumpiaAPILibrary.searchSubscriptionByLandline("3004005000", trumpia);
 		subscriptionList = (JSONArray)searchSubscriptionResponse.get("subscription_id_list");
 		assertEquals(subscriptionList.length(), 1);
 		assertEquals(subscriptionList.get(0).toString(), InsertedSubscriptionId);		
 		
 		//SEARCH BY EMAIL
-		response = TrumpiaAPIcaller.searchSubscriptionByEmail("test@test.com", trumpia);
+		response = TrumpiaAPILibrary.searchSubscriptionByEmail("test@test.com", trumpia);
 		subscriptionList = (JSONArray)searchSubscriptionResponse.get("subscription_id_list");
 		assertEquals(subscriptionList.length(), 1);
 		assertEquals(subscriptionList.get(0).toString(), InsertedSubscriptionId);
 		
 		//DELETE SUBSCRIPTION
-		TrumpiaAPIcaller.deleteSubscriptionInfo(InsertedSubscriptionId , trumpia);
-		response = TrumpiaAPIcaller.searchSubscriptionByMobile("7142545256", trumpia);
+		TrumpiaAPILibrary.deleteSubscriptionInfo(InsertedSubscriptionId , trumpia);
+		response = TrumpiaAPILibrary.searchSubscriptionByMobile("7142545256", trumpia);
 		assertEquals(response.get("status_code"), "MPSE2305");
 	}
 	

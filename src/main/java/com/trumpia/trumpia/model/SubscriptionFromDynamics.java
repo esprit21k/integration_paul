@@ -18,19 +18,34 @@ import com.trumpia.util.PhoneNumberValidationUtils;
 public class SubscriptionFromDynamics implements Subscription {
 
 
+	private boolean isDeleted = false;
+
 	private String mobileNumber = null;
 	private String landLine;
 	private String firstName;
 	private String lastName;
 	private String email = null;
+	private String id;
 	private HashMap<String, String> customField; // HashMap<customData_ID, customData_Value>
 
 	public SubscriptionFromDynamics(JSONObject input, List<MappingEntity> schema) {
 		customField = new HashMap<String, String>();
 		
-		parsingJSONBasedOnSchema(input, schema);		
+		if(isDeletedSubscription(input)) 
+			parsingDeletedInfo(input);
+		else
+			parsingJSONBasedOnSchema(input, schema);		
 	}
-
+	
+	private boolean isDeletedSubscription(JSONObject input) {
+		return input.has("reason");
+	}
+	
+	private void parsingDeletedInfo(JSONObject input) {
+		isDeleted = true;
+		id = input.get("id").toString();
+	}
+	
 	private void parsingJSONBasedOnSchema(JSONObject input, List<MappingEntity> schema) {
 		for(MappingEntity column : schema) {
 			parsingColumn(input, column);
@@ -73,9 +88,22 @@ public class SubscriptionFromDynamics implements Subscription {
 	}
 
 	public JSONObject toJSON() throws JSONException {
+		if(isDeleted)
+			return deletedSubscriptionToJSON();
+		else
+			return subscriptionToJSON();
+	}
+	
+	private JSONObject deletedSubscriptionToJSON() {
+		JSONObject subscription = new JSONObject();
+		subscription.put("deletedDynamicID", id);
+		return subscription;
+	}
+	
+	private JSONObject subscriptionToJSON() {
 		JSONObject subscription = new JSONObject();
 		JSONArray customData = getCustomDataJSONArray();
-
+		
 		if(mobileNumber != null) {
 			getContactJSONobjectAndPut(subscription, "mobile", mobileNumber);
 		}
@@ -89,8 +117,8 @@ public class SubscriptionFromDynamics implements Subscription {
 
 		subscription.put("last_name", lastName);
 		subscription.put("customdata", customData);
-
-		return subscription; 
+		
+		return subscription;
 	}
 
 	private void getContactJSONobjectAndPut(JSONObject subscription, String contactKey, String contactValue) {
@@ -138,7 +166,9 @@ public class SubscriptionFromDynamics implements Subscription {
 	public String getLandLine() {
 		return landLine;
 	}
-
+	public boolean isDeleted() {
+		return isDeleted;
+	}
 	public void setMobileNumber(String mobileNumber) {
 		this.mobileNumber = mobileNumber;
 	}
