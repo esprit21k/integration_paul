@@ -20,7 +20,6 @@ public class CustomData {
 
 	public CustomData(String APIKey, String user, String baseURL) {
 		this.customDataUrl= baseURL+"/rest/v1/"+ user +"/customdata";
-		System.out.println(customDataUrl);
 		this.APIKey = APIKey;
 	}
 	
