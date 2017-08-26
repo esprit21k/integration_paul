@@ -13,12 +13,14 @@ import org.json.JSONObject;
 public interface Subscription {
 	public JSONObject toJSON();
 	
+	public boolean isDeleted();
+	
 	public String getFirstName();
 	public String getLastName();
 	public String getMobileNumber();
 	public String getEmail();
 	public String getLandLine();
-
+	
 	public void setFirstName(String firstName);
 	public void setLastName(String lastName);
 	public void setMobileNumber(String mobileNumber);

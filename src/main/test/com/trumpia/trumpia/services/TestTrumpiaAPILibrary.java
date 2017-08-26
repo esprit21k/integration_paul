@@ -15,7 +15,7 @@ import com.trumpia.trumpia.model.TrumpiaAccountEntity;
  * APIkey : 0c900c585477152326c20ff757625926 
  * 	 * SUBSCRIPTION EXAMPLE : 
  {
-		"list_name" : "Test",
+		"list_name" : "test",
 	"subscriptions" :
 	[
 		{"first_name" : "firstname",
@@ -29,8 +29,8 @@ import com.trumpia.trumpia.model.TrumpiaAccountEntity;
 */
 public class TestTrumpiaAPILibrary {
 	TrumpiaAccountEntity trumpia;
-	String sampleSubscriptionBody = "{\"list_name\" : \"APIMobile\", \"subscriptions\":[    {      \"first_name\" : \"" + "firstname" + "\",      \"last_name\" : \"" + "lastname" + "\",\"mobile\" :      {        \"number\" : \"" + "7142545256" + "\",        \"country_code\" : \"1\"      },      \"voice_device\" : \"mobile\"    }  ]}";
-	String sampleSubscriptionBodyForPost = "{\"list_name\" : \"APIMobile\",\"subscriptions\" :[{\"first_name\":\""+"post" + "\",\"last_name\" : \"" + "post" + "\",\"email\" : \"" + "test@test.com" + "\",\"landline\" :{\"number\" : \"" + "3004005000" + "\",\"country_code\" : \"1\"      },      \"voice_device\" : \"mobile\"    }  ]}";
+	String sampleSubscriptionBody = "{\"list_name\" : \"test\", \"subscriptions\":[    {      \"first_name\" : \"" + "firstname" + "\",      \"last_name\" : \"" + "lastname" + "\",\"mobile\" :      {        \"number\" : \"" + "7142545256" + "\",        \"country_code\" : \"1\"      },      \"voice_device\" : \"mobile\"    }  ]}";
+	String sampleSubscriptionBodyForPost = "{\"list_name\" : \"test\",\"subscriptions\" :[{\"first_name\":\""+"post" + "\",\"last_name\" : \"" + "post" + "\",\"email\" : \"" + "test@test.com" + "\",\"landline\" :{\"number\" : \"" + "3004005000" + "\",\"country_code\" : \"1\"      },      \"voice_device\" : \"mobile\"    }  ]}";
 
 	@Before
 	public void setUp() {
