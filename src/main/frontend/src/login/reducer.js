@@ -34,8 +34,6 @@ const reducer = function loginReducer(state = initialState, action) {
     // Append the error returned from our api
     // set the success and requesting flags to false
     case LOGIN_ERROR:
-      console.log(state);
-      console.log(action);
       return {
         errors: state.errors.concat([{
           body: action.error,

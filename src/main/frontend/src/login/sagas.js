@@ -1,7 +1,7 @@
 import { take, fork, cancel, call, put, cancelled } from 'redux-saga/effects';
 
 // We'll use this function to redirect to different routes based on cases
-import { browserHistory } from 'react-router';
+import { hashHistory } from 'react-router';
 
 // Helper for api errors
 import { handleApiErrors } from '../lib/api-errors';
@@ -45,7 +45,7 @@ function* logout() {
 
   localStorage.removeItem('token');
 
-  browserHistory.push('/#/login');
+  hashHistory.push('/#/login');
 }
 
 function* loginFlow(username, password) {
@@ -56,13 +56,13 @@ function* loginFlow(username, password) {
     yield put(setClient(tok));
     yield put({ type: LOGIN_SUCCESS });
     localStorage.setItem('token', JSON.stringify(tok));
-    browserHistory.push('/#/widgets');
+    hashHistory.push('/#/widgets');
   } catch (error) {
     const putBody = { type: LOGIN_ERROR, error };
     yield put(putBody);
   } finally {
     if (yield cancelled()) {
-      browserHistory.push('/#/login');
+      hashHistory.push('/#/login');
     }
   }
   return resp;

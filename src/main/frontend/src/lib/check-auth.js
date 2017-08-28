@@ -3,12 +3,10 @@ import { setClient } from '../client/actions';
 function checkAuthorization(dispatch) {
   // attempt to grab the token from localstorage
   const storedToken = localStorage.getItem('token');
-
   // if it exists
   if (storedToken) {
     // parse it down into an object
     const token = JSON.parse(storedToken);
-
     // this just all works to compare the total seconds of the created
     // time of the token vs the ttl (time to live) seconds
     const createdDate = new Date(token.created);
@@ -30,6 +28,7 @@ function checkAuthorization(dispatch) {
 
 
 export function checkIndexAuthorization({ dispatch }) {
+  console.log('checking index auth');
   // by having a function that returns a function we satisfy 2 goals:
   //
   // 1. grab access to our Redux Store and thus Dispatch to call actions
@@ -45,7 +44,6 @@ export function checkIndexAuthorization({ dispatch }) {
     // If we pass the authentication check, go to widgets
     if (checkAuthorization(dispatch)) {
       replace('widgets');
-
       return next();
     }
 
@@ -70,7 +68,6 @@ export function checkWidgetAuthorization({ dispatch, getState }) {
 
     // not set yet?  Let's try and set it and if so, go ahead to widgets
     if (checkAuthorization(dispatch)) return next();
-
     // nope?  okay back to login ya go.
     replace('login');
     return next();
