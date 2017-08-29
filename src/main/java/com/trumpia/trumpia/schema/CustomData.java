@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.trumpia.trumpia.model.TrumpiaAccountEntity;
 import com.trumpia.util.Http.HttpRequest;
 
 
@@ -18,9 +19,9 @@ public class CustomData {
 	private String APIKey;
 	
 
-	public CustomData(String APIKey, String user, String baseURL) {
+	public CustomData(String APIkey, String user, String baseURL) {
 		this.customDataUrl= baseURL+"/rest/v1/"+ user +"/customdata";
-		this.APIKey = APIKey;
+		this.APIKey = APIkey;
 	}
 	
 	public JSONArray getCustomdata() throws IOException, JSONException {

@@ -13,13 +13,20 @@ import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.trumpia.Main;
+import com.trumpia.trumpia.data.TrumpiaAccountRepository;
+import com.trumpia.trumpia.model.TrumpiaAccountEntity;
 import com.trumpia.trumpia.schema.CustomData;
 import com.trumpia.util.Http.HttpRequest;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
-
 
 public class CustomdataTest {
 	CustomData custom;
@@ -35,7 +42,7 @@ public class CustomdataTest {
 
 	@Before 
 	public void before() {
-		custom = new CustomData("594c862a4bfe227e3a537be359d3381b","paulkim", "api.trumpia.com");
+		custom = new CustomData("594c862a4bfe227e3a537be359d3381b", "paulkim", "http://api.trumpia.com");
 		headers.put("content-type", "application/json");
 		headers.put("x-apikey", "594c862a4bfe227e3a537be359d3381b");
 	}

@@ -11,13 +11,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.trumpia.Main;
 import com.trumpia.data.UserRepository;
 import com.trumpia.mapping.model.MappingEntity;
 import com.trumpia.model.UserEntity;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = {MappingRepositoryConfig.class})
+@SpringBootTest(classes = {Main.class})
 @ActiveProfiles("dev")
 public class TestMappingRepository {
 

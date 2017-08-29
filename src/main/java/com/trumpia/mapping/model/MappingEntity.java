@@ -22,7 +22,9 @@ public class MappingEntity {
 	@Column
 	private String trumpiaFieldName;
 	@Column
-	private String dynamicFieldName;
+	private String dynamicsFieldName;
+	@Column(nullable = true)
+	private String customDataId;
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private UserEntity userId;
@@ -40,12 +42,18 @@ public class MappingEntity {
 		return trumpiaFieldName;
 	}
 	public String getDynamicFieldName() {
-		return dynamicFieldName;
+		return dynamicsFieldName;
 	}
 	public String getDescription() {
 		return description;
 	}
 
+	public String getCustomDataId() {
+		return customDataId;
+	}
+	public void setCustomDataId(String customDataId) {
+		this.customDataId = customDataId;
+	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -60,13 +68,14 @@ public class MappingEntity {
 		this.trumpiaFieldName = trumpiaFieldName;
 	}
 	public void setDynamicFieldName(String dynamicFieldName) {
-		this.dynamicFieldName = dynamicFieldName;
+		this.dynamicsFieldName = dynamicFieldName;
 	}
 
 	@Override
 	public String toString() {
-		return "MappingEntity [id=" + id + "userid = "+ userId +", trumpiaFieldName=" + trumpiaFieldName
-				+ ", dynamicFieldName=" + dynamicFieldName + "]";
+		return "MappingEntity [id=" + id + ", description=" + description + ", trumpiaFieldName=" + trumpiaFieldName
+				+ ", dynamicFieldName=" + dynamicsFieldName + ", customDataId=" + customDataId + ", userId=" + userId
+				+ "]";
 	}
 
 

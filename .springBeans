@@ -7,12 +7,9 @@
 	</configSuffixes>
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
-		<config>java:com.trumpia.trumpia.data.TrumpiaRepositoryConfig</config>
 	</configs>
 	<autoconfigs>
-		<config>java:com.trumpia.dynamics.data.DynamicsRepositoryConfig</config>
 		<config>java:com.trumpia.Main</config>
-		<config>java:com.trumpia.data.UserRepositoryConfig</config>
 	</autoconfigs>
 	<configSets>
 	</configSets>

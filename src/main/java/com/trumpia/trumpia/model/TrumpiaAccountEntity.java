@@ -6,8 +6,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.ColumnDefault;
 
 import com.trumpia.model.UserEntity;
 
@@ -24,12 +27,13 @@ public class TrumpiaAccountEntity {
 	@Column( length=36)
 	private String APIkey;
 	
-	@Column
-	private String baseURL;
+	@Column(nullable=false)
+	private String baseURL = "https://api.trumpia.com";
 
-	@OneToOne
-	@JoinColumn(name = "e_user_id")
+	@ManyToOne
+	@JoinColumn(name = "e_user_id", nullable=false)
 	private UserEntity userEntity;
+	
 
 	public UserEntity getUserEntity() {
 		return userEntity;
