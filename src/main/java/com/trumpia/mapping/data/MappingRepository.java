@@ -9,5 +9,5 @@ import com.trumpia.model.UserEntity;
 
 public interface MappingRepository extends CrudRepository<MappingEntity, Long> {
 	List<MappingEntity> findByUserId(UserEntity userId);
-	List<MappingEntity> findByDescriptionAndUserId(String description, UserEntity userId);
+	//List<MappingEntity> findByDescriptionAndUserId(String description, UserEntity userId);
 }

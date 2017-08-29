@@ -20,6 +20,7 @@ public interface Subscription {
 	public String getMobileNumber();
 	public String getEmail();
 	public String getLandLine();
+	public String getId();
 	
 	public void setFirstName(String firstName);
 	public void setLastName(String lastName);

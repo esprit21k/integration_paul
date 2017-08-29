@@ -38,4 +38,6 @@ chrome-user-data
 *.swo
 *react*min*.js
 !src/node_modules
+.pydevproject
+.springBeans
 

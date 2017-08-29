@@ -18,9 +18,10 @@ public class TrumpiaAPIcaller {
 	
 	//can get parameter as mappinginfo
 	public TrumpiaAPIcaller(String postOption, String deleteOption){
+		//Fix : init tumpiaAccountEntity;
 		putList = new ArrayList<Subscription>();
-		post = TrumpiaAPIcallerFactory.post(postOption);
-		delete = TrumpiaAPIcallerFactory.delete(deleteOption);
+		post = TrumpiaAPIcallerFactory.post(postOption, trumpia);
+		delete = TrumpiaAPIcallerFactory.delete(deleteOption, trumpia);
 	}
 	
 	public void handleSubscriptionList(List<Subscription> subscriptions, String listName) { 
@@ -31,11 +32,18 @@ public class TrumpiaAPIcaller {
 	}
 	
 	private void handleSubscription(Subscription subs, String listName) {
+		if(noContactInfo(subs)) // this part need LOG!! 
+			return; 
 		if(subs.isDeleted())
 			delete.deleteSubscription(subs);
 		else
 			upload(subs, listName);		
 	}
+	
+	private boolean noContactInfo(Subscription subs) {
+		return subs.getLandLine().equals(null) && subs.getEmail().equals(null) && subs.getMobileNumber().equals(null); 
+	}
+	
 	
 	private void upload(Subscription subs, String list) {
 		if(isSubscriptionOnDatabase(subs))
@@ -58,26 +66,30 @@ public class TrumpiaAPIcaller {
 	
 	private boolean searchSubscriptionByEmail(JSONObject subsJSON) {
 		JSONObject response = TrumpiaAPILibrary.searchSubscriptionByEmail(subsJSON.getString("email"), trumpia);
-		if(response.has("subscription_id_list")) return true;
-		return false;
+		return isSubscriptionExist(response);
 	}
 	
 	private boolean searchSubscriptionByMobile(JSONObject subsJSON) {
 		String mobile = subsJSON.getJSONObject("mobile").getString("number");
 		JSONObject response = TrumpiaAPILibrary.searchSubscriptionByMobile(mobile, trumpia);
-		if(response.has("subscription_id_list")) return true;
-		return false;
+		return isSubscriptionExist(response);
 	}
 	
 	private boolean searchSubscriptionByLandline(JSONObject subsJSON) {
 		String landline = subsJSON.getJSONObject("landline").getString("number");
 		JSONObject response = TrumpiaAPILibrary.searchSubscriptionByMobile(landline, trumpia);
-		if(response.has("subscription_id_list")) return true;
+		return isSubscriptionExist(response);
+	}
+
+	private boolean isSubscriptionExist(JSONObject response) {
+		if(response.has("subscription_id_list")) 
+			return true;
 		return false;
 	}
 	
 	private void sendPutRequest(String listName) {
-		//ALL - IN - ONE
+		if(putList.size() == 0) return;
+		
 		JSONObject subscriptionBody = new JSONObject();
 		JSONArray subscriptionList = new JSONArray();
 		

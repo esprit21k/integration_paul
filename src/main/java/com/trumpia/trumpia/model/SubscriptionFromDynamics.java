@@ -30,9 +30,10 @@ public class SubscriptionFromDynamics implements Subscription {
 
 	public SubscriptionFromDynamics(JSONObject input, List<MappingEntity> schema) {
 		customField = new HashMap<String, String>();
+		id = input.get("id").toString();
 		
 		if(isDeletedSubscription(input)) 
-			parsingDeletedInfo(input);
+			isDeleted = true;
 		else
 			parsingJSONBasedOnSchema(input, schema);		
 	}
@@ -40,12 +41,7 @@ public class SubscriptionFromDynamics implements Subscription {
 	private boolean isDeletedSubscription(JSONObject input) {
 		return input.has("reason");
 	}
-	
-	private void parsingDeletedInfo(JSONObject input) {
-		isDeleted = true;
-		id = input.get("id").toString();
-	}
-	
+		
 	private void parsingJSONBasedOnSchema(JSONObject input, List<MappingEntity> schema) {
 		for(MappingEntity column : schema) {
 			parsingColumn(input, column);
@@ -147,6 +143,10 @@ public class SubscriptionFromDynamics implements Subscription {
 
 	public String toString() {
 		return this.toJSON().toString();
+	}
+
+	public String getId() {
+		return id;
 	}
 
 	public String getFirstName() {

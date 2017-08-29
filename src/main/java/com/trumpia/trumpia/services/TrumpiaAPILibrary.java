@@ -35,6 +35,7 @@ public class TrumpiaAPILibrary {
 		
 		return new JSONObject(response);
 	}
+	
 	public static JSONObject putNewSubscriptionInfo(String subscriptionsBody, TrumpiaAccountEntity trumpia) {
 		String response = null;
 		try {
@@ -44,7 +45,7 @@ public class TrumpiaAPILibrary {
 			e.getMessage();
 			e.printStackTrace();
 		}
-		
+		JSONObject a = new JSONObject(response);
 		return new JSONObject(response);
 	}
 
@@ -99,6 +100,18 @@ public class TrumpiaAPILibrary {
 			e.printStackTrace();
 		}
 		return new JSONObject(response);
+	}
+	
+	public static String getStatusReport(String requestId, TrumpiaAccountEntity trumpia) {
+		String response = null;
+		try {
+			HttpRequest request = createRequestWithoutResponseBody("/report/" + requestId, trumpia);
+			response = request.get();
+		} catch (IOException e) {
+			e.getMessage();
+			e.printStackTrace();
+		}
+		return response;
 	}
 
 	////

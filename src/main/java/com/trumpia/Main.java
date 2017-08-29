@@ -20,7 +20,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -28,10 +27,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableConfigurationProperties
 @EnableAutoConfiguration( )
-@ComponentScan({"com.trumpia"})
+@ComponentScan(basePackages = "com.trumpia")
 @SpringBootApplication
-@EnableJpaRepositories("com.trumpia")
-@EntityScan("com.trumpia")
+@EnableJpaRepositories(basePackages = {"com.trumpia"})
+@EntityScan(basePackages = {"com.trumpia"})
 public class Main {
 
 	@Bean
