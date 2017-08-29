@@ -4,6 +4,8 @@ import client from './client/reducer';
 import signup from './signup/reducer';
 import login from './login/reducer';
 import widgets from './widgets/reducer';
+import topbar from './topbar/reducer';
+import modal from './ui/modal/reducer';
 
 
 const IndexReducer = combineReducers({
@@ -12,6 +14,8 @@ const IndexReducer = combineReducers({
   login,
   widgets,
   client,
+  topbar,
+  modal,
 });
 
 export default IndexReducer;

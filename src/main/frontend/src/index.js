@@ -9,7 +9,8 @@ import { Router, Route, hashHistory, IndexRoute } from 'react-router';
 import App from './App';
 import Login from './login';
 import Signup from './signup';
-import Widgets from './widgets';
+import Dashboard from './dashboard';
+import Trumpia from './trumpia';
 import './index.css';
 
 // Import the index reducer and sagas
@@ -18,7 +19,7 @@ import IndexSagas from './index-sagas';
 
 import {
   checkIndexAuthorization,
-  checkWidgetAuthorization,
+  checkDashboardAuthorization,
 } from './lib/check-auth';
 
 // Setup the middleware to watch between the Reducers and the Actions
@@ -53,7 +54,9 @@ ReactDOM.render(
         <IndexRoute onEnter={checkIndexAuthorization(store)} />
         <Route path="login" component={Login} />
         <Route path="signup" component={Signup} />
-        <Route onEnter={checkWidgetAuthorization(store)} path="widgets" component={Widgets} />
+        <Route onEnter={checkDashboardAuthorization(store)} path="dashboard" component={Dashboard}>
+          <Route path="trumpia" component={Trumpia} />
+        </Route>
       </Route>
     </Router>
   </Provider>,

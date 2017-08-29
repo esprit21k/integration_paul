@@ -11,6 +11,8 @@ import {
   LOGIN_REQUESTING,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
+  LOGOUT_REQUESTING,
+  LOGOUT_SUCCESS
 } from './constants';
 
 // So that we can modify our Client piece of state
@@ -56,7 +58,7 @@ function* loginFlow(username, password) {
     yield put(setClient(tok));
     yield put({ type: LOGIN_SUCCESS });
     localStorage.setItem('token', JSON.stringify(tok));
-    hashHistory.push('/#/widgets');
+    hashHistory.push('/#/dashboard');
   } catch (error) {
     const putBody = { type: LOGIN_ERROR, error };
     yield put(putBody);
@@ -71,13 +73,16 @@ function* loginFlow(username, password) {
 function* loginWatcher() {
   while (true) {
     //
-    const action = yield take([LOGIN_REQUESTING, CLIENT_UNSET, LOGIN_ERROR]);
+    const action = yield take([LOGIN_REQUESTING, CLIENT_UNSET, LOGIN_ERROR, LOGOUT_REQUESTING]);
     let task = null;
     if (action.type === LOGIN_REQUESTING) {
       task = yield fork(loginFlow, action.username, action.password);
     }
     if (action.type === CLIENT_UNSET) {
       yield cancel(task);
+    }
+    if (action.type === LOGOUT_REQUESTING) {
+      yield put({ type: LOGOUT_SUCCESS });
     }
     yield call(logout);
   }

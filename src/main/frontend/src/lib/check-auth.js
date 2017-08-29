@@ -28,7 +28,6 @@ function checkAuthorization(dispatch) {
 
 
 export function checkIndexAuthorization({ dispatch }) {
-  console.log('checking index auth');
   // by having a function that returns a function we satisfy 2 goals:
   //
   // 1. grab access to our Redux Store and thus Dispatch to call actions
@@ -43,7 +42,7 @@ export function checkIndexAuthorization({ dispatch }) {
     // we'll make this in a minute - remember begin with the end!
     // If we pass the authentication check, go to widgets
     if (checkAuthorization(dispatch)) {
-      replace('widgets');
+      replace('dashboard');
       return next();
     }
 
@@ -52,23 +51,14 @@ export function checkIndexAuthorization({ dispatch }) {
     return next();
   };
 }
-export function checkWidgetAuthorization({ dispatch, getState }) {
-  // Same format - we do this to have the Redux State available.
-  // The difference is that this time we also pull in the helper
-  // `getState` which will allow us to.....
-  // ....
-  // get the state.
-  //
+
+export function checkDashboardAuthorization({ dispatch, getState }) {
   return (nextState, replace, next) => {
-    // reference to the `client` piece of state
     const client = getState().client;
 
-    // is it defined and does it have a token? good, go ahead to widgets
     if (client && client.token) return next();
 
-    // not set yet?  Let's try and set it and if so, go ahead to widgets
     if (checkAuthorization(dispatch)) return next();
-    // nope?  okay back to login ya go.
     replace('login');
     return next();
   };
