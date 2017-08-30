@@ -20,7 +20,7 @@ import com.trumpia.model.UserEntity;
 
 @Entity
 @Table(name="e_trumpia_account")
-public class TrumpiaAccountEntity {
+public class TrumpiaAccountEntity implements Comparable<TrumpiaAccountEntity>{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -29,7 +29,7 @@ public class TrumpiaAccountEntity {
 	private String uniqueId;
 
 	@Column( length=36)
-	private String APIkey;
+	private String apikey;
 	
 	@Column(nullable=false)
 	private String baseURL = "http://api.trumpia.com";
@@ -100,7 +100,7 @@ public class TrumpiaAccountEntity {
 	}
 
 	public String getAPIkey() {
-		return APIkey;
+		return apikey;
 	}
 
 	public void setId(Long id) {
@@ -112,11 +112,18 @@ public class TrumpiaAccountEntity {
 	}
 
 	public void setAPIkey(String aPIkey) {
-		APIkey = aPIkey;
+		apikey = aPIkey;
 	}
 
 	@Override
 	public String toString() {
-		return "TrumpiaAccountRepository [id=" + id + ", uniqueId=" + uniqueId + ", APIkey=" + APIkey + "]";
+		return "TrumpiaAccountRepository [id=" + id + ", uniqueId=" + uniqueId + ", APIkey=" + apikey + "]";
+	}
+
+	@Override
+	public int compareTo(TrumpiaAccountEntity that) {
+		if(this.getUpdatedDate().getTime() > that.getUpdatedDate().getTime()) return 1;
+		if(this.getUpdatedDate().getTime() < that.getUpdatedDate().getTime()) return -1;
+		else return 0;
 	}
 }

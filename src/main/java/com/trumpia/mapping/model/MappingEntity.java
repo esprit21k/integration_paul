@@ -24,7 +24,9 @@ public class MappingEntity {
 	@Column
 	private String trumpiaFieldName;
 	@Column
-	private String dynamicFieldName;
+	private String targetFieldName;
+	@Column
+	private String targetComapny;
 	@Column(nullable = true)
 	private String customDataId;
 	@ManyToOne
@@ -34,42 +36,68 @@ public class MappingEntity {
 	public MappingEntity() {
 
 	}
+
 	public Long getId() {
 		return id;
 	}
-	public String getTrumpiaFieldName() {
-		return trumpiaFieldName;
-	}
-	public String getDynamicFieldName() {
-		return dynamicFieldName;
-	}
+
 	public String getDescription() {
 		return description;
 	}
+
+	public String getTrumpiaFieldName() {
+		return trumpiaFieldName;
+	}
+
+	public String getTargetFieldName() {
+		return targetFieldName;
+	}
+
+	public String getTargetComapny() {
+		return targetComapny;
+	}
+
 	public String getCustomDataId() {
 		return customDataId;
 	}
-	public void setCustomDataId(String customDataId) {
-		this.customDataId = customDataId;
-	}
-	public void setDescription(String description) {
-		this.description = description;
+
+	public UserEntity getUserId() {
+		return userId;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public void setTrumpiaFieldName(String trumpiaFieldName) {
 		this.trumpiaFieldName = trumpiaFieldName;
 	}
-	public void setDynamicFieldName(String dynamicFieldName) {
-		this.dynamicFieldName = dynamicFieldName;
+
+	public void setTargetFieldName(String targetFieldName) {
+		this.targetFieldName = targetFieldName;
+	}
+
+	public void setTargetComapny(String targetComapny) {
+		this.targetComapny = targetComapny;
+	}
+
+	public void setCustomDataId(String customDataId) {
+		this.customDataId = customDataId;
+	}
+
+	public void setUserId(UserEntity userId) {
+		this.userId = userId;
 	}
 
 	@Override
 	public String toString() {
-		return "MappingEntity [id=" + id +  ", trumpiaFieldName=" + trumpiaFieldName
-				+ ", dynamicFieldName=" + dynamicFieldName + "]";
+		return "MappingEntity [id=" + id + ", description=" + description + ", trumpiaFieldName=" + trumpiaFieldName
+				+ ", targetFieldName=" + targetFieldName + ", targetComapny=" + targetComapny + ", customDataId="
+				+ customDataId + ", userId=" + userId + "]";
 	}
 
 

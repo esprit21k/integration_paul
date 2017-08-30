@@ -11,11 +11,12 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.trumpia.dynamics.services.SubscriptionParser;
 import com.trumpia.mapping.model.MappingEntity;
 
 
 
-public class TestSubscriptionFromDynamics {
+public class TestSubscription {
 	List<MappingEntity> testSchema;
 	JSONObject testObject;
 	
@@ -31,6 +32,7 @@ public class TestSubscriptionFromDynamics {
 		testSchema.add(makeCustomEntity("customData3", "customData3", "45621"));
 		//testJSON
 		testObject = new JSONObject();
+		testObject.put("id", "something-id-is-inside");
 		testObject.put("firstname", "firstname");
 		testObject.put("lastname", "lastname");
 		testObject.put("mobilephone", "7142545256");
@@ -41,8 +43,8 @@ public class TestSubscriptionFromDynamics {
 	@Test
 	public void TestSubscriptiontoJSON() {	
 		//TEST
-		Subscription subscriptiontest = new SubscriptionFromDynamics(testObject, testSchema);
-		System.out.println(subscriptiontest);
+		SubscriptionParser subs = new SubscriptionParser(testObject, testSchema);
+		Subscription subscriptiontest = subs.getPasredSubscription();
 		JSONObject result = subscriptiontest.toJSON();
 		assertNotNull(result.remove("first_name"));
 		assertNotNull(result.remove("last_name"));
@@ -57,13 +59,15 @@ public class TestSubscriptionFromDynamics {
 		deletedObject.put("reason", "deleted");
 		
 		//DeletedSubscription
-		Subscription subscriptiontest = new SubscriptionFromDynamics(deletedObject, testSchema);
+		SubscriptionParser subs = new SubscriptionParser(deletedObject, testSchema);
+		Subscription subscriptiontest = subs.getPasredSubscription();
 		assertEquals(subscriptiontest.toJSON().get("deletedDynamicID"), "something-id-is-inside");
 	}
 	@Test
 	public void TestSubscriptionPrivateField() {
 		//TEST
-		Subscription subscriptiontest = new SubscriptionFromDynamics(testObject, testSchema);
+		SubscriptionParser subs = new SubscriptionParser(testObject, testSchema);
+		Subscription subscriptiontest = subs.getPasredSubscription();
 		assertEquals(subscriptiontest.getFirstName(), "firstname");
 		assertEquals(subscriptiontest.getLastName(), "lastname");
 		assertEquals(subscriptiontest.getMobileNumber(), "7142545256");
@@ -72,7 +76,7 @@ public class TestSubscriptionFromDynamics {
 
 	private MappingEntity makeEntity(String dynamic, String trumpia) {
 		MappingEntity tmp = new MappingEntity();
-		tmp.setDynamicFieldName(dynamic);
+		tmp.setTargetFieldName(dynamic);
 		tmp.setTrumpiaFieldName(trumpia);
 		return tmp;
 	}
@@ -80,7 +84,7 @@ public class TestSubscriptionFromDynamics {
 		MappingEntity customData = new MappingEntity();
 		customData.setCustomDataId(Id);
 		customData.setTrumpiaFieldName(trumpia);
-		customData.setDynamicFieldName(dynamic);
+		customData.setTargetFieldName(dynamic);
 		return customData;
 	}
 }
