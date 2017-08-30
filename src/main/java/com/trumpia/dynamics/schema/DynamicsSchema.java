@@ -21,6 +21,7 @@ import com.trumpia.dynamics.model.DynamicsAccountEntity;
 import com.trumpia.dynamics.schema.data.DynamicsSchemaRepository;
 import com.trumpia.dynamics.schema.model.DynamicsSchemaEntity;
 import com.trumpia.util.Http.HttpRequest;
+import static com.trumpia.util.LogUtils.getLogger;
 
 
 @Component
@@ -28,11 +29,10 @@ public class DynamicsSchema {
 	@Autowired
 	private DynamicsSchemaRepository dynamicsSchemaRepository;
 
-	final static String METADATA_URL = "https://trumpia.crm.dynamics.com/api/data/v8.2/$metadata#contact";
-	//final static String PATH = "DynamicsPropertyInfo.xml";
 	private HashMap<String, String> properties;
 	private NodeList propertiesInfo;
 	private String accessToken;
+	private String metadataURL;
 	private DynamicsAccountEntity dynamicsAccountEntity;
 	public List<DynamicsSchemaEntity> dynamicsSchemaEntityLists;
 	private DynamicsSchemaEntity dynamicsSchemaEntity;
@@ -60,22 +60,20 @@ public class DynamicsSchema {
 		properties = new HashMap<String, String>();
 		this.accessToken = dynamicsAccountEntity.getAccessToken();
 		this.dynamicsAccountEntity = dynamicsAccountEntity;
+		this.metadataURL = dynamicsAccountEntity.getResourceUrl()+"/api/data/v8.2/$metadata#contact";
+		System.out.println("metadataURL: "+metadataURL);
 
 		dynamicsSchemaEntityLists = dynamicsSchemaRepository.findByDynamicsAccountEntity(dynamicsAccountEntity);
 
 		if(dynamicsSchemaEntityLists.size() == 0)
 			getDynamicsSchemaFromDynamicsAPI();
 		else
-			getDynamicsSchemaFromDB(dynamicsSchemaEntityLists);
+			setPropertiesFromDB(dynamicsSchemaEntityLists);
 	}
 
-	public void getDynamicsSchemaFromDB(List<DynamicsSchemaEntity> schema) {
+	public void setPropertiesFromDB(List<DynamicsSchemaEntity> schema) {
 		for(DynamicsSchemaEntity entity : schema)
-			setPropertiesFromDB(entity);
-	}
-
-	private void setPropertiesFromDB(DynamicsSchemaEntity entity) {
-		properties.put(entity.getName(), entity.getType());
+			properties.put(entity.getName(), entity.getType());
 	}
 
 	private void getDynamicsSchemaFromDynamicsAPI() {
@@ -83,7 +81,10 @@ public class DynamicsSchema {
 			String XMLstring = getMetaDataSchema();
 			Document doc = parseXML(XMLstring);
 			doc.getDocumentElement().normalize();
-			propertiesInfo = findPropertiesInfo(doc.getElementsByTagName("EntityType"));
+			if (!doc.getElementsByTagName("EntityType").equals(null))
+				propertiesInfo = findPropertiesInfo(doc.getElementsByTagName("EntityType"));
+			else
+				throw new DynamicsSchemaException("Wrong XML data: "+doc.toString());
 			storePropertyInfoToMap(propertiesInfo);
 		} catch (Exception e) {
 			e.getMessage();
@@ -91,7 +92,7 @@ public class DynamicsSchema {
 		}
 	}
 
-	private NodeList findPropertiesInfo(NodeList entityTypeList) throws Exception {
+	private NodeList findPropertiesInfo(NodeList entityTypeList) {
 		for (int i = 0; i < entityTypeList.getLength(); i++) {
 			Node nNode = entityTypeList.item(i);
 			String valueOfNameAttribute = nNode.getAttributes().getNamedItem("Name").getNodeValue(); 
@@ -99,7 +100,9 @@ public class DynamicsSchema {
 				return nNode.getChildNodes();
 			}
 		}
-		throw new Exception("there is no contact info :: Dynamics metadata error");
+
+		throw new DynamicsSchemaException("there is no contact info :: Dynamics metadata error - EntityType length: "+ entityTypeList.getLength());
+
 	}
 
 	private void storePropertyInfoToMap(NodeList contact) {
@@ -117,9 +120,11 @@ public class DynamicsSchema {
 			dynamicsSchemaEntity.setName(entry.getKey());
 			dynamicsSchemaEntity.setType(entry.getValue());
 			dynamicsSchemaEntity.setDynamicsAccountEntity(dynamicsAccountEntity);
-			dynamicsSchemaRepository.save(dynamicsSchemaEntity);
 			dynamicsSchemaEntityLists.add(dynamicsSchemaEntity);
 		}
+		dynamicsSchemaRepository.save(dynamicsSchemaEntityLists);
+		if (dynamicsSchemaEntityLists.isEmpty())
+			throw new DynamicsSchemaException("Dynamics Schema Entity List is empty");
 	}
 
 	private String getMetaDataSchema() throws Exception {
@@ -130,13 +135,13 @@ public class DynamicsSchema {
 		headers.put("OData-Version", "4.0");
 
 		HttpRequest request = new HttpRequest.Builder()
-				.URL(METADATA_URL)
+				.URL(metadataURL)
 				.headers(headers)
 				.build();
 		return request.get();
 	}
 
-	private Document parseXML(String xml) throws Exception{
+	private Document parseXML(String xml) throws Exception{ // debug statement 넘겨진 xml statement가 뭐였는지
 		DocumentBuilderFactory objDocumentBuilderFactory = null;
 		DocumentBuilder objDocumentBuilder = null;
 		Document doc = null;
@@ -146,8 +151,17 @@ public class DynamicsSchema {
 			objDocumentBuilder = objDocumentBuilderFactory.newDocumentBuilder();
 			doc = objDocumentBuilder.parse(stream);
 		}catch(Exception ex){
+			getLogger(DynamicsSchema.class).error(xml);
 			throw ex;
 		}       
 		return doc;
+	}
+
+	public class DynamicsSchemaException extends RuntimeException{
+		private static final long serialVersionUID = 6727732589593600785L;
+
+		public DynamicsSchemaException(String message) {
+			super(message);
+		}
 	}
 }

@@ -22,7 +22,7 @@ public class MappingEntity {
 	@Column
 	private String trumpiaFieldName;
 	@Column
-	private String dynamicsFieldName;
+	private String dynamicsFieldName; //이름 넣어서 servicefieldname(dynamics, hubspot....) service 이름 column 추가하자.
 	@Column(nullable = true)
 	private String customDataId;
 	@ManyToOne

@@ -11,9 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -23,6 +20,7 @@ import com.trumpia.dynamics.APIcaller.RefreshAccessToken;
 import com.trumpia.dynamics.data.DynamicsAccountRepository;
 import com.trumpia.dynamics.model.DynamicsAccountEntity;
 import com.trumpia.model.UserEntity;
+import static com.trumpia.util.LogUtils.getLogger;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {Main.class})
@@ -58,25 +56,26 @@ public class TestDynamicsSchema {
 	public void testProperties() throws Exception {
 		test.getDynamicsSchema(dynamicsAccountEntity);
 		HashMap<String, String> properties = test.getProperties();
+		getLogger(TestDynamicsSchema.class).error("accessToken: "+accessToken);
 		assertTrue(properties.get("mobilephone").equals("Edm.String"));
 		assertTrue(properties.get("spousesname").equals("Edm.String"));
 		assertTrue(properties.get("merged").equals("Edm.Boolean"));
 		System.out.println(test.propertiesToJSON().toString());
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		System.out.println(authentication.toString());
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		System.out.println(authentication.toString());
 	}
 	
-//	@Test
-//	public void testStoreDB() throws Exception {
-//		test.getDynamicsSchema(dynamicsAccountEntity);
-//		test.storeDynamicsSchemaDB();
-//		test.getDynamicsSchemaFromDB(test.dynamicsSchemaEntityLists);
-//		HashMap<String, String> properties = test.getProperties();
-//		assertTrue(properties.get("mobilephone").equals("Edm.String"));
-//		assertTrue(properties.get("spousesname").equals("Edm.String"));
-//		assertTrue(properties.get("merged").equals("Edm.Boolean"));
-//		System.out.println(test.propertiesToJSON().toString());
-//	}
+	@Test
+	public void testStoreDB() throws Exception {
+		test.getDynamicsSchema(dynamicsAccountEntity);
+		test.storeDynamicsSchemaDB();
+		test.setPropertiesFromDB(test.dynamicsSchemaEntityLists);
+		HashMap<String, String> properties = test.getProperties();
+		assertTrue(properties.get("mobilephone").equals("Edm.String"));
+		assertTrue(properties.get("spousesname").equals("Edm.String"));
+		assertTrue(properties.get("merged").equals("Edm.Boolean"));
+		System.out.println(test.propertiesToJSON().toString());
+	}
 	
 	
 	private void makeEntity() {
@@ -91,7 +90,7 @@ public class TestDynamicsSchema {
 		dynamicsAccountEntity = new DynamicsAccountEntity();
 		dynamicsAccountEntity.setAccessToken(accessToken);
 		dynamicsAccountEntity.setRefreshToken("refreshToken");
-		dynamicsAccountEntity.setResourceUrl("resourceUrl");
+		dynamicsAccountEntity.setResourceUrl("https://trumpia.crm.dynamics.com");
 		dynamicsAccountEntity.setUserEntity(userEntity);
 		dynamicsRepo.save(dynamicsAccountEntity);
 	}

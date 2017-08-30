@@ -22,7 +22,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.trumpia.Main;
 import com.trumpia.trumpia.data.TrumpiaAccountRepository;
 import com.trumpia.trumpia.model.TrumpiaAccountEntity;
-import com.trumpia.trumpia.schema.CustomData;
+import com.trumpia.trumpia.schema.api.CustomDataCall;
+import com.trumpia.trumpia.schema.model.CustomData;
 import com.trumpia.util.Http.HttpRequest;
 
 import okhttp3.MediaType;
@@ -53,7 +54,7 @@ public class CustomdataTest {
 		name = "textfield";
 		options = makeTextField(20, 200);
 		testMethod();
-		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":"+custom.customID+",\"info\":{\"options\":"+ options +",\"input_type\":\""+custom.inputTypeMatch(inputType)+"\",\"required\":\""+custom.requiredMatch(required)+"\"}}]");
+		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":"+custom.customDataCall.customID+",\"info\":{\"options\":"+ options +",\"input_type\":\""+custom.customDataCall.inputTypeMatch(inputType)+"\",\"required\":\""+custom.customDataCall.requiredMatch(required)+"\"}}]");
 	}
 
 	@Test
@@ -63,7 +64,7 @@ public class CustomdataTest {
 		ArrayList<String> nameslist = new ArrayList<String>(Arrays.asList("wo", "wa", "wee"));
 		options = makeRadioButton(nameslist);
 		testMethod();
-		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":"+custom.customID+",\"info\":{\"options\":"+ optionsArray +",\"input_type\":\""+custom.inputTypeMatch(inputType)+"\",\"required\":\""+custom.requiredMatch(required)+"\"}}]");
+		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":"+custom.customDataCall.customID+",\"info\":{\"options\":"+ optionsArray +",\"input_type\":\""+custom.customDataCall.inputTypeMatch(inputType)+"\",\"required\":\""+custom.customDataCall.requiredMatch(required)+"\"}}]");
 	}
 
 	@Test
@@ -73,7 +74,7 @@ public class CustomdataTest {
 		ArrayList<String> nameslist = new ArrayList<String>(Arrays.asList("wo", "wa", "wee"));
 		options = makeDropDownList(nameslist);
 		testMethod();
-		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":"+custom.customID+",\"info\":{\"options\":"+ optionsArray +",\"input_type\":\""+custom.inputTypeMatch(inputType)+"\",\"required\":\""+custom.requiredMatch(required)+"\"}}]");
+		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":"+custom.customDataCall.customID+",\"info\":{\"options\":"+ optionsArray +",\"input_type\":\""+custom.customDataCall.inputTypeMatch(inputType)+"\",\"required\":\""+custom.customDataCall.requiredMatch(required)+"\"}}]");
 	}
 
 	@Test
@@ -82,7 +83,7 @@ public class CustomdataTest {
 		name = "DateAndTime";
 		options = makeDateAndTime(2); // timeType 1: only date, timeType 2: date and time
 		testMethod();
-		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":"+custom.customID+",\"info\":{\"options\":"+ options +",\"input_type\":\""+custom.inputTypeMatch(inputType)+"\",\"required\":\""+custom.requiredMatch(required)+"\"}}]");
+		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":"+custom.customDataCall.customID+",\"info\":{\"options\":"+ options +",\"input_type\":\""+custom.customDataCall.inputTypeMatch(inputType)+"\",\"required\":\""+custom.customDataCall.requiredMatch(required)+"\"}}]");
 	}
 
 	@Test
@@ -91,7 +92,7 @@ public class CustomdataTest {
 		name = "TextArea";
 		options = makeTextArea(3, 2);
 		testMethod();
-		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":"+custom.customID+",\"info\":{\"options\":"+ options +",\"input_type\":\""+custom.inputTypeMatch(inputType)+"\",\"required\":\""+custom.requiredMatch(required)+"\"}}]");
+		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":"+custom.customDataCall.customID+",\"info\":{\"options\":"+ options +",\"input_type\":\""+custom.customDataCall.inputTypeMatch(inputType)+"\",\"required\":\""+custom.customDataCall.requiredMatch(required)+"\"}}]");
 	}
 
 	@Test
@@ -101,7 +102,7 @@ public class CustomdataTest {
 		options = makeNumber(1, 1, 100); //int defaultNum, int min, int max
 		testMethod();
 		options.put("interval", 1); // 1 for default
-		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":"+custom.customID+",\"info\":{\"options\":"+ options +",\"input_type\":\""+custom.inputTypeMatch(inputType)+"\",\"required\":\""+custom.requiredMatch(required)+"\"}}]");
+		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":"+custom.customDataCall.customID+",\"info\":{\"options\":"+ options +",\"input_type\":\""+custom.customDataCall.inputTypeMatch(inputType)+"\",\"required\":\""+custom.customDataCall.requiredMatch(required)+"\"}}]");
 	}
 
 	@After
@@ -120,7 +121,7 @@ public class CustomdataTest {
 
 	private void deleteCustomData() throws IOException, JSONException {
 		try {
-			ArrayList<String> idList = new ArrayList<String>(custom.listCustomID());
+			ArrayList<String> idList = new ArrayList<String>(custom.customDataCall.listCustomID());
 			for (int i=0; i<idList.size(); i++) {
 				HttpRequest request = new HttpRequest.Builder()
 						.URL(URL+"paulkim"+FIELD+"/"+idList.get(i))

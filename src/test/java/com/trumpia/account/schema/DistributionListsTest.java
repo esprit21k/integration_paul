@@ -8,24 +8,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.trumpia.Main;
-import com.trumpia.trumpia.data.TrumpiaAccountRepository;
-import com.trumpia.trumpia.model.TrumpiaAccountEntity;
-import com.trumpia.trumpia.schema.DistributionList;
+import com.trumpia.trumpia.schema.api.DistributionListCall;
+import com.trumpia.trumpia.schema.model.DistributionList;
 import com.trumpia.util.Http.HttpRequest;
-
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 
 public class DistributionListsTest {
 	private DistributionList lists;

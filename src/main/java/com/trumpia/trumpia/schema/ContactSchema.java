@@ -6,6 +6,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.trumpia.trumpia.model.TrumpiaAccountEntity;
+import com.trumpia.trumpia.schema.api.CustomDataCall;
+import com.trumpia.trumpia.schema.api.DistributionListCall;
+import com.trumpia.trumpia.schema.model.CustomData;
+import com.trumpia.trumpia.schema.model.DistributionList;
 
 public class ContactSchema {
 	JSONObject trumpiaSchema;

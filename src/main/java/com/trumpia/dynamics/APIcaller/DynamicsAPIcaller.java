@@ -8,8 +8,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.trumpia.util.Subscription;
 import com.trumpia.dynamics.APIcaller.RefreshAccessToken;
+import com.trumpia.trumpia.model.SubscriptionFromDynamics;
+import com.trumpia.util.Subscription;
 import com.trumpia.util.Http.HttpRequest;
 
 public class DynamicsAPIcaller {
