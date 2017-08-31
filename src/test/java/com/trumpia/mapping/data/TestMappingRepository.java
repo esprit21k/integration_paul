@@ -55,7 +55,8 @@ public class TestMappingRepository {
 		mappingEntity = new MappingEntity();
 		mappingEntity.setDescription("description");
 		mappingEntity.setTrumpiaFieldName("trumpiaFieldName");
-		mappingEntity.setDynamicFieldName("dynamicFieldName");
+		mappingEntity.setServiceFieldName("serviceFieldName");
+		mappingEntity.setServiceName("Dynamics");
 		mappingEntity.setUserId(userEntity);
 
 		//save

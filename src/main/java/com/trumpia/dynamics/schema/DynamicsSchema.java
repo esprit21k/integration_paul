@@ -115,6 +115,10 @@ public class DynamicsSchema {
 	}
 
 	public void storeDynamicsSchemaDB() throws Exception {
+		dynamicsSchemaRepository.save(dynamicsSchemaEntityLists);
+		if (dynamicsSchemaEntityLists.isEmpty())
+			throw new DynamicsSchemaException("Dynamics Schema Entity List is empty");
+		
 		for(Map.Entry<String, String> entry : properties.entrySet()) {
 			dynamicsSchemaEntity = new DynamicsSchemaEntity();
 			dynamicsSchemaEntity.setName(entry.getKey());
@@ -122,9 +126,6 @@ public class DynamicsSchema {
 			dynamicsSchemaEntity.setDynamicsAccountEntity(dynamicsAccountEntity);
 			dynamicsSchemaEntityLists.add(dynamicsSchemaEntity);
 		}
-		dynamicsSchemaRepository.save(dynamicsSchemaEntityLists);
-		if (dynamicsSchemaEntityLists.isEmpty())
-			throw new DynamicsSchemaException("Dynamics Schema Entity List is empty");
 	}
 
 	private String getMetaDataSchema() throws Exception {
@@ -150,7 +151,7 @@ public class DynamicsSchema {
 			objDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
 			objDocumentBuilder = objDocumentBuilderFactory.newDocumentBuilder();
 			doc = objDocumentBuilder.parse(stream);
-		}catch(Exception ex){
+		} catch(Exception ex){
 			getLogger(DynamicsSchema.class).error(xml);
 			throw ex;
 		}       

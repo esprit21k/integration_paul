@@ -22,7 +22,9 @@ public class MappingEntity {
 	@Column
 	private String trumpiaFieldName;
 	@Column
-	private String dynamicsFieldName; //이름 넣어서 servicefieldname(dynamics, hubspot....) service 이름 column 추가하자.
+	private String targetFieldName;
+	@Column
+	private String targetCompany;
 	@Column(nullable = true)
 	private String customDataId;
 	@ManyToOne
@@ -41,23 +43,18 @@ public class MappingEntity {
 	public String getTrumpiaFieldName() {
 		return trumpiaFieldName;
 	}
-	public String getDynamicFieldName() {
-		return dynamicsFieldName;
+	public String getServiceFieldName() {
+		return targetFieldName;
+	}
+	public String getServiceName() {
+		return targetCompany;
 	}
 	public String getDescription() {
 		return description;
 	}
-
 	public String getCustomDataId() {
 		return customDataId;
 	}
-	public void setCustomDataId(String customDataId) {
-		this.customDataId = customDataId;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -67,15 +64,24 @@ public class MappingEntity {
 	public void setTrumpiaFieldName(String trumpiaFieldName) {
 		this.trumpiaFieldName = trumpiaFieldName;
 	}
-	public void setDynamicFieldName(String dynamicFieldName) {
-		this.dynamicsFieldName = dynamicFieldName;
+	public void setServiceFieldName(String serviceFieldName) {
+		this.targetFieldName = serviceFieldName;
+	}
+	public void setServiceName(String serviceName) {
+		this.targetCompany = serviceName;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public void setCustomDataId(String customDataId) {
+		this.customDataId = customDataId;
 	}
 
 	@Override
 	public String toString() {
 		return "MappingEntity [id=" + id + ", description=" + description + ", trumpiaFieldName=" + trumpiaFieldName
-				+ ", dynamicFieldName=" + dynamicsFieldName + ", customDataId=" + customDataId + ", userId=" + userId
-				+ "]";
+				+ ", serviceFieldName=" + targetFieldName + ", serviceName=" + targetCompany + ", customDataId="
+				+ customDataId + ", userId=" + userId + "]";
 	}
 
 
