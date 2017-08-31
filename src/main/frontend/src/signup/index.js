@@ -26,8 +26,6 @@ class Signup extends Component {
   // Form fields "email" and "password" when the form is submitted
   // this will in turn call the action
   submit = (values) => {
-    // we could just do signupRequest here with the static proptypes
-    // but ESLint doesn't like that very much...
     this.props.signupRequest(values);
   }
 
