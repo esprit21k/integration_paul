@@ -26,7 +26,7 @@ public class MappingEntity {
 	@Column
 	private String targetFieldName;
 	@Column
-	private String targetComapny;
+	private String targetCompany;
 	@Column(nullable = true)
 	private String customDataId;
 	@ManyToOne
@@ -54,7 +54,7 @@ public class MappingEntity {
 	}
 
 	public String getTargetComapny() {
-		return targetComapny;
+		return targetCompany;
 	}
 
 	public String getCustomDataId() {
@@ -82,7 +82,7 @@ public class MappingEntity {
 	}
 
 	public void setTargetComapny(String targetComapny) {
-		this.targetComapny = targetComapny;
+		this.targetCompany = targetComapny;
 	}
 
 	public void setCustomDataId(String customDataId) {
@@ -96,7 +96,7 @@ public class MappingEntity {
 	@Override
 	public String toString() {
 		return "MappingEntity [id=" + id + ", description=" + description + ", trumpiaFieldName=" + trumpiaFieldName
-				+ ", targetFieldName=" + targetFieldName + ", targetComapny=" + targetComapny + ", customDataId="
+				+ ", targetFieldName=" + targetFieldName + ", targetComapny=" + targetCompany + ", customDataId="
 				+ customDataId + ", userId=" + userId + "]";
 	}
 

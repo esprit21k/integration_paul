@@ -11,9 +11,8 @@ public class UndeletingSubscriptionHandler implements DeletedSubscriptionHandler
 		this.trumpia = trumpia;
 	}
 	@Override
-	public void deleteSubscription(Subscription subscription) {
-		// TODO Auto-generated method stub
-		
+	public void deleteSubscription(String subscriptionId) {
+		//DO NOTHING
 	}
 
 }

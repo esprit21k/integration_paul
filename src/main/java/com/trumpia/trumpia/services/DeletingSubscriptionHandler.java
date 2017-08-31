@@ -1,9 +1,9 @@
 package com.trumpia.trumpia.services;
 
-import com.trumpia.trumpia.model.Subscription;
 import com.trumpia.trumpia.model.TrumpiaAccountEntity;
 
 public class DeletingSubscriptionHandler implements DeletedSubscriptionHandler{
+	
 	TrumpiaAccountEntity trumpia;
 		
 	public DeletingSubscriptionHandler(TrumpiaAccountEntity trumpia) {
@@ -11,9 +11,8 @@ public class DeletingSubscriptionHandler implements DeletedSubscriptionHandler{
 	}
 	
 	@Override
-	public void deleteSubscription(Subscription subscription) {
-		// TODO Auto-generated method stub
-		
+	public void deleteSubscription(String subscriptionId) {
+		TrumpiaAPILibrary.deleteSubscriptionInfo(subscriptionId, trumpia);
 	}
 	
 

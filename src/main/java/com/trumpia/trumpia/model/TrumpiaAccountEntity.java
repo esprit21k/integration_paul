@@ -20,7 +20,7 @@ import com.trumpia.model.UserEntity;
 
 @Entity
 @Table(name="e_trumpia_account")
-public class TrumpiaAccountEntity implements Comparable<TrumpiaAccountEntity>{
+public class TrumpiaAccountEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -118,12 +118,5 @@ public class TrumpiaAccountEntity implements Comparable<TrumpiaAccountEntity>{
 	@Override
 	public String toString() {
 		return "TrumpiaAccountRepository [id=" + id + ", uniqueId=" + uniqueId + ", APIkey=" + apikey + "]";
-	}
-
-	@Override
-	public int compareTo(TrumpiaAccountEntity that) {
-		if(this.getUpdatedDate().getTime() > that.getUpdatedDate().getTime()) return 1;
-		if(this.getUpdatedDate().getTime() < that.getUpdatedDate().getTime()) return -1;
-		else return 0;
 	}
 }

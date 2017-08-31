@@ -113,6 +113,18 @@ public class TrumpiaAPILibrary {
 		}
 		return response;
 	}
+	
+	public static JSONObject searchSubscriptionBySubsId(String subscriptionId, TrumpiaAccountEntity trumpia) {
+		String response = null;
+		try {
+			HttpRequest request = createRequestWithoutResponseBody("/subscription/" + subscriptionId , trumpia);
+			response = request.get();
+		} catch (IOException e) {
+			e.getMessage();
+			e.printStackTrace();
+		}
+		return new JSONObject(response);
+	}
 
 	////
 

@@ -5,11 +5,18 @@ import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.trumpia.trumpia.data.SubscriptionIdMappingRepository;
 import com.trumpia.trumpia.model.Subscription;
+import com.trumpia.trumpia.model.SubscriptionIdMappingEntity;
 import com.trumpia.trumpia.model.TrumpiaAccountEntity;
 
 public class TrumpiaAPIcaller {
+	
+	@Autowired
+	private SubscriptionIdMappingRepository repo;
+	
 	private SubscriptionPostHandler post;
 	private DeletedSubscriptionHandler delete;
 	private List<Subscription> putList;
@@ -28,14 +35,14 @@ public class TrumpiaAPIcaller {
 		for(Subscription subs : subscriptions)
 			handleSubscription(subs, listName);
 				
-		sendPutRequest(listName);
+		sendPutRequest(listName);//db접근
 	}
 	
 	private void handleSubscription(Subscription subs, String listName) {
 		if(noContactInfo(subs)) // this part need LOG!! 
 			return; 
 		if(subs.isDeleted())
-			delete.deleteSubscription(subs);
+			deleteSubs(subs);
 		else
 			upload(subs, listName);		
 	}
@@ -44,10 +51,17 @@ public class TrumpiaAPIcaller {
 		return subs.getLandLine().equals(null) && subs.getEmail().equals(null) && subs.getMobileNumber().equals(null); 
 	}
 	
+	private void deleteSubs(Subscription subs) {
+		SubscriptionIdMappingEntity map = repo.findOneByTargetSubscriptionId(subs.getId());
+		if(map != null) {
+			delete.deleteSubscription(map.getTrumpiaId());
+			repo.delete(map.getId());
+		}
+	}
 	
 	private void upload(Subscription subs, String list) {
 		if(isSubscriptionOnDatabase(subs))
-			post.postSubscription(subs, list);
+			postAndSaveToRepo(subs, list);
  		else
 			putList.add(subs);
 	}
@@ -62,6 +76,24 @@ public class TrumpiaAPIcaller {
 			return true;
 
 		return false;
+	}
+	
+	private void postAndSaveToRepo(Subscription subs, String list) {
+		String trumpiaId = post.postSubscription(subs, list);
+		String targetId = subs.getId();
+		
+		SubscriptionIdMappingEntity map = repo.findOneByTargetSubscriptionId(targetId);
+		
+		if(trumpiaId != map.getTrumpiaId()) { //subscription is deleted and put
+			//delete map, and save new Info
+			repo.delete(map.getId());
+			repo.save(createMappingEntity(trumpiaId, targetId));
+		}
+	}
+	
+	private SubscriptionIdMappingEntity createMappingEntity(String subsId, String targetId) {
+		SubscriptionIdMappingEntity tmp = new SubscriptionIdMappingEntity(subsId, targetId);
+		return tmp;
 	}
 	
 	private boolean searchSubscriptionByEmail(JSONObject subsJSON) {
@@ -86,10 +118,15 @@ public class TrumpiaAPIcaller {
 			return true;
 		return false;
 	}
-	
+
 	private void sendPutRequest(String listName) {
 		if(putList.size() == 0) return;
-		
+
+		JSONObject response = TrumpiaAPILibrary.putNewSubscriptionInfo(createSubscriptionBody(listName).toString(), trumpia);
+		saveSubscriptionMappingInfo(response);
+	}
+
+	private JSONObject createSubscriptionBody(String listName) {
 		JSONObject subscriptionBody = new JSONObject();
 		JSONArray subscriptionList = new JSONArray();
 		
@@ -98,9 +135,21 @@ public class TrumpiaAPIcaller {
 		
 		subscriptionBody.put("list_name", listName);
 		subscriptionBody.put("subscriptions", subscriptionList);
-		
-		TrumpiaAPILibrary.putNewSubscriptionInfo(subscriptionBody.toString(), trumpia);
+		return subscriptionBody;
+	}
+
+	private void saveSubscriptionMappingInfo(JSONObject response) {
+		JSONArray request = new JSONArray(TrumpiaAPILibrary.getStatusReport(response.getString("request_id"), trumpia));
+
+		for(int i = 0 ; i < request.length(); i++) {
+			if(request.getJSONObject(i).has("subsription_id")) {
+				String trumpiaId = request.getJSONObject(i).getString("subsription_id");
+				String targetId = putList.get(i).getId();
+				repo.save(createMappingEntity(trumpiaId, targetId));
+			}
+		}
 	}
 	
+
 	
 }
