@@ -43,10 +43,10 @@ public class MappingEntity {
 	public String getTrumpiaFieldName() {
 		return trumpiaFieldName;
 	}
-	public String getServiceFieldName() {
+	public String getTargetFieldName() {
 		return targetFieldName;
 	}
-	public String getServiceName() {
+	public String getTargetCompany() {
 		return targetCompany;
 	}
 	public String getDescription() {
