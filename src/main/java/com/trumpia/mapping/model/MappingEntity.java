@@ -64,11 +64,11 @@ public class MappingEntity {
 	public void setTrumpiaFieldName(String trumpiaFieldName) {
 		this.trumpiaFieldName = trumpiaFieldName;
 	}
-	public void setServiceFieldName(String serviceFieldName) {
-		this.targetFieldName = serviceFieldName;
+	public void setTargetFieldName(String targetFieldName) {
+		this.targetFieldName = targetFieldName;
 	}
-	public void setServiceName(String serviceName) {
-		this.targetCompany = serviceName;
+	public void setTargetCompany(String targetCompany) {
+		this.targetCompany = targetCompany;
 	}
 	public void setDescription(String description) {
 		this.description = description;
@@ -80,7 +80,7 @@ public class MappingEntity {
 	@Override
 	public String toString() {
 		return "MappingEntity [id=" + id + ", description=" + description + ", trumpiaFieldName=" + trumpiaFieldName
-				+ ", serviceFieldName=" + targetFieldName + ", serviceName=" + targetCompany + ", customDataId="
+				+ ", targetFieldName=" + targetFieldName + ", targetCompany=" + targetCompany + ", customDataId="
 				+ customDataId + ", userId=" + userId + "]";
 	}
 
