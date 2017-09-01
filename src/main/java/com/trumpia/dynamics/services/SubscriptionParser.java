@@ -74,7 +74,7 @@ public class SubscriptionParser {
 			subs.setEmail(value);
 	}
 	
-	public Subscription getPasredSubscription() {
+	public Subscription getParsedSubscription() {
 		return subs;
 	}
 	

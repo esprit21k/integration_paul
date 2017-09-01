@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 target
 .idea/
 *.iml
@@ -42,47 +41,3 @@ chrome-user-data
 .pydevproject
 .springBeans
 
-=======
-target
-.idea/
-*.iml
-.classpath
-.project
-.settings/
-.DS_STORE
-node_modules
-*~
-*.pyc
-static
-.grunt
-_SpecRunner.html
-__benchmarks__
-build/
-remote-repo/
-coverage/
-.module-cache
-*.gem
-docs/.bundle
-docs/code
-docs/_site
-docs/.sass-cache
-docs/js/*
-docs/downloads/*.zip
-docs/vendor/bundle
-fixtures/dom/public/react-dom.js
-fixtures/dom/public/react.js
-test/the-files-to-test.generated.js
-*.log*
-chrome-user-data
-*.sublime-project
-*.sublime-workspace
-.idea
-*.iml
-.vscode
-*.swp
-*.swo
-*react*min*.js
-!src/node_modules
-.pydevproject
-.springBeans
->>>>>>> 1bfb0f4aa8daf5e2f93a2761c6d9aa1bbacf01d0

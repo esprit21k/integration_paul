@@ -67,7 +67,7 @@ public class TestTrumpiaAccountRepository {
 
 		TrumpiaAccountEntity trumEntity = new TrumpiaAccountEntity();
 		trumEntity.setUniqueId("trumtest");
-		trumEntity.setAPIkey("trumtest");
+		trumEntity.setApikey("trumtest");
 		trumEntity.setUserEntity(userEntity);
 
 
@@ -83,10 +83,10 @@ public class TestTrumpiaAccountRepository {
 		System.out.println("### \t\t\t"+ fetchedEntity.getBaseURL());
 
 		//Update
-		fetchedEntity.setAPIkey("updated");
+		fetchedEntity.setApikey("updated");
 		trumRepo.save(fetchedEntity);
 		TrumpiaAccountEntity fetchedAndUpdatedEntity = trumRepo.findOne(fetchedEntity.getId());
-		assertEquals(fetchedEntity.getAPIkey(), fetchedAndUpdatedEntity.getAPIkey());
+		assertEquals(fetchedEntity.getApikey(), fetchedAndUpdatedEntity.getApikey());
 
 		//Delete
 		trumRepo.delete(fetchedEntity);

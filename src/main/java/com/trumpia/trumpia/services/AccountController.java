@@ -52,7 +52,7 @@ public class AccountController {
 	private TrumpiaAccountEntity createTrumpiaAccount(JSONObject parsed) {
 		TrumpiaAccountEntity account = new TrumpiaAccountEntity();
 		
-		account.setAPIkey(parsed.getString("APIKey"));
+		account.setApikey(parsed.getString("APIKey"));
 		account.setDescription(parsed.getString("description"));
 		account.setUniqueId(parsed.getString("uniqueID"));
 		
@@ -60,7 +60,7 @@ public class AccountController {
 	}
 	
 	private boolean isAlreadyInDB(TrumpiaAccountEntity account) {
-		if(trumRepo.findOneByApikey(account.getAPIkey()) != null && trumRepo.findOneByUniqueId(account.getUniqueId()) != null)
+		if(trumRepo.findOneByApikey(account.getApikey()) != null && trumRepo.findOneByUniqueId(account.getUniqueId()) != null)
 			return true;
 		else
 			return false;

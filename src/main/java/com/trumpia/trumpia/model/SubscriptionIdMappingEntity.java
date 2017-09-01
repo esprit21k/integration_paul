@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="e_subscriptionId_mapping")
+@Table(name="r_trumpia_subscription_remote_object")
 public class SubscriptionIdMappingEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

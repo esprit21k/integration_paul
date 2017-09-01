@@ -35,7 +35,7 @@ public class TrumpiaController {
 		UserEntity userEntity = userEntityList.get(0);
 		TrumpiaAccountEntity fetchedTrumpia = trumpiaAccountRepository.findByUserEntity(userEntity);
 		
-		String APIkey = fetchedTrumpia.getAPIkey();
+		String APIkey = fetchedTrumpia.getApikey();
 		String user = fetchedTrumpia.getUniqueId();
 		String baseURL = fetchedTrumpia.getBaseURL();
 		

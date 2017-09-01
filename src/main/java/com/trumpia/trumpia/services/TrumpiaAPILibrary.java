@@ -129,7 +129,7 @@ public class TrumpiaAPILibrary {
 	////
 
 	private static HttpRequest createRequestWithResponseBody(String requestBody, String url, TrumpiaAccountEntity trumpia) throws JsonProcessingException {
-		String apikey = trumpia.getAPIkey();
+		String apikey = trumpia.getApikey();
 		String userId = trumpia.getUniqueId();
 
 		RequestBody body = RequestBody.create(MediaType.parse("application/json"), requestBody);
@@ -148,7 +148,7 @@ public class TrumpiaAPILibrary {
 	}
 
 	private static HttpRequest createRequestWithoutResponseBody(String url, TrumpiaAccountEntity trumpia) throws JsonProcessingException {
-		String apikey = trumpia.getAPIkey();
+		String apikey = trumpia.getApikey();
 		String userId = trumpia.getUniqueId();
 
 		HashMap<String, String> headers = new HashMap<String,String>();

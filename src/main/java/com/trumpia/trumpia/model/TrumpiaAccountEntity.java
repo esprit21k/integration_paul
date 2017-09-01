@@ -22,7 +22,8 @@ public class TrumpiaAccountEntity {
 	private String uniqueId;
 
 	@Column( length=36)
-	private String APIkey;
+	private String apikey;
+
 
 	@Column
 	private String description;
@@ -50,16 +51,19 @@ public class TrumpiaAccountEntity {
 		this.userEntity = userEntity;
 	}
 
+	public String getApikey() {
+		return apikey;
+	}
+
+	public void setApikey(String apikey) {
+		this.apikey = apikey;
+	}
 	public Long getId() {
 		return id;
 	}
 
 	public String getUniqueId() {
 		return uniqueId;
-	}
-
-	public String getAPIkey() {
-		return APIkey;
 	}
 	
 	public String getBaseURL() {
@@ -73,10 +77,6 @@ public class TrumpiaAccountEntity {
 	public void setUniqueId(String uniqueId) {
 		this.uniqueId = uniqueId;
 	}
-
-	public void setAPIkey(String aPIkey) {
-		APIkey = aPIkey;
-	}
 	
 	public void setBaseURL(String baseURL) {
 		this.baseURL = baseURL;
@@ -84,7 +84,7 @@ public class TrumpiaAccountEntity {
 
 	@Override
 	public String toString() {
-		return "TrumpiaAccountEntity [id=" + id + ", uniqueId=" + uniqueId + ", APIkey=" + APIkey + ", baseURL="
+		return "TrumpiaAccountEntity [id=" + id + ", uniqueId=" + uniqueId + ", APIkey=" + apikey + ", baseURL="
 				+ baseURL + ", userEntity=" + userEntity + "]";
 	}
 }
