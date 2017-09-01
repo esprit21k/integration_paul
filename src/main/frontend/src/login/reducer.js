@@ -2,6 +2,8 @@ import {
   LOGIN_REQUESTING,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
+  LOGOUT_REQUESTING,
+  LOGOUT_SUCCESS
 } from './constants';
 
 const initialState = {
@@ -31,11 +33,25 @@ const reducer = function loginReducer(state = initialState, action) {
         successful: true,
       };
 
+    case LOGOUT_REQUESTING:
+      return {
+        requesting: true,
+        successful: false,
+        messages: [{ body: 'Logging out...', time: new Date() }],
+        errors: [],
+      };
+
+    case LOGOUT_SUCCESS:
+      return {
+        errors: [],
+        messages: [{ body: 'You have been logged out.', time: new Date() }],
+        requesting: false,
+        successful: true,
+      };
+
     // Append the error returned from our api
     // set the success and requesting flags to false
     case LOGIN_ERROR:
-      console.log(state);
-      console.log(action);
       return {
         errors: state.errors.concat([{
           body: action.error,

@@ -43,6 +43,7 @@ public class TestTrumpiaAccountRepository {
 		this.trumRepo = trumRepo;
 	}
 
+
 	private UserEntity userEntity;
 
 	@Before
@@ -60,17 +61,21 @@ public class TestTrumpiaAccountRepository {
 		userEntity.setPassword("test");
 		userEntity.setUpdatedDate(new Date());
 		userRepo.save(userEntity);
+		
+		
+		
 
 		TrumpiaAccountEntity trumEntity = new TrumpiaAccountEntity();
 		trumEntity.setUniqueId("trumtest");
 		trumEntity.setAPIkey("trumtest");
 		trumEntity.setUserEntity(userEntity);
-		trumEntity.setDescription("testestestsetests");
+
 
 		//Save
 		assertNull(trumEntity.getId());
 		trumRepo.save(trumEntity);
 		assertNotNull(trumEntity.getId());
+		System.out.println("baseURL: "+ trumEntity.getBaseURL());
 
 		//Fetch
 		TrumpiaAccountEntity fetchedEntity = trumRepo.findOne(trumEntity.getId());
@@ -83,17 +88,9 @@ public class TestTrumpiaAccountRepository {
 		TrumpiaAccountEntity fetchedAndUpdatedEntity = trumRepo.findOne(fetchedEntity.getId());
 		assertEquals(fetchedEntity.getAPIkey(), fetchedAndUpdatedEntity.getAPIkey());
 
-		//findByUserEntity
-		TrumpiaAccountEntity fetchedUserEntity = trumRepo.findByUserEntity(userEntity);
-		assertEquals(userEntity.getId(),fetchedUserEntity.getUserEntity().getId());
-		
-		
 		//Delete
 		trumRepo.delete(fetchedEntity);
 		assertNull(trumRepo.findOne(fetchedEntity.getId()));
 	}
-	
-	
-	
 }
 

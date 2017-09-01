@@ -1,7 +1,7 @@
 import { take, fork, cancel, call, put, cancelled } from 'redux-saga/effects';
 
 // We'll use this function to redirect to different routes based on cases
-import { browserHistory } from 'react-router';
+import { hashHistory } from 'react-router';
 
 // Helper for api errors
 import { handleApiErrors } from '../lib/api-errors';
@@ -11,6 +11,8 @@ import {
   LOGIN_REQUESTING,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
+  LOGOUT_REQUESTING,
+  LOGOUT_SUCCESS
 } from './constants';
 
 // So that we can modify our Client piece of state
@@ -45,7 +47,7 @@ function* logout() {
 
   localStorage.removeItem('token');
 
-  browserHistory.push('/#/login');
+  hashHistory.push('/#/login');
 }
 
 function* loginFlow(username, password) {
@@ -56,13 +58,13 @@ function* loginFlow(username, password) {
     yield put(setClient(tok));
     yield put({ type: LOGIN_SUCCESS });
     localStorage.setItem('token', JSON.stringify(tok));
-    browserHistory.push('/#/widgets');
+    hashHistory.push('/#/dashboard');
   } catch (error) {
     const putBody = { type: LOGIN_ERROR, error };
     yield put(putBody);
   } finally {
     if (yield cancelled()) {
-      browserHistory.push('/#/login');
+      hashHistory.push('/#/login');
     }
   }
   return resp;
@@ -71,13 +73,16 @@ function* loginFlow(username, password) {
 function* loginWatcher() {
   while (true) {
     //
-    const action = yield take([LOGIN_REQUESTING, CLIENT_UNSET, LOGIN_ERROR]);
+    const action = yield take([LOGIN_REQUESTING, CLIENT_UNSET, LOGIN_ERROR, LOGOUT_REQUESTING]);
     let task = null;
     if (action.type === LOGIN_REQUESTING) {
       task = yield fork(loginFlow, action.username, action.password);
     }
     if (action.type === CLIENT_UNSET) {
       yield cancel(task);
+    }
+    if (action.type === LOGOUT_REQUESTING) {
+      yield put({ type: LOGOUT_SUCCESS });
     }
     yield call(logout);
   }

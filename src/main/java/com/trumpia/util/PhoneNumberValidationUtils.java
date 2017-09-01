@@ -6,7 +6,7 @@ import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 
 public class PhoneNumberValidationUtils {
 
-	public static boolean isPhoneNumber(String phoneNo) {
+public static boolean isPhoneNumber(String phoneNo) {
 		phoneNo = removeBracketAndHyphen(phoneNo);
 		String pattern = "^\\+?\\d{10,14}$";
 		return phoneNo.matches(pattern);

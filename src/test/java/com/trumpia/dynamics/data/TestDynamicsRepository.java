@@ -16,14 +16,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.trumpia.Main;
 import com.trumpia.data.UserRepository;
 import com.trumpia.dynamics.data.DynamicsAccountRepository;
-import com.trumpia.dynamics.data.DynamicsRepositoryConfig;
 import com.trumpia.dynamics.model.DynamicsAccountEntity;
 import com.trumpia.model.UserEntity;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = {DynamicsRepositoryConfig.class})
+@SpringBootTest(classes = {Main.class})
 @ActiveProfiles("dev")
 public class TestDynamicsRepository {
 	
@@ -44,11 +44,6 @@ public class TestDynamicsRepository {
 	}
 
 	private UserEntity userEntity;
-
-	@Before
-	public void setUp() {
-
-	}
 
 	@Test
 	public void test() {

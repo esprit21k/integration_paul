@@ -37,7 +37,7 @@
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
-			<version>20160810</version><!--$NO-MVN-MAN-VER$ -->
+			<version>20160810</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven.plugins</groupId>
@@ -155,102 +155,100 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.googlecode.libphonenumber/libphonenumber -->
 		<dependency>
 			<groupId>com.googlecode.libphonenumber</groupId>
 			<artifactId>libphonenumber</artifactId>
 			<version>8.7.1</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>
-			<plugins>
-				<plugin>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-maven-plugin</artifactId>
-					<executions>
-						<execution>
-							<goals>
-								<goal>build-info</goal>
-							</goals>
-							<configuration>
-								<additionalProperties>
-									<encoding.source>${project.build.sourceEncoding}</encoding.source>
-									<encoding.reporting>${project.reporting.outputEncoding}</encoding.reporting>
-									<java.source>${maven.compiler.source}</java.source>
-									<java.target>${maven.compiler.target}</java.target>
-								</additionalProperties>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
-					<groupId>com.github.eirslett</groupId>
-					<artifactId>frontend-maven-plugin</artifactId>
-					<version>${frontend-plugin.version}</version>
-					<configuration>
-						<workingDirectory>src/main/frontend</workingDirectory>
-						<nodeDownloadRoot>https://nodejs.org/dist/</nodeDownloadRoot>
-						<nodeVersion>${node.version}</nodeVersion>
-						<npmVersion>${npm.version}</npmVersion>
-						<installDirectory>target</installDirectory>
-						<environmentVariables>
-						</environmentVariables>
-					</configuration>
-					<executions>
-						<execution>
-							<id>install node and npm</id>
-							<goals>
-								<goal>install-node-and-npm</goal>
-							</goals>
-							<phase>generate-resources</phase>
-						</execution>
-						<execution>
-							<id>npm install</id>
-							<goals>
-								<goal>npm</goal>
-							</goals>
-							<configuration>
-								<arguments>install</arguments>
-								<installDirectory>target</installDirectory>
-							</configuration>
-						</execution>
-						<execution>
-							<id>npm run build</id>
-							<goals>
-								<goal>npm</goal>
-							</goals>
-							<configuration>
-								<arguments>run build</arguments>
-								<workingDirectory>src/main/frontend</workingDirectory>
-							</configuration>
-						</execution>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>build-info</goal>
+						</goals>
+						<configuration>
+							<additionalProperties>
+								<encoding.source>${project.build.sourceEncoding}</encoding.source>
+								<encoding.reporting>${project.reporting.outputEncoding}</encoding.reporting>
+								<java.source>${maven.compiler.source}</java.source>
+								<java.target>${maven.compiler.target}</java.target>
+							</additionalProperties>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>${frontend-plugin.version}</version>
+				<configuration>
+					<workingDirectory>src/main/frontend</workingDirectory>
+					<nodeDownloadRoot>https://nodejs.org/dist/</nodeDownloadRoot>
+					<nodeVersion>${node.version}</nodeVersion>
+					<npmVersion>${npm.version}</npmVersion>
+					<installDirectory>target</installDirectory>
+					<environmentVariables>
+					</environmentVariables>
+				</configuration>
+				<executions>
+					<execution>
+						<id>install node and npm</id>
+						<goals>
+							<goal>install-node-and-npm</goal>
+						</goals>
+						<phase>generate-resources</phase>
+					</execution>
+					<execution>
+						<id>npm install</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>install</arguments>
+							<installDirectory>target</installDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm run build</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>run build</arguments>
+							<workingDirectory>src/main/frontend</workingDirectory>
+						</configuration>
+					</execution>
 
-					</executions>
-				</plugin>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>exec-maven-plugin</artifactId>
-					<executions>
-						<execution>
-							<phase>generate-resources</phase>
-							<configuration>
-								<executable>python</executable>
-								<workingDirectory></workingDirectory>
-								<arguments>
-									<argument>relocateScript.py</argument>
-								</arguments>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>generate-resources</phase>
+						<configuration>
+							<executable>python</executable>
+							<workingDirectory></workingDirectory>
+							<arguments>
+								<argument>relocateScript.py</argument>
+							</arguments>
 
-							</configuration>
-							<id>python-build</id>
-							<goals>
-								<goal>exec</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-			</plugins>
+						</configuration>
+						<id>python-build</id>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 
 	<name>Trumpia Integration Hub</name>

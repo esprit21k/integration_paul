@@ -3,12 +3,10 @@ import { setClient } from '../client/actions';
 function checkAuthorization(dispatch) {
   // attempt to grab the token from localstorage
   const storedToken = localStorage.getItem('token');
-
   // if it exists
   if (storedToken) {
     // parse it down into an object
     const token = JSON.parse(storedToken);
-
     // this just all works to compare the total seconds of the created
     // time of the token vs the ttl (time to live) seconds
     const createdDate = new Date(token.created);
@@ -44,8 +42,7 @@ export function checkIndexAuthorization({ dispatch }) {
     // we'll make this in a minute - remember begin with the end!
     // If we pass the authentication check, go to widgets
     if (checkAuthorization(dispatch)) {
-      replace('widgets');
-
+      replace('dashboard');
       return next();
     }
 
@@ -54,24 +51,14 @@ export function checkIndexAuthorization({ dispatch }) {
     return next();
   };
 }
-export function checkWidgetAuthorization({ dispatch, getState }) {
-  // Same format - we do this to have the Redux State available.
-  // The difference is that this time we also pull in the helper
-  // `getState` which will allow us to.....
-  // ....
-  // get the state.
-  //
+
+export function checkDashboardAuthorization({ dispatch, getState }) {
   return (nextState, replace, next) => {
-    // reference to the `client` piece of state
     const client = getState().client;
 
-    // is it defined and does it have a token? good, go ahead to widgets
     if (client && client.token) return next();
 
-    // not set yet?  Let's try and set it and if so, go ahead to widgets
     if (checkAuthorization(dispatch)) return next();
-
-    // nope?  okay back to login ya go.
     replace('login');
     return next();
   };

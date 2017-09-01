@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "eslint-config-airbnb": "^15.1.0",
+    "jquery": "^3.2.1",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.4.2",
@@ -13,7 +14,8 @@
     "react-scripts": "1.0.10",
     "redux": "^3.7.2",
     "redux-form": "^7.0.3",
-    "redux-saga": "^0.15.6"
+    "redux-saga": "^0.15.6",
+    "semantic-ui-react": "^0.71.4"
   },
   "scripts": {
     "start": "react-scripts start",

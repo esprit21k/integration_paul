@@ -5,7 +5,6 @@ import static com.trumpia.util.LogUtils.getLogger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -59,6 +58,5 @@ public class LoginController {
 		response.setMessage("Successfully signed up.");
 		response.setData(JSONUtils.getNewObjectNode().put("email", user.getEmail()));
 		return response.getJSONResponse();
-    }
-
+    }	
 }

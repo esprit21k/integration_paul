@@ -11,8 +11,6 @@ import javax.persistence.Table;
 
 import com.trumpia.model.UserEntity;
 
-
-
 @Entity
 @Table(name="e_mapping_info")
 public class MappingEntity {
@@ -36,67 +34,53 @@ public class MappingEntity {
 	public MappingEntity() {
 
 	}
-
 	public Long getId() {
 		return id;
 	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public String getTrumpiaFieldName() {
-		return trumpiaFieldName;
-	}
-
-	public String getTargetFieldName() {
-		return targetFieldName;
-	}
-
-	public String getTargetComapny() {
-		return targetCompany;
-	}
-
-	public String getCustomDataId() {
-		return customDataId;
-	}
-
 	public UserEntity getUserId() {
 		return userId;
 	}
-
+	public String getTrumpiaFieldName() {
+		return trumpiaFieldName;
+	}
+	public String getTargetFieldName() {
+		return targetFieldName;
+	}
+	public String getTargetCompany() {
+		return targetCompany;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public String getCustomDataId() {
+		return customDataId;
+	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public void setDescription(String description) {
-		this.description = description;
+	public void setUserId(UserEntity userId) {
+		this.userId = userId;
 	}
-
 	public void setTrumpiaFieldName(String trumpiaFieldName) {
 		this.trumpiaFieldName = trumpiaFieldName;
 	}
-
 	public void setTargetFieldName(String targetFieldName) {
 		this.targetFieldName = targetFieldName;
 	}
-
-	public void setTargetComapny(String targetComapny) {
-		this.targetCompany = targetComapny;
+	public void setTargetCompany(String targetCompany) {
+		this.targetCompany = targetCompany;
 	}
-
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	public void setCustomDataId(String customDataId) {
 		this.customDataId = customDataId;
-	}
-
-	public void setUserId(UserEntity userId) {
-		this.userId = userId;
 	}
 
 	@Override
 	public String toString() {
 		return "MappingEntity [id=" + id + ", description=" + description + ", trumpiaFieldName=" + trumpiaFieldName
-				+ ", targetFieldName=" + targetFieldName + ", targetComapny=" + targetCompany + ", customDataId="
+				+ ", targetFieldName=" + targetFieldName + ", targetCompany=" + targetCompany + ", customDataId="
 				+ customDataId + ", userId=" + userId + "]";
 	}
 

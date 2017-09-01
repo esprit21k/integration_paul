@@ -1,5 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { handleApiErrors } from '../lib/api-errors';
+import { hashHistory } from 'react-router';
 import {
   WIDGET_CREATING,
 } from './constants';
@@ -9,15 +10,20 @@ import {
   widgetCreateError,
 } from './actions';
 
-const widgetsUrl = `${process.env.REACT_APP_API_URL}/api/Clients`;
+import {
+  unsetClient,
+} from '../client/actions';
+
+const widgetsUrl = `${process.env.REACT_APP_API_URL}`;
 
 function widgetCreateApi(client, widget) {
-  const url = `${widgetsUrl}/${client.id}/widgets`;
+  console.log(client);
+  const url = `${widgetsUrl}/test`;
   return fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: client.token.id || undefined, // will throw an error if no login
+      Authorization: client.token || undefined, // will throw an error if no login
     },
     body: JSON.stringify(widget),
   })
@@ -34,7 +40,12 @@ function* widgetCreateFlow(action) {
     yield put(widgetCreateSuccess(createdWidget));
   } catch (error) {
     // same with error
-    yield put(widgetCreateError(error));
+    if (error.search('Expired') > -1) {
+      yield put({ type: 'LOGOUT_REQUESTING' });
+      hashHistory.push('/#/login');
+    } else {
+      yield put(widgetCreateError(error));
+    }
   }
 }
 
