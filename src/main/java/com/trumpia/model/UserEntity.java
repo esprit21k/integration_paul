@@ -1,16 +1,12 @@
 package com.trumpia.model;
 import java.util.Date;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.trumpia.util.StringUtils;
 
@@ -19,7 +15,7 @@ import com.trumpia.util.StringUtils;
 public class UserEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 	
 	@Column( length=36)
 	private String uniqueId;
@@ -68,11 +64,11 @@ public class UserEntity {
 		return this.updatedDate;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

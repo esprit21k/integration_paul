@@ -1,6 +1,5 @@
 package com.trumpia.dynamics.model;
 
-import com.trumpia.util.DateUtils;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -8,10 +7,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.trumpia.model.UserEntity;
+import com.trumpia.util.DateUtils;
 import com.trumpia.util.StringUtils;
 
 @Entity
@@ -19,7 +22,7 @@ import com.trumpia.util.StringUtils;
 public class DynamicsAccountEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 	
 	@Column(length=500)
 	private String resourceUrl;
@@ -41,6 +44,10 @@ public class DynamicsAccountEntity {
 	@Column(columnDefinition="timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updatedDate;
+	
+	@OneToOne
+	@JoinColumn(name = "e_user_id")
+	private UserEntity userEntity;
 
 	public DynamicsAccountEntity() {
 		createdDate = new Date();
@@ -49,11 +56,19 @@ public class DynamicsAccountEntity {
 		expireDate = DateUtils.addMinutes(expireDate, 60);
 	}
 	
-	public long getId() {
+	public UserEntity getUserEntity() {
+		return userEntity;
+	}
+
+	public void setUserEntity(UserEntity userEntity) {
+		this.userEntity = userEntity;
+	}
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
