@@ -44,7 +44,7 @@ public class TestSubscription {
 	public void TestSubscriptiontoJSON() {	
 		//TEST
 		SubscriptionParser subs = new SubscriptionParser(testObject, testSchema);
-		Subscription subscriptiontest = subs.getPasredSubscription();
+		Subscription subscriptiontest = subs.getParsedSubscription();
 		JSONObject result = subscriptiontest.toJSON();
 		assertNotNull(result.remove("first_name"));
 		assertNotNull(result.remove("last_name"));
@@ -60,14 +60,14 @@ public class TestSubscription {
 		
 		//DeletedSubscription
 		SubscriptionParser subs = new SubscriptionParser(deletedObject, testSchema);
-		Subscription subscriptiontest = subs.getPasredSubscription();
+		Subscription subscriptiontest = subs.getParsedSubscription();
 		assertEquals(subscriptiontest.toJSON().get("deletedDynamicID"), "something-id-is-inside");
 	}
 	@Test
 	public void TestSubscriptionPrivateField() {
 		//TEST
 		SubscriptionParser subs = new SubscriptionParser(testObject, testSchema);
-		Subscription subscriptiontest = subs.getPasredSubscription();
+		Subscription subscriptiontest = subs.getParsedSubscription();
 		assertEquals(subscriptiontest.getFirstName(), "firstname");
 		assertEquals(subscriptiontest.getLastName(), "lastname");
 		assertEquals(subscriptiontest.getMobileNumber(), "7142545256");

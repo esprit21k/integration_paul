@@ -35,7 +35,7 @@ public class TestTrumpiaAPILibrary {
 	@Before
 	public void setUp() {
 		trumpia = new TrumpiaAccountEntity(); 
-		trumpia.setAPIkey("0c900c585477152326c20ff757625926 ");
+		trumpia.setApikey("0c900c585477152326c20ff757625926 ");
 		trumpia.setUniqueId("Johnhan");
 	}
 	

@@ -83,7 +83,7 @@ public class DynamicsAPIcaller {
 	
 	private void getChangedData(JSONArray arr) throws JSONException {
 		for(Object tmp : arr) {
-			changedSubscription.add(new Subscription((JSONObject)tmp));
+			//changedSubscription.add(new Subscription((JSONObject)tmp));
 		}
 	}
 	public ArrayList<Subscription> getChangedSubscription() {
