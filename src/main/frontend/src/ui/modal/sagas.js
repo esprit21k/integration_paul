@@ -4,14 +4,19 @@ import {
   CLOSE_MODAL,
 } from './constants';
 
+
 function openModal(name) {
- $(`#${name}`)
+  /*eslint-disable */
+  $(`#${name}`)
     .modal('setting', 'transition', 'Scale').modal('show');
+  /*eslint-enable */
 }
 
 function closeModal(name) {
+  /*eslint-disable */
   $(`#${name}`)
     .modal('setting', 'transition', 'Scale').modal('hide');
+  /*eslint-enable */
 }
 
 function* modalWatcher() {

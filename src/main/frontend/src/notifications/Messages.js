@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react';
-
+import React from 'react';
+import PropTypes from 'prop-types';
 // Iterate over each message object and print them
 // in an unordered list
 const Messages = (props) => {

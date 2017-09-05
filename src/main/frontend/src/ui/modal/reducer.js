@@ -1,8 +1,3 @@
-import {
-  OPEN_MODAL,
-  CLOSE_MODAL,
-  ADD_MODAL_REF
-} from './constants';
 
 const initialState = {
   requesting: false,
