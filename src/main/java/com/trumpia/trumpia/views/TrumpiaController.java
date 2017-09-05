@@ -29,7 +29,7 @@ public class TrumpiaController {
 	
 	//GET schema
 	@RequestMapping(path="/{username}/schema", method = RequestMethod.GET)
-	public String getTrumpiaSchema(@PathVariable String username) {
+	public String getTrumpiaSchema(@PathVariable String username) throws Exception {
 		List<UserEntity> userEntityList = userRepository.findByUniqueId(username);
 		//unique id must return one entity
 		UserEntity userEntity = userEntityList.get(0);

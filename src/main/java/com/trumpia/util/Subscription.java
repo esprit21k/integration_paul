@@ -1,12 +1,9 @@
 package com.trumpia.util;
 
 import java.util.ArrayList;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-
+import java.util.Iterator;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class Subscription {
 		
@@ -18,37 +15,48 @@ public class Subscription {
 	private String email = null;
 	private ArrayList<CustomField> customField;
 
-	public Subscription(JSONObject jsonObject) {
+	public Subscription(ObjectNode jsonObject) {
 
-		System.out.println(jsonObject.toString());
-		this.lastName = (String)jsonObject.remove("lastname");
+		System.out.println(jsonObject.toString()); 
+		this.lastName = jsonObject.get("lastname").toString();
+		jsonObject.remove("lastname");
+		
 		
 		this.customField = new ArrayList<CustomField>();
 		
-		if(!jsonObject.isNull("firstname"))
-			this.firstName = (String)jsonObject.remove("firstnmae");
-		if(!jsonObject.isNull("mobilephone"))
-			this.mobileNumber = (String)jsonObject.remove("mobilephone");
-		if(!jsonObject.isNull("telephone1"))
-			this.landLine = (String)jsonObject.remove("telephone1");
-		if(!jsonObject.isNull("emailaddress1"))
-			this.email = (String)jsonObject.remove("emailaddress1");
+		if(jsonObject.has("firstname")) {
+			this.lastName = jsonObject.get("firstname").toString();
+			jsonObject.remove("firstname");
+		}
+		if(jsonObject.has("mobilephone")) {
+			this.lastName = jsonObject.get("mobilephone").toString();
+			jsonObject.remove("mobilephone");
+		}
+		if(jsonObject.has("telephone1")) {
+			this.lastName = jsonObject.get("telephone1").toString();
+			jsonObject.remove("telephone1");
+		}
+		if(jsonObject.has("emailaddress1")) {
+			this.lastName = jsonObject.get("emailaddress1").toString();
+			jsonObject.remove("emailaddress1");
+		}
 		
-		String[] keys = JSONObject.getNames(jsonObject);
+		Iterator<String> keys = jsonObject.fieldNames();
+//		String[] keys = JSONObject.getNames(jsonObject);
 		System.out.println(keys);
 
-		for(String key : keys) {
-			if(jsonObject.isNull(key)) {jsonObject.remove(key); break;}
+		while(keys.hasNext()) {
+			String key = keys.next();
 			CustomField customData = new CustomField(key, jsonObject.get(key).toString());
 			customField.add(customData);
 		}
 	}
 
-	public JSONObject toJSON() throws JSONException {
-		JSONObject lastObject = new JSONObject();
-		JSONObject subscriptionInfo = new JSONObject();
-		
-		JSONArray customDataInfo = new JSONArray();
+	public ObjectNode toJSON() {
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectNode lastObject = mapper.createObjectNode();
+		ObjectNode subscriptionInfo = mapper.createObjectNode();
+//		ArrayNode customDataInfo = mapper.createArrayNode();
 
 		/*for(int i = 0 ; i < customField.size(); i++) {
 			CustomField customData = customField.get(i);			
@@ -60,26 +68,26 @@ public class Subscription {
 		}*/
 
 		if(mobileNumber != null) {
-			JSONObject mobileInfo = new JSONObject();
+			ObjectNode mobileInfo = mapper.createObjectNode();
 			mobileInfo.put("number", mobileNumber);
 			mobileInfo.put("country_code", "1");
-			subscriptionInfo.put("mobile", mobileInfo);
+			subscriptionInfo.set("mobile", mobileInfo);
 		}
 		if(landLine != null) {
-			JSONObject landLineInfo = new JSONObject();
+			ObjectNode landLineInfo = mapper.createObjectNode();
 			landLineInfo.put("number", mobileNumber);
 			landLineInfo.put("country_code", "1");
-			subscriptionInfo.put("landLine", landLineInfo);
+			subscriptionInfo.set("landLine", landLineInfo);
 		}
 		if(email != null)
 			subscriptionInfo.put("email", email);
 
 		subscriptionInfo.put("first_name", firstName);
 		subscriptionInfo.put("last_name", lastName);
-		subscriptionInfo.put("customdata", customDataInfo);
+//		subscriptionInfo.set("customdata", customDataInfo);
 
 		lastObject.put("list_name", "APIMobile"); //List name can modified
-		lastObject.append("subscriptions", subscriptionInfo);
+		lastObject.set("subscriptions", subscriptionInfo);
 	
 		return lastObject; //{"subscriptions":[{"mobile":{"number":"4156351895","country_code":"1"},"last_name":"last","customdata":[],"first_name":"first","email":"test@test13.com"}],"list_name":"APIMobile"}
 	}

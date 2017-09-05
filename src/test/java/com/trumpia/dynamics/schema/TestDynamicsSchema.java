@@ -40,9 +40,9 @@ public class TestDynamicsSchema {
 	private String accessToken;
 	
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception {
 		try {
-			RefreshAccessToken refreshAccessToken = new RefreshAccessToken("AQABAAAAAABnfiG-mA6NTae7CdWW7Qfd2cr918F76yI_lb2yH4UrcAZs61Uw9kFJrmEeBuqeCXnvrMC7tvF4BMMq8rMaT3sPeMkMUIdoJo8YRrOs8Hzk2fxn9OZfnfthUTX86hcspEkO4l2qwUTzUNh7nsNeyq-KqTrpnCysO1jl0MWx63ZUb5ji3U9CIIMsJxZwRTdocyRPUyte0A-K3hoNsCd7xv0mDoxOvdjMatn9ZszQYdRxzI4l86NEaroIKHqjrlha6OEs_z5c-sCpzsxBrxL_4foKkuciu2UHY4EN_IHTywzEidkpzdYOIXqJd4naRDBaEclpp9orhnX2aZPstzbbPK7PNZW5YA-WI6GPOO1wg8kf9JyUk19jecTBZNZSwIVClqOacDEnioZfooYVUwHAZRQFDh-OWNZAWuTC6UCaMoGddRMdm3HWnP3BivT_rDerz1rwu22HuMX0ihxjDs34mhLIm4fCwi8gTDSLm1RbcJh09eZ_hJ9v8S3rYGhpS5aq3Y6aE_DaGQS958X73srP0TKqku4XJutXXgyd-O7VemPFUQ0K0X_avmnHtFL4MOv9lOcmmHG5mKT3zfEWdlO4RMgEmwBvMB4niPU0W56BEHF9AG9dHWoBUNuBbRZaNL4fxShPolT38BG_giO9nhmiBLQl7d7Suheo9HcD7rTxXCu3e43qePTlIADD86Llw-WqCNkELaGkBIwe5Cbj9LqKKQFiCj0nzeaigicm_Wdijw7vQWTJxJMdRXMZdHDQVwKZWgEvCghNLyVuq2s0vCyuaqaVIAA", "https://trumpia.crm.dynamics.com");
+			RefreshAccessToken refreshAccessToken = new RefreshAccessToken("AQABAAAAAAA9kTklhVy7SJTGAzR-p1Bcl8fxzcqzJ86soQzO6HFaKRFbWlxEziD0oFFt5me91HenV11FoohDAtoWAnEmEMy5xQq9ScNzzBzWG4_-squanBKAvYzAr3XssGGw73Ha8j93p2DV6uk0N-nta8a8H1yL1O66bR6V8jPlmUcCu3-PD7t4JLxi5Ml5yaRM5ZHbg6fbFQ3bx9wiPMzJSyW7BZr7PiG8ywIQ4XRTV5sCQSrGo5yFIobw16m7BXznKEgFmIAGqixZF0E9ElQ3Dg7YVfWBt7nX-jwVy7Lf2qJ2i4Cr_x1F67_Wc2jhEApZoduqbIRIZ6rQJBUpjbVW1yFTgdB6j6Sxd0qqHBbTGSE_2S5jQB5W3ejFEjZ2ZtliqnfzWkEsbcf_6zcnBldkziQI5DJBWisQyyuQ6QpPzZ6kxhyROLdPvVpTwjEbv_av7Hu1uGeYHKxpRbKXHB7UcHFXE8MSg_DFiuhNVaypjmYyg8piqX0HeBk2moaiKCApuY4Ngn9yox-oNpJDc6mb3Hc9ayTiZaaBVsbej5cndfndBivfWJ_tshnoOWRkaFugmW9JiYuAql-M4zgUZy3rCKkjM9eaNcK_-dg-X5KJyjIvQNTK35sgNF2Usn8Finsd8JqrDgiUpFyx8t7kEtZC4lUO3VkB-bnT1mN2zSID9T4Ji0wN2pJ1HzMJlXX7V9QhGE1NWA1Wm2r1uS14n6hKI1qhnOGfG6yJJVlp89BPpeXR5R9_SBjk5yw7FrSdUee4DInYdG2uwCrsrRFgeGGg8wuESr-vIAA", "https://trumpia.crm.dynamics.com");
 			refreshAccessToken.updateToken();	
 			accessToken = refreshAccessToken.accessToken;
 			makeEntity();
@@ -65,17 +65,17 @@ public class TestDynamicsSchema {
 //		System.out.println(authentication.toString());
 	}
 	
-	@Test
-	public void testStoreDB() throws Exception {
-		test.getDynamicsSchema(dynamicsAccountEntity);
-		test.storeDynamicsSchemaDB();
-		test.setPropertiesFromDB(test.dynamicsSchemaEntityLists);
-		HashMap<String, String> properties = test.getProperties();
-		assertTrue(properties.get("mobilephone").equals("Edm.String"));
-		assertTrue(properties.get("spousesname").equals("Edm.String"));
-		assertTrue(properties.get("merged").equals("Edm.Boolean"));
-		System.out.println(test.propertiesToJSON().toString());
-	}
+//	@Test
+//	public void testStoreDB() throws Exception {
+//		test.getDynamicsSchema(dynamicsAccountEntity);
+//		test.storeDynamicsSchemaDB();
+//		test.setPropertiesFromDB(test.dynamicsSchemaEntityLists);
+//		HashMap<String, String> properties = test.getProperties();
+//		assertTrue(properties.get("mobilephone").equals("Edm.String"));
+//		assertTrue(properties.get("spousesname").equals("Edm.String"));
+//		assertTrue(properties.get("merged").equals("Edm.Boolean"));
+//		System.out.println(test.propertiesToJSON().toString());
+//	}
 	
 	
 	private void makeEntity() {

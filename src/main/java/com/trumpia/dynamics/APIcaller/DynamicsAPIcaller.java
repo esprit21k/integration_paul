@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.trumpia.dynamics.APIcaller.RefreshAccessToken;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.io.JsonEOFException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.trumpia.util.Subscription;
 import com.trumpia.util.Http.HttpRequest;
 
@@ -16,8 +18,9 @@ public class DynamicsAPIcaller {
 	private String accessToken;
 	private String initializeURL;
 	private String deltaKeyURL;
+	private ObjectMapper mapper = new ObjectMapper();
+	JsonFactory factory = mapper.getFactory();
 
-	public JSONObject dynamicsResponse;
 	private ArrayList<Subscription> changedSubscription = new ArrayList<Subscription>();
 	
 	public DynamicsAPIcaller(String accessToken, String resourseURL) {
@@ -34,14 +37,12 @@ public class DynamicsAPIcaller {
 				retrieveChangedData();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
 		}
-
 		return changedSubscription;	
+		
 	} 
 
-	private void getDeltaKey() throws IOException, JSONException {
+	private void getDeltaKey() throws IOException {
 		HashMap<String, String> headers = new HashMap<String, String>();
 		headers.put("Authorization", accessToken);
 		headers.put("OData-MaxVersion", "4.0");
@@ -52,16 +53,23 @@ public class DynamicsAPIcaller {
 				.URL(initializeURL)
 				.headers(headers)
 				.build();
-		JSONObject json = new JSONObject(request.get());
-		updateDeltaKey(json.get("@odata.deltaLink").toString());
+		
+		ObjectNode objectNode;
+		JsonParser jp = factory.createParser(request.get());
+		
+		objectNode = mapper.readTree(jp);
+		updateDeltaKey(objectNode.get("@odata.deltaLink").toString());
 		return;
 	}
 	
-	private void retrieveChangedData() throws IOException, JSONException {
-		JSONObject json = new JSONObject(sendSearchRequest());
+	private void retrieveChangedData() throws IOException{
+		JsonParser jp = factory.createParser(sendSearchRequest());
+		ObjectNode json = mapper.readTree(jp);
+		JsonParser value = factory.createParser(json.get("value").toString());
+		ArrayNode valueArray = mapper.readTree(value);
 
-		updateDeltaKey(json.getString("@odata.deltaLink"));
-		getChangedData(json.getJSONArray("value"));
+		updateDeltaKey(json.get("@odata.deltaLink").toString());
+		getChangedData(valueArray);
 		return;
 	}
 	private String sendSearchRequest() throws IOException {
@@ -82,9 +90,9 @@ public class DynamicsAPIcaller {
 		deltaKeyURL = key;
 	}
 	
-	private void getChangedData(JSONArray arr) throws JSONException {
+	private void getChangedData(ArrayNode arr) {
 		for(Object tmp : arr) {
-			changedSubscription.add(new Subscription((JSONObject)tmp));
+			changedSubscription.add(new Subscription((ObjectNode)tmp));
 		}
 	}
 	public ArrayList<Subscription> getChangedSubscription() {

@@ -2,17 +2,16 @@ package com.trumpia.dynamics.services;
 
 import java.util.List;
 
-import org.json.JSONObject;
-
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.trumpia.mapping.model.MappingEntity;
 import com.trumpia.trumpia.model.Subscription;
 
 public class SubscriptionParser {
-	JSONObject input;
+	ObjectNode input;
 	List<MappingEntity> schema;
 	Subscription subs;
 
-	public SubscriptionParser(JSONObject input, List<MappingEntity> schema) {
+	public SubscriptionParser(ObjectNode input, List<MappingEntity> schema) {
 		this.input = input;
 		this.schema = schema;
 		this.subs = new Subscription();
@@ -41,9 +40,9 @@ public class SubscriptionParser {
 
 	private void parsingColumn(MappingEntity column) {
 		if(isCustomData(column.getTrumpiaFieldName()))
-			putCustomDataIntoCustomField(column.getCustomDataId(), (String)input.remove(column.getTargetFieldName()));
+			putCustomDataIntoCustomField(column.getCustomDataId(), input.remove(column.getTargetFieldName()).toString());
 		else
-			putData(column.getTrumpiaFieldName(), (String)input.remove(column.getTargetFieldName()));
+			putData(column.getTrumpiaFieldName(), input.remove(column.getTargetFieldName()).toString());
 	}
 
 	private boolean isCustomData(String trumpiaFieldName) {

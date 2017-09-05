@@ -7,18 +7,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.json.JSONArray;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.trumpia.trumpia.schema.api.DistributionListCall;
 import com.trumpia.trumpia.schema.model.DistributionList;
 import com.trumpia.util.Http.HttpRequest;
 
 public class DistributionListsTest {
 	private DistributionList lists;
-	private JSONArray distributionLists;
+	private ArrayNode distributionLists;
 	private final static String URL = "http://api.trumpia.com/rest/v1/paulkim/list";
 	HashMap<String, String> headers = new HashMap<String, String>();
 	
@@ -30,11 +30,11 @@ public class DistributionListsTest {
 	}
 	
 	@Test
-	public void test() throws IOException {
+	public void test() throws Exception {
 		distributionLists = lists.getDistributionLists();
 		List<String> name = new ArrayList<String>();
-		for(int i=0; i<distributionLists.length(); i++) {
-			name.add(distributionLists.getString(i));
+		for(int i=0; i<distributionLists.size(); i++) {
+			name.add(distributionLists.get(i).toString());
 		}
 		System.out.println("Lists: "+name);
 		assertTrue(name.contains("MyContacts"));
@@ -45,15 +45,15 @@ public class DistributionListsTest {
 		deleteLists(distributionLists);
 	}
 	
-	private void deleteLists(JSONArray distributionLists) throws IOException {
+	private void deleteLists(ArrayNode distributionLists) throws IOException {
 		try {
-			for (int i=0; i<distributionLists.length(); i++) {
+			for (int i=0; i<distributionLists.size(); i++) {
 				HttpRequest request = new HttpRequest.Builder()
 						.URL(URL+"/"+distributionLists.get(i))
 						.headers(headers)
 						.build();
 				String msg = request.delete();
-				System.out.println("delete Distribution List "+(i+1)+"/"+distributionLists.length()+": "+msg);
+				System.out.println("delete Distribution List "+(i+1)+"/"+distributionLists.size()+": "+msg);
 			}
 		}
 		catch (NullPointerException e) {

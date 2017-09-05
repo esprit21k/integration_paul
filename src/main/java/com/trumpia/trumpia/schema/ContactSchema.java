@@ -28,7 +28,7 @@ public class ContactSchema {
 		custom = new CustomData(APIkey, user, baseURL);
 	}
 	
-	public JSONObject getContactSchema() throws JSONException, IOException {
+	public JSONObject getContactSchema() throws Exception {
 		trumpiaSchema.put("list_name", lists.getDistributionLists());
 		trumpiaSchema.put("customdata", custom.getCustomdata());
 		return trumpiaSchema;

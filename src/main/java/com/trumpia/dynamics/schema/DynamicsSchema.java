@@ -8,8 +8,6 @@ import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
@@ -17,6 +15,9 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.trumpia.dynamics.model.DynamicsAccountEntity;
 import com.trumpia.dynamics.schema.data.DynamicsSchemaRepository;
 import com.trumpia.dynamics.schema.model.DynamicsSchemaEntity;
@@ -41,17 +42,18 @@ public class DynamicsSchema {
 		return properties;
 	}
 
-	public JSONObject propertiesToJSON() {
-		JSONObject property = new JSONObject();
-		JSONArray propertyArray = new JSONArray();
+	public ObjectNode propertiesToJSON() {
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectNode property = mapper.createObjectNode();
+		ArrayNode propertyArray = mapper.createArrayNode();
 
 		for(Map.Entry<String, String> entry : properties.entrySet()) {
-			JSONObject json = new JSONObject();
+			ObjectNode json = mapper.createObjectNode();
 			json.put(entry.getKey(), entry.getValue());
-			propertyArray.put(json);
+			propertyArray.add(json);
 		}
 
-		property.put("Properties", propertyArray);
+		property.set("Properties", propertyArray);
 		return property;
 	}
 
@@ -61,7 +63,6 @@ public class DynamicsSchema {
 		this.accessToken = dynamicsAccountEntity.getAccessToken();
 		this.dynamicsAccountEntity = dynamicsAccountEntity;
 		this.metadataURL = dynamicsAccountEntity.getResourceUrl()+"/api/data/v8.2/$metadata#contact";
-		System.out.println("metadataURL: "+metadataURL);
 
 		dynamicsSchemaEntityLists = dynamicsSchemaRepository.findByDynamicsAccountEntity(dynamicsAccountEntity);
 
@@ -142,7 +143,7 @@ public class DynamicsSchema {
 		return request.get();
 	}
 
-	private Document parseXML(String xml) throws Exception{ // debug statement 넘겨진 xml statement가 뭐였는지
+	private Document parseXML(String xml) throws Exception{
 		DocumentBuilderFactory objDocumentBuilderFactory = null;
 		DocumentBuilder objDocumentBuilder = null;
 		Document doc = null;
