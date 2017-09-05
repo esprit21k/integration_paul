@@ -27,7 +27,7 @@ public class ContactSchemaTest {
 	}
 	
 	@Test
-	public void test() throws JSONException, IOException {
+	public void test() throws Exception {
 		assertNotNull(schema.getContactSchema().get("list_name"));
 		assertNotNull(schema.getContactSchema().get("customdata"));
 		System.out.println(schema.getContactSchema().toString());

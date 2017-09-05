@@ -5,9 +5,10 @@ import java.util.List;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.trumpia.mapping.model.MappingEntity;
 import com.trumpia.trumpia.model.Subscription;
+import com.trumpia.util.JSONUtils;
 
 public class SubscriptionParser {
-	ObjectNode input;
+	ObjectNode input = JSONUtils.getNewObjectNode();
 	List<MappingEntity> schema;
 	Subscription subs;
 

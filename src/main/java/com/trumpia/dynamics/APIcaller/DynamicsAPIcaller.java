@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.trumpia.util.JSONUtils;
 import com.trumpia.util.Subscription;
 import com.trumpia.util.Http.HttpRequest;
 
@@ -18,8 +19,6 @@ public class DynamicsAPIcaller {
 	private String accessToken;
 	private String initializeURL;
 	private String deltaKeyURL;
-	private ObjectMapper mapper = new ObjectMapper();
-	JsonFactory factory = mapper.getFactory();
 
 	private ArrayList<Subscription> changedSubscription = new ArrayList<Subscription>();
 	
@@ -42,7 +41,7 @@ public class DynamicsAPIcaller {
 		
 	} 
 
-	private void getDeltaKey() throws IOException {
+	private void getDeltaKey() throws Exception {
 		HashMap<String, String> headers = new HashMap<String, String>();
 		headers.put("Authorization", accessToken);
 		headers.put("OData-MaxVersion", "4.0");
@@ -54,17 +53,18 @@ public class DynamicsAPIcaller {
 				.headers(headers)
 				.build();
 		
-		ObjectNode objectNode;
-		JsonParser jp = factory.createParser(request.get());
-		
-		objectNode = mapper.readTree(jp);
+		ObjectNode objectNode = JSONUtils.getNewObjectNode();	
+		objectNode = JSONUtils.stringToJSON(request.get());
 		updateDeltaKey(objectNode.get("@odata.deltaLink").toString());
 		return;
 	}
 	
 	private void retrieveChangedData() throws IOException{
-		JsonParser jp = factory.createParser(sendSearchRequest());
-		ObjectNode json = mapper.readTree(jp);
+		ObjectNode json = JSONUtils.getNewObjectNode();
+		json = JSONUtils.stringToJSON(sendSearchRequest());
+		
+		ArrayNode valueArray = JSONUtils.getNewArrayNode();
+		valueArray.add(json.get("value"));
 		JsonParser value = factory.createParser(json.get("value").toString());
 		ArrayNode valueArray = mapper.readTree(value);
 

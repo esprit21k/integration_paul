@@ -17,7 +17,7 @@ public class DistributionListCall {
 	DistributionList distributionList;	
 	private String listURL;
 	private String APIKey;
-	public ArrayList<String> listNames;
+	public ArrayNode listNames;
 	
 	public DistributionListCall(String APIKey, String user, String baseURL) {
 		this.APIKey = APIKey;
@@ -26,19 +26,15 @@ public class DistributionListCall {
 	
 	public void extractListNames(String lists) throws Exception {
 		ObjectNode listObject = JSONUtils.getNewObjectNode();
-		listObject = JSONUtils.StringToJSON(lists);
-//		System.out.println(listObject);
+		listObject = JSONUtils.stringToJSON(lists);
 		ArrayNode listArray = JSONUtils.getNewArrayNode();
 		listArray = (ArrayNode) listObject.get("list");
-//		System.out.println(listArray);
 		ObjectNode list = JSONUtils.getNewObjectNode();
-//		listNames = JSONUtils.getNewArrayNode();
-//		System.out.println("size: "+listArray.size());
+		listNames = JSONUtils.getNewArrayNode();
 		for(int i=0; i<listArray.size(); i++) {
-			System.out.println(listArray.get(i).toString());
-			list.get(listArray.get(i).toString());
+			list = JSONUtils.stringToJSON(listArray.get(i).toString());
+			listNames.add(list.get("list_name"));
 		}
-		System.out.println("listnames: "+listNames);
 	}
 	
 	public String getLists() throws IOException { // trumpia/list get api call

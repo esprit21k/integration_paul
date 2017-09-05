@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,11 +16,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.trumpia.Main;
 import com.trumpia.trumpia.data.TrumpiaAccountRepository;
 import com.trumpia.trumpia.model.TrumpiaAccountEntity;
 import com.trumpia.trumpia.schema.api.CustomDataCall;
 import com.trumpia.trumpia.schema.model.CustomData;
+import com.trumpia.util.JSONUtils;
 import com.trumpia.util.Http.HttpRequest;
 
 import okhttp3.MediaType;
@@ -37,9 +38,9 @@ public class CustomdataTest {
 	private int required;
 	private String name;
 	HashMap<String, String> headers = new HashMap<String, String>();
-	JSONObject options = new JSONObject();
-	JSONObject customBody = new JSONObject();
-	JSONArray optionsArray = new JSONArray();
+	ObjectNode options = JSONUtils.getNewObjectNode();
+	ObjectNode customBody = JSONUtils.getNewObjectNode();
+	ArrayNode optionsArray = JSONUtils.getNewArrayNode();
 
 	@Before 
 	public void before() {
@@ -49,68 +50,70 @@ public class CustomdataTest {
 	}
 
 	@Test
-	public void testTextField() throws IOException, JSONException {
+	public void testTextField() throws Exception {
 		required = 2;
 		name = "textfield";
 		options = makeTextField(20, 200);
+		System.out.println(options.toString());
 		testMethod();
-		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":"+custom.customDataCall.customID+",\"info\":{\"options\":"+ options +",\"input_type\":\""+custom.customDataCall.inputTypeMatch(inputType)+"\",\"required\":\""+custom.customDataCall.requiredMatch(required)+"\"}}]");
+		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":\""+custom.customDataCall.customID+"\",\"info\":{\"options\":"+ options +",\"input_type\":\""+custom.customDataCall.inputTypeMatch(inputType)+"\",\"required\":\""+custom.customDataCall.requiredMatch(required)+"\"}}]");
 	}
 
 	@Test
-	public void testRadioButton() throws IOException, JSONException {
+	public void testRadioButton() throws Exception {
 		required = 2;
 		name = "RadioButton";
 		ArrayList<String> nameslist = new ArrayList<String>(Arrays.asList("wo", "wa", "wee"));
 		options = makeRadioButton(nameslist);
+		System.out.println(options.toString());
 		testMethod();
-		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":"+custom.customDataCall.customID+",\"info\":{\"options\":"+ optionsArray +",\"input_type\":\""+custom.customDataCall.inputTypeMatch(inputType)+"\",\"required\":\""+custom.customDataCall.requiredMatch(required)+"\"}}]");
+		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":\""+custom.customDataCall.customID+"\",\"info\":{\"options\":"+ optionsArray +",\"input_type\":\""+custom.customDataCall.inputTypeMatch(inputType)+"\",\"required\":\""+custom.customDataCall.requiredMatch(required)+"\"}}]");
 	}
 
 	@Test
-	public void testDropDownList() throws IOException, JSONException {
+	public void testDropDownList() throws Exception {
 		required = 2;
 		name = "DropDownList";
 		ArrayList<String> nameslist = new ArrayList<String>(Arrays.asList("wo", "wa", "wee"));
 		options = makeDropDownList(nameslist);
 		testMethod();
-		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":"+custom.customDataCall.customID+",\"info\":{\"options\":"+ optionsArray +",\"input_type\":\""+custom.customDataCall.inputTypeMatch(inputType)+"\",\"required\":\""+custom.customDataCall.requiredMatch(required)+"\"}}]");
+		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":\""+custom.customDataCall.customID+"\",\"info\":{\"options\":"+ optionsArray +",\"input_type\":\""+custom.customDataCall.inputTypeMatch(inputType)+"\",\"required\":\""+custom.customDataCall.requiredMatch(required)+"\"}}]");
 	}
 
 	@Test
-	public void testDateAndTime() throws IOException, JSONException {
+	public void testDateAndTime() throws Exception {
 		required = 2;
 		name = "DateAndTime";
 		options = makeDateAndTime(2); // timeType 1: only date, timeType 2: date and time
 		testMethod();
-		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":"+custom.customDataCall.customID+",\"info\":{\"options\":"+ options +",\"input_type\":\""+custom.customDataCall.inputTypeMatch(inputType)+"\",\"required\":\""+custom.customDataCall.requiredMatch(required)+"\"}}]");
+		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":\""+custom.customDataCall.customID+"\",\"info\":{\"options\":"+ options +",\"input_type\":\""+custom.customDataCall.inputTypeMatch(inputType)+"\",\"required\":\""+custom.customDataCall.requiredMatch(required)+"\"}}]");
 	}
 
 	@Test
-	public void testTextArea() throws IOException, JSONException {
+	public void testTextArea() throws Exception {
 		required = 2;
 		name = "TextArea";
 		options = makeTextArea(3, 2);
 		testMethod();
-		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":"+custom.customDataCall.customID+",\"info\":{\"options\":"+ options +",\"input_type\":\""+custom.customDataCall.inputTypeMatch(inputType)+"\",\"required\":\""+custom.customDataCall.requiredMatch(required)+"\"}}]");
+		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":\""+custom.customDataCall.customID+"\",\"info\":{\"options\":"+ options +",\"input_type\":\""+custom.customDataCall.inputTypeMatch(inputType)+"\",\"required\":\""+custom.customDataCall.requiredMatch(required)+"\"}}]");
 	}
 
 	@Test
-	public void testNumber() throws IOException, JSONException {
+	public void testNumber() throws Exception {
 		required = 2;
 		name = "TestNumber";
 		options = makeNumber(1, 1, 100); //int defaultNum, int min, int max
 		testMethod();
 		options.put("interval", 1); // 1 for default
-		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":"+custom.customDataCall.customID+",\"info\":{\"options\":"+ options +",\"input_type\":\""+custom.customDataCall.inputTypeMatch(inputType)+"\",\"required\":\""+custom.customDataCall.requiredMatch(required)+"\"}}]");
+		assertEquals(custom.getCustomdata().toString(), "[{\"name\":\""+name+"\",\"customdata_id\":\""+custom.customDataCall.customID+"\",\"info\":{\"options\":"+ options +",\"input_type\":\""+custom.customDataCall.inputTypeMatch(inputType)+"\",\"required\":\""+custom.customDataCall.requiredMatch(required)+"\"}}]");
 	}
 
 	@After
-	public void after() throws IOException, JSONException {
+	public void after() throws Exception {
 		deleteCustomData();
 	}
 
-	private void testMethod() throws IOException, JSONException {
+	private void testMethod() throws Exception {
 		customBody = makeCustomBody(name, inputType, required, options);
 		putCustomData(customBody);
 		System.out.println(customBody.toString());
@@ -119,7 +122,7 @@ public class CustomdataTest {
 	}
 
 
-	private void deleteCustomData() throws IOException, JSONException {
+	private void deleteCustomData() throws Exception {
 		try {
 			ArrayList<String> idList = new ArrayList<String>(custom.customDataCall.listCustomID());
 			for (int i=0; i<idList.size(); i++) {
@@ -137,80 +140,82 @@ public class CustomdataTest {
 		}
 	}
 
-	private String putCustomData(JSONObject customBody) throws IOException {
+	private String putCustomData(ObjectNode customBody) throws IOException {
 		RequestBody body = RequestBody.create(MediaType.parse("application/json"), customBody.toString());
+		System.out.println(customBody.toString());
 		HttpRequest request = new HttpRequest.Builder()
 				.URL(URL+"paulkim"+FIELD)
 				.headers(headers)
 				.setRawBody(body)
 				.build();
 		String msg = request.put();
-		System.out.println(msg);
+		System.out.println("msg: "+msg);
 		return msg;
 	}
-	private JSONObject makeCustomBody(String name, int inputType, int required, JSONObject options) throws JSONException { //make custombody with textfield, dateandtime, textarea, makenumber
-		JSONObject customBody = new JSONObject();
-		customBody.put("options", options);
+	private ObjectNode makeCustomBody(String name, int inputType, int required, ObjectNode options) { //make custombody with textfield, dateandtime, textarea, makenumber
+		ObjectNode customBody = JSONUtils.getNewObjectNode();
+		customBody.set("options", options);
 		customBody.put("required", required);
 		customBody.put("input_type", inputType);
 		customBody.put("name", name);
+		System.out.println("customBody: "+customBody);
 		return customBody;
 	}
 
-	private JSONObject makeTextField(int width, int max_length) throws JSONException {
+	private ObjectNode makeTextField(int width, int max_length) {
 		inputType = 1;
-		JSONObject options = new JSONObject();
-		options.put("max_length", max_length);
+		options = JSONUtils.getNewObjectNode();
 		options.put("width", width);
+		options.put("max_length", max_length);
 		return options;
 	}
 
-	private JSONObject makeRadioButton(ArrayList<String> names) throws JSONException {
+	private ObjectNode makeRadioButton(ArrayList<String> names) {
 		inputType = 3;
-		JSONObject options = new JSONObject();
-		JSONArray values = new JSONArray();
+		options = JSONUtils.getNewObjectNode();
+		ArrayNode values = JSONUtils.getNewArrayNode();
 		for (int i=0; i<names.size(); i++) {
-			values.put(names.get(i));
+			values.add(names.get(i));
 		}
 		optionsArray = values;
-		options.put("values", values);
+		options.set("values", values);
 		return options;
 	}
 
-	private JSONObject makeDropDownList(ArrayList<String> names) throws JSONException {
+	private ObjectNode makeDropDownList(ArrayList<String> names) {
 		inputType = 4;
-		JSONObject options = new JSONObject();
-		JSONArray values = new JSONArray();
+		options = JSONUtils.getNewObjectNode();
+		ArrayNode values = JSONUtils.getNewArrayNode();
 		for (int i=0; i<names.size(); i++) {
-			values.put(names.get(i));
+			values.add(names.get(i));
 		}
 		optionsArray = values;
-		options.put("values", values);
+		options.set("values", values);
 		return options;
 	}
 
-	private JSONObject makeDateAndTime(int timeType) throws JSONException { //timeType 1: only date, timeType 2: date and time
+	private ObjectNode makeDateAndTime(int timeType) { //timeType 1: only date, timeType 2: date and time
 		inputType = 5;
-		JSONObject options = new JSONObject();
+		options = JSONUtils.getNewObjectNode();
 		options.put("time", timeType);
 		return options;
 	}
 
-	private JSONObject makeTextArea(int width, int rows) throws JSONException {
+	private ObjectNode makeTextArea(int width, int rows) {
 		inputType = 6;
-		JSONObject options = new JSONObject();
+		options = JSONUtils.getNewObjectNode();
+		options.put("width", width);	
 		options.put("rows", rows);
-		options.put("width", width);		
 		return options;
 	}
 
-	private JSONObject makeNumber(int defaultNum, int min, int max) throws JSONException { 
+	private ObjectNode makeNumber(int defaultNum, int min, int max) { 
 		inputType = 7;
-		JSONObject options = new JSONObject();
+		options = JSONUtils.getNewObjectNode();
+		options.put("default", defaultNum);
 		options.put("min", min);
 		options.put("max", max);
-		options.put("default", defaultNum);
-		System.out.println(options.toString());
+//		System.out.println(options.toString());
 		return options;
 	}
 }

@@ -41,7 +41,7 @@ public class RefreshAccessToken {
 		String msg = request.post();
 		
 		ObjectNode responseData = JSONUtils.getNewObjectNode();
-		responseData = JSONUtils.StringToJSON(msg);
+		responseData = JSONUtils.stringToJSON(msg);
 		this.accessToken = responseData.get("access_token").toString();
 		this.refreshToken = responseData.get("refresh_token").toString();
 	}

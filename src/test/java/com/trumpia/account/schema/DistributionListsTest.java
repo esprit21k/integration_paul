@@ -34,10 +34,10 @@ public class DistributionListsTest {
 		distributionLists = lists.getDistributionLists();
 		List<String> name = new ArrayList<String>();
 		for(int i=0; i<distributionLists.size(); i++) {
-			name.add(distributionLists.get(i).toString());
+			name.add(distributionLists.get(i).asText());
 		}
 		System.out.println("Lists: "+name);
-		assertTrue(name.contains("MyContacts"));
+		assertEquals(name.get(0), "MyContacts");
 		System.out.println(distributionLists.toString());
 	}
 	@After

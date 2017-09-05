@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.trumpia.dynamics.model.DynamicsAccountEntity;
 import com.trumpia.dynamics.schema.data.DynamicsSchemaRepository;
 import com.trumpia.dynamics.schema.model.DynamicsSchemaEntity;
+import com.trumpia.util.JSONUtils;
 import com.trumpia.util.Http.HttpRequest;
 import static com.trumpia.util.LogUtils.getLogger;
 
@@ -43,12 +44,11 @@ public class DynamicsSchema {
 	}
 
 	public ObjectNode propertiesToJSON() {
-		ObjectMapper mapper = new ObjectMapper();
-		ObjectNode property = mapper.createObjectNode();
-		ArrayNode propertyArray = mapper.createArrayNode();
+		ObjectNode property = JSONUtils.getNewObjectNode();
+		ArrayNode propertyArray = JSONUtils.getNewArrayNode();
 
 		for(Map.Entry<String, String> entry : properties.entrySet()) {
-			ObjectNode json = mapper.createObjectNode();
+			ObjectNode json = JSONUtils.getNewObjectNode();
 			json.put(entry.getKey(), entry.getValue());
 			propertyArray.add(json);
 		}

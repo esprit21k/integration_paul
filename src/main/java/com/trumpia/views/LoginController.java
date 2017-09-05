@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.trumpia.data.UserRepository;
 import com.trumpia.model.UserEntity;
 import com.trumpia.util.APIResponse;
@@ -38,7 +39,7 @@ public class LoginController {
 
 	@ResponseBody
     @PostMapping("/signup")
-    public String signUp(@org.springframework.web.bind.annotation.RequestBody UserEntity user, HttpServletResponse servletResponse) {
+    public String signUp(@org.springframework.web.bind.annotation.RequestBody UserEntity user, HttpServletResponse servletResponse) throws JsonProcessingException {
 		getLogger(LoginController.class).debug("Attempting signup with username : {}, email : {}", user.getUsername(), user.getEmail());
 		APIResponse response = new APIResponse();
 		boolean usernameExists = userRepository.getUserCountByUsername(user.getUsername()) !=0;

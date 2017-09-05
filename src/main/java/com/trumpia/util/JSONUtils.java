@@ -23,20 +23,18 @@ public class JSONUtils {
 	public static ArrayNode getNewArrayNode() {
 		return objectMapper.createArrayNode();
 	}
-	
+
 	public static JsonNode getNewJsonNode() {
 		return objectMapper.createObjectNode();
 	}
-	
-	public static String toJSONString(ObjectNode objectNode) {
-		try {
-			return objectMapper.writeValueAsString(objectNode);
-		} catch (JsonProcessingException e) {
-			return "{\"error\" : True}";
-		}
+
+	public static String toJSONString(ObjectNode objectNode) throws JsonProcessingException {
+
+		return objectMapper.writeValueAsString(objectNode);
+
 	}
-	
-	public static ObjectNode StringToJSON(String message) throws Exception  {
+
+	public static ObjectNode stringToJSON(String message) throws Exception  {
 		JsonFactory factory = objectMapper.getFactory();
 		JsonParser jsonParser = factory.createParser(message);
 		ObjectNode objectNode = objectMapper.readTree(jsonParser);	

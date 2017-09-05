@@ -2,17 +2,16 @@ package com.trumpia.trumpia.schema;
 
 import java.io.IOException;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.trumpia.trumpia.model.TrumpiaAccountEntity;
 import com.trumpia.trumpia.schema.api.CustomDataCall;
 import com.trumpia.trumpia.schema.api.DistributionListCall;
 import com.trumpia.trumpia.schema.model.CustomData;
 import com.trumpia.trumpia.schema.model.DistributionList;
+import com.trumpia.util.JSONUtils;
 
 public class ContactSchema {
-	JSONObject trumpiaSchema;
+	ObjectNode trumpiaSchema;
 	DistributionList lists;
 	CustomData custom;
 	String APIKey;
@@ -23,14 +22,14 @@ public class ContactSchema {
 		this.APIKey = APIkey;
 		this.user = user;
 		this.baseURL = baseURL;
-		trumpiaSchema = new JSONObject();
+		trumpiaSchema = JSONUtils.getNewObjectNode();
 		lists = new DistributionList(APIkey, user, baseURL);
 		custom = new CustomData(APIkey, user, baseURL);
 	}
 	
-	public JSONObject getContactSchema() throws Exception {
-		trumpiaSchema.put("list_name", lists.getDistributionLists());
-		trumpiaSchema.put("customdata", custom.getCustomdata());
+	public ObjectNode getContactSchema() throws Exception {
+		trumpiaSchema.set("list_name", lists.getDistributionLists());
+		trumpiaSchema.set("customdata", custom.getCustomdata());
 		return trumpiaSchema;
 	}
 }

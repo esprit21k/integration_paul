@@ -3,19 +3,19 @@ package com.trumpia.trumpia.views;
 import java.io.IOException;
 import java.util.List;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.trumpia.data.UserRepository;
 import com.trumpia.model.UserEntity;
 import com.trumpia.trumpia.data.TrumpiaAccountRepository;
 import com.trumpia.trumpia.model.TrumpiaAccountEntity;
 import com.trumpia.trumpia.schema.ContactSchema;
+import com.trumpia.util.JSONUtils;
 
 
 @RestController
@@ -41,12 +41,10 @@ public class TrumpiaController {
 		
 		ContactSchema trumpiaUserSchema = new ContactSchema(APIkey, user, baseURL);
 		
-		JSONObject trumpiaUserSchemaJSON = null;
+		ObjectNode trumpiaUserSchemaJSON = JSONUtils.getNewObjectNode();
 		
 		try {
 			trumpiaUserSchemaJSON = trumpiaUserSchema.getContactSchema();
-		} catch (JSONException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

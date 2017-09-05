@@ -1,6 +1,7 @@
 package com.trumpia.trumpia.schema.model;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;

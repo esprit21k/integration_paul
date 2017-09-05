@@ -1,5 +1,6 @@
 package com.trumpia.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -37,7 +38,7 @@ public class APIResponse {
 	public APIResponse() {
 	}
 	
-	public String getJSONResponse() {
+	public String getJSONResponse() throws JsonProcessingException {
 		body.put("error", error);
 		body.put("message", message);
 		body.set("data", data);
