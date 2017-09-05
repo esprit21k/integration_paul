@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Sidebar from './sidebar';
 import Topbar from './topbar';
 import './App.css';
 

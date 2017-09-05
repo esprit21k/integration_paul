@@ -14,6 +14,7 @@ class Modal extends Component {
     ]),
     closeModal: PropTypes.func,
     openModal: PropTypes.func,
+    onSubmitClick: PropTypes.func,
   }
   static defaultProps = {
     header: 'Info modal',
@@ -38,7 +39,7 @@ class Modal extends Component {
         </div>
         <div className="actions">
           <div className="ui button" onClick={this.closeM}>Cancel</div>
-          <div className="ui button">{this.props.submitText}</div>
+          <div className="ui primary button" onClick={this.props.onSubmitClick}>{this.props.submitText}</div>
         </div>
       </div>
     );

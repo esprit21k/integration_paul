@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
@@ -43,30 +44,40 @@ class Login extends Component {
 
     return (
       <div className="login">
-        <form className="widget-form" onSubmit={handleSubmit(this.submit)}>
-          <h1>LOGIN</h1>
-          <label htmlFor="username">Username</label>
-          {/*
-            Our Redux Form Field components that bind email and password
-            to our Redux state's form -> login piece of state.
-          */}
-          <Field
-            name="username"
-            type="text"
-            id="username"
-            className="username"
-            component="input"
-          />
-          <label htmlFor="password">Password</label>
-          <Field
-            name="password"
-            type="password"
-            id="password"
-            className="password"
-            component="input"
-          />
-          <button action="submit">LOGIN</button>
-        </form>
+        <div className="ui stackable three column grid">
+          <div className="column">
+            <form className="ui form" onSubmit={handleSubmit(this.submit)}>
+              <h1>LOGIN</h1>
+              <div className="field">
+                <label htmlFor="username">Username</label>
+                {/*
+                  Our Redux Form Field components that bind email and password
+                  to our Redux state's form -> login piece of state.
+                */}
+                <Field
+                  name="username"
+                  type="text"
+                  id="username"
+                  className="username"
+                  component="input"
+                />
+              </div>
+              <div className="field">
+                <label htmlFor="password">Password</label>
+                <Field
+                  name="password"
+                  type="password"
+                  id="password"
+                  className="password"
+                  component="input"
+                />
+                <button action="submit">LOGIN</button>
+              </div>
+            </form>
+          </div>
+          <div className="column" />
+          <div className="column" />
+        </div>
         <div className="auth-messages">
           {/* As in the signup, we're just using the message and error helpers */}
           {!requesting && !!errors.length && (
