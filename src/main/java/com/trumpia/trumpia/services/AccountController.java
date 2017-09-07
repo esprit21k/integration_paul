@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.trumpia.data.UserRepository;
+import com.trumpia.model.UserEntity;
 import com.trumpia.trumpia.data.TrumpiaAccountRepository;
 import com.trumpia.trumpia.model.TrumpiaAccountEntity;
 import com.trumpia.util.APIResponse;
-import com.trumpia.util.AuthenticationUtil;
 import com.trumpia.util.JSONUtils;
 
 @RestController
@@ -29,6 +29,7 @@ public class AccountController {
 	@Autowired
 	private UserRepository userRepo;
 	
+	private UserEntity user = userRepo.findOneByUsername(SecurityContextHolder.getContext().getAuthentication().getName()); 
 	/*
 	 * INPUT:
 	 {
@@ -41,7 +42,7 @@ public class AccountController {
 	@RequestMapping(method = RequestMethod.PUT)
 	public String putTrumpiaAccount(@RequestBody String input) {
 		TrumpiaAccountEntity account = new TrumpiaAccountEntity(new JSONObject(input));
-		account.setUserEntity(userRepo.findOneByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+		account.setUserEntity(user);
 		//valid check
 		if(!TrumpiaAPILibrary.validCheck(account))
 			return authenticationFailJSON();
@@ -52,30 +53,30 @@ public class AccountController {
 			return successJSON(account);
 		}
 	}
-	
+
 	private boolean isAlreadyInDB(TrumpiaAccountEntity account) {
 		if(trumRepo.findOneByApikey(account.getApikey()) != null && trumRepo.findOneByUniqueId(account.getUniqueId()) != null)
 			return true;
 		else
 			return false;
 	}
-	
+
 	private String authenticationFailJSON() {
 		APIResponse response = new APIResponse();
 		response.setError(true);
 		response.setMessage("Requested information failed to be authenticated.");
-		
+
 		return response.getJSONResponse();
 	}
-	
+
 	private String failJSON(TrumpiaAccountEntity account) {
 		APIResponse response = new APIResponse();
 		response.setError(true);
 		response.setMessage("Account already registerd: " + account.getUniqueId());
-		
+
 		return response.getJSONResponse();
 	}
-	
+
 	private String successJSON(TrumpiaAccountEntity account) {
 		APIResponse response = new APIResponse();
 		response.setError(false);
@@ -92,7 +93,7 @@ public class AccountController {
 			return fail.getJSONResponse();
 		}
 	}
-	
+
 	//get
 	/*
 	 * Request URL example : /trumpia/account?size=2&page=1
@@ -111,17 +112,17 @@ public class AccountController {
 		    ],
 		    "page": 2
 		}
-	*/
+	 */
 	@RequestMapping(method = RequestMethod.GET) // ?size=2&page=0 (page starts with index 0)
 	public String getTrumpiaAccount(Pageable page) {
-		Page<TrumpiaAccountEntity> fetchedPage = trumRepo.findByUserEntity(new PageRequest(page.getPageNumber(), page.getPageSize(), Sort.Direction.ASC, "updatedDate"), AuthenticationUtil.findUserEntityByPrincipal());	
-		
+		Page<TrumpiaAccountEntity> fetchedPage = trumRepo.findByUserEntity(new PageRequest(page.getPageNumber(), page.getPageSize(), Sort.Direction.ASC, "updatedDate"), user);	
+
 		JSONObject info = new JSONObject();
 		JSONArray data = new JSONArray();
-		
+
 		for(TrumpiaAccountEntity content : fetchedPage.getContent())
 			data.put(content.IdAndDescriptionJSON());
-		
+
 		info.put("page", page.getPageNumber()+1);
 		info.put("data", data);
 		return info.toString();
