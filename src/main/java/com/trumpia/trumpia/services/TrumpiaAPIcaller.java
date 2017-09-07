@@ -6,17 +6,22 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.trumpia.data.UserRepository;
 import com.trumpia.trumpia.data.SubscriptionIdMappingRepository;
+import com.trumpia.trumpia.data.TrumpiaAccountRepository;
 import com.trumpia.trumpia.model.Subscription;
 import com.trumpia.trumpia.model.SubscriptionIdMappingEntity;
 import com.trumpia.trumpia.model.TrumpiaAccountEntity;
-import com.trumpia.util.AuthenticationUtil;
 
 public class TrumpiaAPIcaller {
-	
 	@Autowired
-	private SubscriptionIdMappingRepository repo;
+	TrumpiaAccountRepository trumpiaRepo;
+	@Autowired
+	UserRepository userRepo;
+	@Autowired
+	private SubscriptionIdMappingRepository mappingRepo;
 	private SubscriptionPostHandler post;
 	private boolean deleteOption;
 	private List<Subscription> putList;
@@ -29,7 +34,7 @@ public class TrumpiaAPIcaller {
 	*/
 	public TrumpiaAPIcaller(String postOption, boolean deleteOption){
 		//Fix : init tumpiaAccountEntity;
-		trumpia = AuthenticationUtil.findTrumpiaEntityByPrincipal();
+		trumpia = trumpiaRepo.findByUserEntity(userRepo.findOneByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
 		putList = new ArrayList<Subscription>();
 		post = TrumpiaAPIcallerFactory.post(postOption, trumpia);
 		this.deleteOption = deleteOption;
@@ -52,13 +57,12 @@ public class TrumpiaAPIcaller {
 	}
 	
 	private void deleteSubs(Subscription subs) {
-		SubscriptionIdMappingEntity map = repo.findOneByTargetSubscriptionId(subs.getId());
+		SubscriptionIdMappingEntity map = mappingRepo.findOneByTargetSubscriptionId(subs.getId());
 		if(map != null) {
 			if(deleteOption) {
 				TrumpiaAPILibrary.deleteSubscriptionInfo(map.getTrumpiaId(), trumpia);
-				repo.delete(map.getId());
-			}
-			
+				mappingRepo.delete(map.getId());
+			}	
 		}
 	}
 	
@@ -85,14 +89,14 @@ public class TrumpiaAPIcaller {
 		String trumpiaId = post.postSubscription(subs, list);
 		String targetId = subs.getId();
 		
-		SubscriptionIdMappingEntity map = repo.findOneByTargetSubscriptionId(targetId);
+		SubscriptionIdMappingEntity map = mappingRepo.findOneByTargetSubscriptionId(targetId);
 		
 		//if trumpiaId == null, exception happened
 		if(trumpiaId != null) {
 			if(map != null)
-				repo.delete(map.getId());
+				mappingRepo.delete(map.getId());
 			
-			repo.save(createMappingEntity(trumpiaId, targetId));
+			mappingRepo.save(createMappingEntity(trumpiaId, targetId));
 		}		
 	}
 	
@@ -150,7 +154,7 @@ public class TrumpiaAPIcaller {
 			if(request.getJSONObject(i).has("subscription_id")) {
 				String trumpiaId = request.getJSONObject(i).getString("subscription_id");
 				String targetId = putList.get(i).getId();
-				repo.save(createMappingEntity(trumpiaId, targetId));
+				mappingRepo.save(createMappingEntity(trumpiaId, targetId));
 			}
 		}
 	}
