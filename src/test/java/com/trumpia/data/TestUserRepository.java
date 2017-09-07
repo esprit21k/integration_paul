@@ -42,7 +42,6 @@ public class TestUserRepository {
 		testEntity = new UserEntity();
 		testEntity.setEmail("test@mytrum.com");
 		testEntity.setUsername("test");
-		testEntity.setUniqueId("test");
 		testEntity.setPassword("test");
 		testEntity.setUpdatedDate(new Date());
 

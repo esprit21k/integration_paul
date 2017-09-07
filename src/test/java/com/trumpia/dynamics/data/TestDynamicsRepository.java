@@ -39,7 +39,6 @@ public class TestDynamicsRepository {
 		userEntity = new UserEntity();
 		userEntity.setEmail("test@mytrum.com");
 		userEntity.setUsername("test");
-		userEntity.setUniqueId("test");
 		userEntity.setPassword("test");
 		userEntity.setUpdatedDate(new Date());
 		userRepo.save(userEntity);
