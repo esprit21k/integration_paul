@@ -95,6 +95,9 @@ public class Subscription {
 		return custom;
 	}
 
+	public boolean noContactInfo() {
+		return this.landLine.equals(null) && this.email.equals(null) && this.mobileNumber.equals(null); 
+	}
 	public boolean isDeleted() {
 		return isDeleted;
 	}

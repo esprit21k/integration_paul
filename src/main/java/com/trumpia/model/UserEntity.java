@@ -8,17 +8,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.trumpia.util.StringUtils;
-
 @Entity
 @Table(name="e_user")
 public class UserEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
-	@Column( length=36)
-	private String uniqueId;
 	
 	@Column( length=50)
 	private String username;
@@ -80,14 +75,6 @@ public class UserEntity {
 		this.updatedDate = updatedDate;
 	}
 
-	public String getUniqueId() {
-		return this.uniqueId;
-	}
-
-	public void setUniqueId(String uniqueId) {
-		this.uniqueId = uniqueId;
-	}
-
 	public String getEmail() {
 		return email;
 	}
@@ -98,8 +85,9 @@ public class UserEntity {
 
 	@Override
 	public String toString() {
-		return "User [id=" + StringUtils.nullTextIfNull(id) + ", uniqueId=" + StringUtils.nullTextIfNull(uniqueId) + ", password=" + StringUtils.nullTextIfNull(password)
-		+ ", email=" + StringUtils.nullTextIfNull(email) + ", createdDate=" + StringUtils.nullTextIfNull(createdDate)  + ", updatedDate=" + StringUtils.nullTextIfNull(updatedDate) + "]";
+		return "UserEntity [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
+				+ ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + "]";
 	}
+
 	
 }

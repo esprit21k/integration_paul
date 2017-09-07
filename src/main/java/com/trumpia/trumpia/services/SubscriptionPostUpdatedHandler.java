@@ -15,37 +15,59 @@ public class SubscriptionPostUpdatedHandler implements SubscriptionPostHandler {
 	}
 
 	public String postSubscription(Subscription subscription, String list) {
-		String id = findSubscriptionId(subscription);
-		deleteRepeatedContactInfo(id, subscription);
-		JSONObject response = TrumpiaAPILibrary.postChangedSubscriptionInfo(createSubscriptionBody(subscription, list), id, trumpia);
-		
-		JSONArray request = new JSONArray(TrumpiaAPILibrary.getStatusReport(response.getString("request_id"), trumpia));
-		//return id
-		return request.getJSONObject(0).getString("subscription_id");
-	}
-	
-	private String findSubscriptionId(Subscription subs) {
-		JSONObject subsJSON = subs.toJSON();
-		String Id;
-		
-		//delete repeated
-		if(subsJSON.has("email")) {
-			JSONObject response = TrumpiaAPILibrary.searchSubscriptionByEmail(subsJSON.getString("email"), trumpia);
-			if(response.has("subscription_id_list"))
-				return response.getJSONArray("subscription_id_list").getString(0);
+		try {
+			String id = findSubscriptionId(subscription);
+			deleteRepeatedContactInfo(id, subscription);
+			JSONObject response = TrumpiaAPILibrary.postChangedSubscriptionInfo(createSubscriptionBody(subscription, list), id, trumpia);
+			
+			JSONArray request = new JSONArray(TrumpiaAPILibrary.getStatusReport(response.getString("request_id"), trumpia));
+			return request.getJSONObject(0).getString("subscription_id");
 		}
-		if(subsJSON.has("mobile")) {
-			JSONObject response = TrumpiaAPILibrary.searchSubscriptionByMobile(subsJSON.getJSONObject("mobile").getString("number"), trumpia);
-			if(response.has("subscription_id_list"))
-				return response.getJSONArray("subscription_id_list").getString(0);
-		}
-		if(subsJSON.has("landline")) {
-			JSONObject response = TrumpiaAPILibrary.searchSubscriptionByMobile(subsJSON.getJSONObject("lnadline").getString("number"), trumpia);
-			if(response.has("subscription_id_list"))
-				return response.getJSONArray("subscription_id_list").getString(0);
+		catch(IllegalArgumentException e) {
+			e.getMessage();
+			//need log
 		}
 		
 		return null;
+	}
+		
+	private String findSubscriptionId(Subscription subs) {
+		JSONObject subsJSON = subs.toJSON();
+		String id = null;
+
+		if(subsJSON.has("mobile")) {
+			JSONObject response = TrumpiaAPILibrary.searchSubscriptionByMobile(subsJSON.getJSONObject("mobile").getString("number"), trumpia);
+			if(response.has("subscription_id_list"))
+				id = response.getJSONArray("subscription_id_list").getString(0);
+		}
+		
+		if(subsJSON.has("email")) {
+			JSONObject response = TrumpiaAPILibrary.searchSubscriptionByEmail(subsJSON.getString("email"), trumpia);
+			if(response.has("subscription_id_list")) {
+				if(id == null) {
+					id = response.getJSONArray("subscription_id_list").getString(0);
+				}
+				else {
+					if(id != response.getJSONArray("subscription_id_list").getString(0))
+						throw new IllegalArgumentException("email");
+				}
+			}
+		}
+		
+		if(subsJSON.has("landline")) {
+			JSONObject response = TrumpiaAPILibrary.searchSubscriptionByMobile(subsJSON.getJSONObject("lnadline").getString("number"), trumpia);
+			if(response.has("subscription_id_list")) {
+				if(id == null) {
+					id = response.getJSONArray("subscription_id_list").getString(0);
+				}
+				else {
+					if(id != response.getJSONArray("subscription_id_list").getString(0))
+						throw new IllegalArgumentException("landline");
+				}
+			}
+		}
+		
+		return id;
 	}
 	
 	private void deleteRepeatedContactInfo(String id, Subscription subs) {

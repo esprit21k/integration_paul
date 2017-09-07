@@ -18,6 +18,10 @@ public class SubscriptionIdMappingEntity {
 	@Column
 	private String targetSubscriptionId;
 	
+	public SubscriptionIdMappingEntity() {
+		
+	}
+	
 	public SubscriptionIdMappingEntity(String trumpiaId, String targetSubscriptionId) {
 		this.trumpiaId = trumpiaId;
 		this.targetSubscriptionId = targetSubscriptionId;

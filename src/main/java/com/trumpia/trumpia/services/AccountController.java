@@ -7,13 +7,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.trumpia.data.UserRepository;
 import com.trumpia.trumpia.data.TrumpiaAccountRepository;
 import com.trumpia.trumpia.model.TrumpiaAccountEntity;
+import com.trumpia.util.APIResponse;
+import com.trumpia.util.AuthenticationUtil;
+import com.trumpia.util.JSONUtils;
 
 @RestController
 @RequestMapping(path = "/trumpia/account")
@@ -21,7 +26,9 @@ public class AccountController {
 	//trumpiaRepo	
 	@Autowired
 	private TrumpiaAccountRepository trumRepo;
-
+	@Autowired
+	private UserRepository userRepo;
+	
 	/*
 	 * INPUT:
 	 {
@@ -29,34 +36,21 @@ public class AccountController {
 		"APIKey" : "some-api-key-thing",
 		"description" : "thisIsExample"
 	 }
-	 * OUTPUT: (fail)
-	 *	{ "FAIL" : "testID1234 is already in Database" }
-	 *
-	 * OUTPUT: (success)
-	 *  { "id" : "TrumpiaAccoutRepository-id"}
 	 */
-	//put	
+
 	@RequestMapping(method = RequestMethod.PUT)
 	public String putTrumpiaAccount(@RequestBody String input) {
-
-		TrumpiaAccountEntity account = createTrumpiaAccount(new JSONObject(input));
-		
-		if(isAlreadyInDB(account))
+		TrumpiaAccountEntity account = new TrumpiaAccountEntity(new JSONObject(input));
+		account.setUserEntity(userRepo.findOneByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+		//valid check
+		if(!TrumpiaAPILibrary.validCheck(account))
+			return authenticationFailJSON();
+		else if(isAlreadyInDB(account))
 			return failJSON(account);
 		else {
 			trumRepo.save(account);
 			return successJSON(account);
 		}
-	}
-	
-	private TrumpiaAccountEntity createTrumpiaAccount(JSONObject parsed) {
-		TrumpiaAccountEntity account = new TrumpiaAccountEntity();
-		
-		account.setApikey(parsed.getString("APIKey"));
-		account.setDescription(parsed.getString("description"));
-		account.setUniqueId(parsed.getString("uniqueID"));
-		
-		return account;
 	}
 	
 	private boolean isAlreadyInDB(TrumpiaAccountEntity account) {
@@ -66,17 +60,37 @@ public class AccountController {
 			return false;
 	}
 	
-	private String failJSON(TrumpiaAccountEntity account) {
-		JSONObject msg = new JSONObject();
-		msg.put("FAIL", account.getUniqueId() + " is already in Database");
+	private String authenticationFailJSON() {
+		APIResponse response = new APIResponse();
+		response.setError(true);
+		response.setMessage("Requested information failed to be authenticated.");
 		
-		return msg.toString();
+		return response.getJSONResponse();
+	}
+	
+	private String failJSON(TrumpiaAccountEntity account) {
+		APIResponse response = new APIResponse();
+		response.setError(true);
+		response.setMessage("Account already registerd: " + account.getUniqueId());
+		
+		return response.getJSONResponse();
 	}
 	
 	private String successJSON(TrumpiaAccountEntity account) {
-		JSONObject msg = new JSONObject();
-		msg.put("id", account.getId().toString());
-		return msg.toString();
+		APIResponse response = new APIResponse();
+		response.setError(false);
+		response.setMessage("success");
+
+		try {
+			String id = "{\"id\":\"" + account.getId().toString()+"\"}";
+			response.setData(JSONUtils.stringToJSON(id));
+			return response.getJSONResponse();
+		} catch (Exception e) {
+			APIResponse fail = new APIResponse();
+			fail.setError(true);
+			fail.setMessage("JSON parsing error");
+			return fail.getJSONResponse();
+		}
 	}
 	
 	//get
@@ -100,23 +114,16 @@ public class AccountController {
 	*/
 	@RequestMapping(method = RequestMethod.GET) // ?size=2&page=0 (page starts with index 0)
 	public String getTrumpiaAccount(Pageable page) {
-		Page<TrumpiaAccountEntity> fetchedPage = trumRepo.findAll(new PageRequest(page.getPageNumber(), page.getPageSize(), Sort.Direction.ASC, "updatedDate"));	
+		Page<TrumpiaAccountEntity> fetchedPage = trumRepo.findByUserEntity(new PageRequest(page.getPageNumber(), page.getPageSize(), Sort.Direction.ASC, "updatedDate"), AuthenticationUtil.findUserEntityByPrincipal());	
 		
 		JSONObject info = new JSONObject();
 		JSONArray data = new JSONArray();
 		
 		for(TrumpiaAccountEntity content : fetchedPage.getContent())
-			data.put(contentJSON(content));
+			data.put(content.IdAndDescriptionJSON());
 		
 		info.put("page", page.getPageNumber()+1);
 		info.put("data", data);
 		return info.toString();
-	}
-
-	private JSONObject contentJSON(TrumpiaAccountEntity content) {
-		JSONObject tmp = new JSONObject();
-		tmp.put("description",content.getDescription());
-		tmp.put("id",content.getUniqueId());
-		return tmp;
 	}
 }

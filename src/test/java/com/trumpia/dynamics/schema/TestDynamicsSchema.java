@@ -1,6 +1,7 @@
 package com.trumpia.dynamics.schema;
 
-import static org.junit.Assert.*;
+import static com.trumpia.util.LogUtils.getLogger;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.Date;
@@ -20,7 +21,6 @@ import com.trumpia.dynamics.APIcaller.RefreshAccessToken;
 import com.trumpia.dynamics.data.DynamicsAccountRepository;
 import com.trumpia.dynamics.model.DynamicsAccountEntity;
 import com.trumpia.model.UserEntity;
-import static com.trumpia.util.LogUtils.getLogger;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {Main.class})
@@ -82,7 +82,7 @@ public class TestDynamicsSchema {
 		userEntity = new UserEntity();
 		userEntity.setEmail("test@mytrum.com");
 		userEntity.setUsername("test");
-		userEntity.setUniqueId("test");
+//		userEntity.setUniqueId("test");
 		userEntity.setPassword("test");
 		userEntity.setUpdatedDate(new Date());
 		userRepo.save(userEntity);

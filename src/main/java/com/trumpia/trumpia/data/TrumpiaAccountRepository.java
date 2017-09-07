@@ -1,5 +1,7 @@
 package com.trumpia.trumpia.data;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.trumpia.model.UserEntity;
@@ -9,4 +11,5 @@ public interface TrumpiaAccountRepository extends PagingAndSortingRepository<Tru
 	TrumpiaAccountEntity findByUserEntity(UserEntity entity);
 	TrumpiaAccountEntity findOneByApikey(String APIkey);
 	TrumpiaAccountEntity findOneByUniqueId(String id);
+	Page<TrumpiaAccountEntity> findByUserEntity(Pageable page, UserEntity entity);
 }

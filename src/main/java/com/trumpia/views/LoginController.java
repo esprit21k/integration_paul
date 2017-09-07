@@ -49,6 +49,7 @@ public class LoginController {
 		try {
 			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 			userRepository.save(user);
+			System.out.println("#########################################" + user);
 			getLogger(LoginController.class).info("User created for username : {}, email : {}", user.getUsername(), user.getEmail());
 		} catch (Exception e) {
 			response.setError(true);

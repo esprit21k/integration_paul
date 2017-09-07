@@ -1,7 +1,6 @@
 package com.trumpia.trumpia.views;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,9 +29,7 @@ public class TrumpiaController {
 	//GET schema
 	@RequestMapping(path="/{username}/schema", method = RequestMethod.GET)
 	public String getTrumpiaSchema(@PathVariable String username) {
-		List<UserEntity> userEntityList = userRepository.findByUniqueId(username);
-		//unique id must return one entity
-		UserEntity userEntity = userEntityList.get(0);
+		UserEntity userEntity = userRepository.findOneByUsername("test");
 		TrumpiaAccountEntity fetchedTrumpia = trumpiaAccountRepository.findByUserEntity(userEntity);
 		
 		String APIkey = fetchedTrumpia.getApikey();

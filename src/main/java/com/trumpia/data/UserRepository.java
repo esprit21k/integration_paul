@@ -1,16 +1,14 @@
 package com.trumpia.data;
 
-import com.trumpia.model.UserEntity;
-
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.*;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-public interface UserRepository extends CrudRepository<UserEntity, Long>{
-	
-	List<UserEntity> findByUniqueId(String id);
+import com.trumpia.model.UserEntity;
+
+public interface UserRepository extends CrudRepository<UserEntity, Long>{	
 	List<UserEntity> findByUsername(String username);
 	UserEntity findOneByUsername(String username);
 	@Query(nativeQuery=true,value="select count(*) FROM e_user WHERE LOWER(username) = LOWER(:username)")

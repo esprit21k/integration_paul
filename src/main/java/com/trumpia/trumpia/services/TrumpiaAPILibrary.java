@@ -15,9 +15,7 @@ import okhttp3.RequestBody;
 
 
 
-public class TrumpiaAPILibrary {
-	private final static String BASE_URL = "http://api.trumpia.com/rest/v1/";
-	
+public class TrumpiaAPILibrary {	
 	/* 
 	 * CheckList : HOW TO SEND ERR MSG - IO Exception..
 	 * 			In case of UnsuccessfulRequestException()..
@@ -125,12 +123,30 @@ public class TrumpiaAPILibrary {
 		}
 		return new JSONObject(response);
 	}
+	
+	public static boolean validCheck(TrumpiaAccountEntity trumpia) {
+		String response = null;
+		try {
+			HttpRequest request = createRequestWithoutResponseBody("/balance/credit", trumpia);
+			response = request.get();
+		} catch (IOException e) {
+			e.getMessage();
+			e.printStackTrace();
+		}
+		
+		JSONObject json = new JSONObject(response);
+		if(json.getString("status_code").equals("MPCE0000"))
+			return true;
+		else
+			return false;
+	}
 
 	////
 
 	private static HttpRequest createRequestWithResponseBody(String requestBody, String url, TrumpiaAccountEntity trumpia) throws JsonProcessingException {
 		String apikey = trumpia.getApikey();
 		String userId = trumpia.getUniqueId();
+		String baseUrl = trumpia.getBaseURL();
 
 		RequestBody body = RequestBody.create(MediaType.parse("application/json"), requestBody);
 		HashMap<String, String> headers = new HashMap<String,String>();
@@ -139,7 +155,7 @@ public class TrumpiaAPILibrary {
 
 		HttpRequest request;
 		request = new HttpRequest.Builder()
-				.URL(BASE_URL + userId + url)
+				.URL(baseUrl+ "/rest/v1/" + url)
 				.headers(headers)
 				.setRawBody(body)
 				.build();
@@ -150,6 +166,7 @@ public class TrumpiaAPILibrary {
 	private static HttpRequest createRequestWithoutResponseBody(String url, TrumpiaAccountEntity trumpia) throws JsonProcessingException {
 		String apikey = trumpia.getApikey();
 		String userId = trumpia.getUniqueId();
+		String baseUrl = trumpia.getBaseURL();
 
 		HashMap<String, String> headers = new HashMap<String,String>();
 		headers.put("content-type", "application/json");
@@ -157,7 +174,7 @@ public class TrumpiaAPILibrary {
 
 		HttpRequest request;
 		request = new HttpRequest.Builder()
-				.URL(BASE_URL + userId + url)
+				.URL(baseUrl+ "/rest/v1/" + userId + url)
 				.headers(headers)
 				.build();
 

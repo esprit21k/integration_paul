@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.json.JSONObject;
+
 import com.trumpia.model.UserEntity;
 
 @Entity
@@ -34,6 +36,28 @@ public class TrumpiaAccountEntity {
 	@ManyToOne
 	@JoinColumn(name = "e_user_id", nullable=false)
 	private UserEntity userEntity;
+	
+	public TrumpiaAccountEntity() {
+		
+	}
+	
+	public TrumpiaAccountEntity(JSONObject parsed) {
+		if(parsed.has("APIKey"))
+			this.apikey = parsed.getString("APIKey");
+		if(parsed.has("description"))
+			this.description = parsed.getString("description");
+		if(parsed.has("uniqueID"))
+			this.uniqueId = parsed.getString("uniqueID");
+		if(parsed.has("baseURL"))
+			this.baseURL = parsed.getString("baseURL");
+	}
+	
+	public JSONObject IdAndDescriptionJSON() {
+		JSONObject json = new JSONObject();
+		json.put("description", this.description);
+		json.put("id", this.uniqueId);
+		return json;
+	}
 	
 	public String getDescription() {
 		return description;
