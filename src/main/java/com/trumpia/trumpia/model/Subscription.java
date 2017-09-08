@@ -54,7 +54,7 @@ public class Subscription {
 		if(mobileNumber != null)
 			getContactJSONobjectAndPut(subscription, "mobile", mobileNumber);
 		if(landLine != null)
-			getContactJSONobjectAndPut(subscription, "landLine", landLine);
+			getContactJSONobjectAndPut(subscription, "landline", landLine);
 		if(email != null)
 			subscription.put("email", email);
 		if(firstName != null)

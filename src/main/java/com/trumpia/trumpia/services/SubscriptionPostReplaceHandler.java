@@ -33,11 +33,12 @@ public class SubscriptionPostReplaceHandler implements SubscriptionPostHandler {
 
 		//put subscription
 		String subscriptionsBody = createSubscriptionBody(subs, list);
+		System.out.println(subscriptionsBody);
 		JSONObject response = TrumpiaAPILibrary.putNewSubscriptionInfo(subscriptionsBody, trumpia);
 		JSONArray request = new JSONArray(TrumpiaAPILibrary.getStatusReport(response.getString("request_id"), trumpia));
-		
+		System.out.println(request.toString());
 		//return id
-		return request.getJSONObject(0).getString("subscription_id");
+		return request.getJSONObject(0).get("subscription_id").toString();
 	}
 	
 	private List<String> haveSameContactInfo(Subscription subs){
@@ -55,7 +56,7 @@ public class SubscriptionPostReplaceHandler implements SubscriptionPostHandler {
 				relatedIds.add(response.getJSONArray("subscription_id_list").getString(0));
 		}
 		if(subsJSON.has("landline")) {
-			JSONObject response = TrumpiaAPILibrary.searchSubscriptionByMobile(subsJSON.getJSONObject("lnadline").getString("number"), trumpia);
+			JSONObject response = TrumpiaAPILibrary.searchSubscriptionByLandline(subsJSON.getJSONObject("landline").getString("number"), trumpia);
 			if(response.has("subscription_id_list"))
 				relatedIds.add(response.getJSONArray("subscription_id_list").getString(0));
 		}

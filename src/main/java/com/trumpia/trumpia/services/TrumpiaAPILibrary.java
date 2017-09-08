@@ -140,6 +140,34 @@ public class TrumpiaAPILibrary {
 		else
 			return false;
 	}
+	
+	public static JSONObject setList(String requestBody, TrumpiaAccountEntity trumpia) {
+		String response = null;
+		try {
+			HttpRequest request = createRequestWithResponseBody(requestBody, "/list", trumpia);
+			response = request.put();
+		} catch (IOException e) {
+			e.getMessage();
+			e.printStackTrace();
+		}
+		
+		JSONObject json = new JSONObject(response);
+		return json;
+	}
+	
+	public static JSONObject deleteList(String id, TrumpiaAccountEntity trumpia) {
+		String response = null;
+		try {
+			HttpRequest request = createRequestWithoutResponseBody("/list/" + id, trumpia);
+			response = request.delete();
+		} catch (IOException e) {
+			e.getMessage();
+			e.printStackTrace();
+		}
+		
+		JSONObject json = new JSONObject(response);
+		return json;
+	}
 
 	////
 
@@ -155,7 +183,7 @@ public class TrumpiaAPILibrary {
 
 		HttpRequest request;
 		request = new HttpRequest.Builder()
-				.URL(baseUrl+ "/rest/v1/" + url)
+				.URL(baseUrl+ "/rest/v1/" + userId + url)
 				.headers(headers)
 				.setRawBody(body)
 				.build();

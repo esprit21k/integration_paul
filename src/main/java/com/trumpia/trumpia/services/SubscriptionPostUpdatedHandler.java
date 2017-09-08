@@ -19,9 +19,8 @@ public class SubscriptionPostUpdatedHandler implements SubscriptionPostHandler {
 			String id = findSubscriptionId(subscription);
 			deleteRepeatedContactInfo(id, subscription);
 			JSONObject response = TrumpiaAPILibrary.postChangedSubscriptionInfo(createSubscriptionBody(subscription, list), id, trumpia);
-			
-			JSONArray request = new JSONArray(TrumpiaAPILibrary.getStatusReport(response.getString("request_id"), trumpia));
-			return request.getJSONObject(0).getString("subscription_id");
+			JSONObject request = new JSONObject(TrumpiaAPILibrary.getStatusReport(response.getString("request_id"), trumpia));
+			return request.get("subscription_id").toString();
 		}
 		catch(IllegalArgumentException e) {
 			e.getMessage();
@@ -55,7 +54,7 @@ public class SubscriptionPostUpdatedHandler implements SubscriptionPostHandler {
 		}
 		
 		if(subsJSON.has("landline")) {
-			JSONObject response = TrumpiaAPILibrary.searchSubscriptionByMobile(subsJSON.getJSONObject("lnadline").getString("number"), trumpia);
+			JSONObject response = TrumpiaAPILibrary.searchSubscriptionByLandline(subsJSON.getJSONObject("landline").getString("number"), trumpia);
 			if(response.has("subscription_id_list")) {
 				if(id == null) {
 					id = response.getJSONArray("subscription_id_list").getString(0);
@@ -73,20 +72,21 @@ public class SubscriptionPostUpdatedHandler implements SubscriptionPostHandler {
 	private void deleteRepeatedContactInfo(String id, Subscription subs) {
 		JSONObject target = TrumpiaAPILibrary.searchSubscriptionBySubsId(id, trumpia);
 		JSONObject subsJSON = subs.toJSON();
-		
 		if(target.has("email") && subs.getEmail() != null) {
-			if(target.getString("email").equals(subs.getEmail()))
-				subs.setEmail(null);
+			if(target.getJSONObject("email").getString("value").equals(subs.getEmail()))
+				subs.setEmail(null);			
 		}
 		
 		if(target.has("mobile") && subs.getMobileNumber() != null) {
-			if(target.getJSONObject("mobile").equals(subsJSON.getJSONObject("mobile")))
+			if(target.getJSONObject("mobile").getString("value").equals(subsJSON.getJSONObject("mobile").getString("number"))
+				&& target.getJSONObject("mobile").getString("country_code").equals(subsJSON.getJSONObject("mobile").getString("country_code")))
 				subs.setMobileNumber(null);
 		}
 		
 		if(target.has("landline") && subs.getLandLine() != null) {
-			if(target.getJSONObject("landline").equals(subsJSON.getJSONObject("landline")))
-				subs.setLandLine(null);
+			if(target.getJSONObject("landline").getString("value").equals(subsJSON.getJSONObject("landline").getString("number"))
+					&& target.getJSONObject("landline").getString("country_code").equals(subsJSON.getJSONObject("landline").getString("country_code")))
+					subs.setLandLine(null);
 		}
 	}
 
