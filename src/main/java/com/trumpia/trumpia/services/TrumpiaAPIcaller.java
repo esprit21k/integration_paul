@@ -6,20 +6,13 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.trumpia.data.UserRepository;
 import com.trumpia.trumpia.data.SubscriptionIdMappingRepository;
-import com.trumpia.trumpia.data.TrumpiaAccountRepository;
 import com.trumpia.trumpia.model.Subscription;
 import com.trumpia.trumpia.model.SubscriptionIdMappingEntity;
 import com.trumpia.trumpia.model.TrumpiaAccountEntity;
 
 public class TrumpiaAPIcaller {
-	@Autowired
-	TrumpiaAccountRepository trumpiaRepo;
-	@Autowired
-	UserRepository userRepo;
 	@Autowired
 	private SubscriptionIdMappingRepository mappingRepo;
 	private SubscriptionPostHandler post;
@@ -32,9 +25,8 @@ public class TrumpiaAPIcaller {
 	postOption = update / replace
 	deleteOption = delete / undelete
 	*/
-	public TrumpiaAPIcaller(String postOption, boolean deleteOption){
-		//Fix : init tumpiaAccountEntity;
-		trumpia = trumpiaRepo.findByUserEntity(userRepo.findOneByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+	public TrumpiaAPIcaller(TrumpiaAccountEntity trumpia, String postOption, boolean deleteOption){
+		this.trumpia = trumpia; 
 		putList = new ArrayList<Subscription>();
 		post = TrumpiaAPIcallerFactory.post(postOption, trumpia);
 		this.deleteOption = deleteOption;
@@ -158,7 +150,4 @@ public class TrumpiaAPIcaller {
 			}
 		}
 	}
-	
-
-	
 }

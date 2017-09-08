@@ -28,8 +28,7 @@ public class AccountController {
 	private TrumpiaAccountRepository trumRepo;
 	@Autowired
 	private UserRepository userRepo;
-	
-	private UserEntity user = userRepo.findOneByUsername(SecurityContextHolder.getContext().getAuthentication().getName()); 
+
 	/*
 	 * INPUT:
 	 {
@@ -41,6 +40,7 @@ public class AccountController {
 
 	@RequestMapping(method = RequestMethod.PUT)
 	public String putTrumpiaAccount(@RequestBody String input) {
+		UserEntity user = userRepo.findOneByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 		TrumpiaAccountEntity account = new TrumpiaAccountEntity(new JSONObject(input));
 		account.setUserEntity(user);
 		//valid check
@@ -115,6 +115,7 @@ public class AccountController {
 	 */
 	@RequestMapping(method = RequestMethod.GET) // ?size=2&page=0 (page starts with index 0)
 	public String getTrumpiaAccount(Pageable page) {
+		UserEntity user = userRepo.findOneByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 		Page<TrumpiaAccountEntity> fetchedPage = trumRepo.findByUserEntity(new PageRequest(page.getPageNumber(), page.getPageSize(), Sort.Direction.ASC, "updatedDate"), user);	
 
 		JSONObject info = new JSONObject();
