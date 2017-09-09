@@ -15,7 +15,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.trumpia.dynamics.model.DynamicsAccountEntity;
@@ -57,7 +56,7 @@ public class DynamicsSchema {
 		return property;
 	}
 
-	public void getDynamicsSchema(DynamicsAccountEntity dynamicsAccountEntity) {
+	public void getDynamicsSchema(DynamicsAccountEntity dynamicsAccountEntity) throws Exception {
 		//		dynamicsAccountEntity = EntityUtil.findDynamicEntityByPrincipal();
 		properties = new HashMap<String, String>();
 		this.accessToken = dynamicsAccountEntity.getAccessToken();
@@ -77,9 +76,10 @@ public class DynamicsSchema {
 			properties.put(entity.getName(), entity.getType());
 	}
 
-	private void getDynamicsSchemaFromDynamicsAPI() {
-		try {
+	private void getDynamicsSchemaFromDynamicsAPI() throws Exception {
+
 			String XMLstring = getMetaDataSchema();
+			System.out.println("XMLString: "+XMLstring);
 			Document doc = parseXML(XMLstring);
 			doc.getDocumentElement().normalize();
 			if (!doc.getElementsByTagName("EntityType").equals(null))
@@ -87,10 +87,7 @@ public class DynamicsSchema {
 			else
 				throw new DynamicsSchemaException("Wrong XML data: "+doc.toString());
 			storePropertyInfoToMap(propertiesInfo);
-		} catch (Exception e) {
-			e.getMessage();
-			e.printStackTrace();
-		}
+
 	}
 
 	private NodeList findPropertiesInfo(NodeList entityTypeList) {

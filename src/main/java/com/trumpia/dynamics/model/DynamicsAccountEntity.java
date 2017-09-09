@@ -33,6 +33,9 @@ public class DynamicsAccountEntity {
 	@Column(length=2000)
 	private String refreshToken;
 	
+	@Column
+	private String deltaToken;
+	
 	@Column(columnDefinition="timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date expireDate;
@@ -72,6 +75,7 @@ public class DynamicsAccountEntity {
 		this.id = id;
 	}
 
+	
 	public String getResourceUrl() {
 		return resourceUrl;
 	}
@@ -95,11 +99,20 @@ public class DynamicsAccountEntity {
 	public void setRefreshToken(String refreshToken) {
 		this.refreshToken = refreshToken;
 	}
+	
+	public String getDeltaToken() {
+		return deltaToken;
+	}
+
+	public void setDeltaToken(String deltaToken) {
+		this.deltaToken = deltaToken;
+	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + StringUtils.nullTextIfNull(id)
-			 + ", createdDate=" + StringUtils.nullTextIfNull(createdDate)  + ", updatedDate=" + StringUtils.nullTextIfNull(updatedDate) + "]";
+		return "DynamicsAccountEntity [id=" + id + ", resourceUrl=" + resourceUrl + ", accessToken=" + accessToken
+				+ ", refreshToken=" + refreshToken + ", deltaToken=" + deltaToken + ", expireDate=" + expireDate
+				+ ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + ", userEntity=" + userEntity + "]";
 	}
 
 }

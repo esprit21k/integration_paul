@@ -42,7 +42,7 @@ public class RefreshAccessToken {
 		
 		ObjectNode responseData = JSONUtils.getNewObjectNode();
 		responseData = JSONUtils.stringToJSON(msg);
-		this.accessToken = responseData.get("access_token").toString();
-		this.refreshToken = responseData.get("refresh_token").toString();
+		this.accessToken = responseData.get("access_token").asText();
+		this.refreshToken = responseData.get("refresh_token").asText();
 	}
 }

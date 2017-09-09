@@ -140,5 +140,11 @@ public class Subscription {
 	public void setCustomField(HashMap<String, String> customField) {
 		this.customField = customField;
 	}
+	
+	@Override
+	public String toString() {
+		return "Subscription [mobileNumber=" + mobileNumber + ", landLine=" + landLine + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", email=" + email + ", customField=" + customField + "]";
+	}
 
 }

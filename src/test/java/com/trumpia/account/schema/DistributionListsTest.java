@@ -12,7 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.trumpia.trumpia.schema.api.DistributionListCall;
 import com.trumpia.trumpia.schema.model.DistributionList;
 import com.trumpia.util.Http.HttpRequest;
 

@@ -3,42 +3,59 @@ package com.trumpia.dynamics.APIcaller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.io.JsonEOFException;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.trumpia.dynamics.data.DynamicsAccountRepository;
+import com.trumpia.dynamics.model.DynamicsAccountEntity;
+import com.trumpia.dynamics.services.SubscriptionParser;
+import com.trumpia.mapping.model.MappingEntity;
 import com.trumpia.util.JSONUtils;
-import com.trumpia.util.Subscription;
 import com.trumpia.util.Http.HttpRequest;
 
 public class DynamicsAPIcaller {
-	private String accessToken;
-	private String initializeURL;
-	private String deltaKeyURL;
-
-	private ArrayList<Subscription> changedSubscription = new ArrayList<Subscription>();
+	@Autowired
+	private DynamicsAccountRepository dynamicsRepo;
 	
-	public DynamicsAPIcaller(String accessToken, String resourseURL) {
-		this.accessToken = accessToken;
-		this.initializeURL = resourseURL+"/api/data/v8.2/contacts?&$select=firstname,lastname,mobilephone";
+	private DynamicsAccountEntity dynamicsAccount;
+	private String accessToken;
+	private String initializeUrl;
+	private String resourceUrl;
+	private String deltaToken;
+	private String field = "contact";
+
+	private List<SubscriptionParser> changedSubscription;
+	private List<MappingEntity> schema;
+
+	public DynamicsAPIcaller(DynamicsAccountEntity dynamicsAccount, String field, List<MappingEntity> schema) {
+		this.dynamicsAccount = new DynamicsAccountEntity();
+		this.dynamicsAccount = dynamicsAccount;
+		this.accessToken = dynamicsAccount.getAccessToken();
+		this.resourceUrl = dynamicsAccount.getResourceUrl();
+		this.field = field;
+		this.initializeUrl = resourceUrl+"/api/data/v8.2/"+field+"s?$select="+field+"id";
+		this.deltaToken = dynamicsAccount.getDeltaToken();
+		this.schema = schema;
 	}
 
-	public ArrayList<Subscription> getContactChange() {
+
+	public List<SubscriptionParser> getContactChange() throws Exception {
+		changedSubscription = new ArrayList<SubscriptionParser>();
 		try {
-			System.out.println(accessToken);
-			if(deltaKeyURL == null)
+			if(deltaToken == null) {
 				getDeltaKey();
+				retrieveChangedData(resourceUrl+"/api/data/v8.2/"+field+"s");
+			}
 			else
-				retrieveChangedData();
+				retrieveChangedData(resourceUrl+"/api/data/v8.2/"+field+"s/?$"+deltaToken);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return changedSubscription;	
-		
 	} 
 
 	private void getDeltaKey() throws Exception {
@@ -49,53 +66,51 @@ public class DynamicsAPIcaller {
 		headers.put("Prefer", "odata.track-changes");		
 
 		HttpRequest request = new HttpRequest.Builder()
-				.URL(initializeURL)
+				.URL(initializeUrl)
 				.headers(headers)
 				.build();
-		
+		String msg = request.get();
 		ObjectNode objectNode = JSONUtils.getNewObjectNode();	
-		objectNode = JSONUtils.stringToJSON(request.get());
-		updateDeltaKey(objectNode.get("@odata.deltaLink").toString());
+		objectNode = JSONUtils.stringToJSON(msg);
+		String deltaToken = objectNode.get("@odata.deltaLink").asText();
+		deltaToken = deltaToken.substring(deltaToken.indexOf("deltatoken"));
 		return;
 	}
-	
-	private void retrieveChangedData() throws IOException{
-		ObjectNode json = JSONUtils.getNewObjectNode();
-		json = JSONUtils.stringToJSON(sendSearchRequest());
-		
-		ArrayNode valueArray = JSONUtils.getNewArrayNode();
-		valueArray.add(json.get("value"));
-		JsonParser value = factory.createParser(json.get("value").toString());
-		ArrayNode valueArray = mapper.readTree(value);
 
-		updateDeltaKey(json.get("@odata.deltaLink").toString());
+	private void retrieveChangedData(String url) throws Exception{
+		ObjectNode json = JSONUtils.getNewObjectNode();
+		json = JSONUtils.stringToJSON(sendSearchRequest(url));
+
+		ArrayNode valueArray = JSONUtils.getNewArrayNode();
+		valueArray = (ArrayNode)json.get("value");
+
+		String deltaLink = json.get("@odata.deltaLink").asText();
+		deltaToken = deltaLink.substring(deltaLink.indexOf("deltatoken"));
 		getChangedData(valueArray);
 		return;
 	}
-	private String sendSearchRequest() throws IOException {
+
+	private String sendSearchRequest(String url) throws IOException {
 		HashMap<String, String> headers = new HashMap<String, String>();
 		headers.put("Authorization", accessToken);
 		headers.put("OData-MaxVersion", "4.0");
 		headers.put("OData-Version", "4.0");
+		headers.put("Prefer", "odata.track-changes");
 
 		HttpRequest request = new HttpRequest.Builder()
-				.URL(deltaKeyURL)
+				.URL(url)
 				.headers(headers)
 				.build();
-		System.out.println("hi: "+request.get());
 		return request.get();
 	}
-	
-	private void updateDeltaKey(String key) {
-		deltaKeyURL = key;
-	}
-	
-	private void getChangedData(ArrayNode arr) {
+
+	private void getChangedData(ArrayNode arr) throws Exception {
 		for(Object tmp : arr) {
-			changedSubscription.add(new Subscription((ObjectNode)tmp));
+			changedSubscription.add(new SubscriptionParser(JSONUtils.stringToJSON(tmp.toString()), schema));
 		}
 	}
-	public ArrayList<Subscription> getChangedSubscription() {
+
+	public List<SubscriptionParser> getChangedSubscription() {
 		return changedSubscription;
 	}
 }

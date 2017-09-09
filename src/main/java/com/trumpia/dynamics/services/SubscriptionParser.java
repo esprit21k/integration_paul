@@ -18,15 +18,18 @@ public class SubscriptionParser {
 		this.subs = new Subscription();
 
 		parsing();
+		System.out.println("subs: "+subs.toString());
 	}
 
-	private void parsing() {
-		subs.setId(input.get("id").toString()); 
-
-		if(isDeletedSubscription()) 
+	private void parsing() {	
+		if(isDeletedSubscription()) {
+			subs.setId(input.get("id").asText()); 
 			subs.setDeleted(true);
-		else
+		}
+		else {
+			subs.setId(input.get("contactid").asText());
 			parsingInputBasedOnSchema();
+		}
 	}
 
 	private boolean isDeletedSubscription() {
@@ -41,9 +44,9 @@ public class SubscriptionParser {
 
 	private void parsingColumn(MappingEntity column) {
 		if(isCustomData(column.getTrumpiaFieldName()))
-			putCustomDataIntoCustomField(column.getCustomDataId(), input.remove(column.getTargetFieldName()).toString());
+			putCustomDataIntoCustomField(column.getCustomDataId(), input.remove(column.getTargetFieldName()).asText());
 		else
-			putData(column.getTrumpiaFieldName(), input.remove(column.getTargetFieldName()).toString());
+			putData(column.getTrumpiaFieldName(), input.remove(column.getTargetFieldName()).asText());
 	}
 
 	private boolean isCustomData(String trumpiaFieldName) {
@@ -74,7 +77,7 @@ public class SubscriptionParser {
 			subs.setEmail(value);
 	}
 
-	public Subscription getPasredSubscription() {
+	public Subscription getParsedSubscription() {
 		return subs;
 	}	
 }

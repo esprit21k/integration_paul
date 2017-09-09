@@ -29,12 +29,10 @@ public class JSONUtils {
 	}
 
 	public static String toJSONString(ObjectNode objectNode) throws JsonProcessingException {
-
 		return objectMapper.writeValueAsString(objectNode);
-
 	}
 
-	public static ObjectNode stringToJSON(String message) throws Exception  {
+	public static ObjectNode stringToJSON(String message) throws Exception {
 		JsonFactory factory = objectMapper.getFactory();
 		JsonParser jsonParser = factory.createParser(message);
 		ObjectNode objectNode = objectMapper.readTree(jsonParser);	

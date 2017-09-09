@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.trumpia.dynamics.views.DynamicsController;
 
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -198,7 +197,7 @@ public class HttpRequest {
 			if (this.queryParameters != null)
 				for (Map.Entry<String, String> queryParameter : this.queryParameters.entrySet())
 					temp = temp.addQueryParameter(queryParameter.getKey(), queryParameter.getValue());
-			return temp;	
+			return temp; 
 		}
 
 		public HttpRequest build() throws JsonProcessingException {
@@ -214,7 +213,7 @@ public class HttpRequest {
 			String requestBodyAsString = requestBody == null ? "" : requestBody.toString();
 			getLogger(HttpRequest.class).debug("URL : {}, body: {}", url, requestBodyAsString);
 			return new HttpRequest(requestBody, request);
-		}	
+		} 
 	}
 
 	public class UnsuccessfulRequestException extends RuntimeException {

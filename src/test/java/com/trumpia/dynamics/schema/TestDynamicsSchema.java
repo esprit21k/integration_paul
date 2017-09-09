@@ -56,26 +56,24 @@ public class TestDynamicsSchema {
 	public void testProperties() throws Exception {
 		test.getDynamicsSchema(dynamicsAccountEntity);
 		HashMap<String, String> properties = test.getProperties();
-		getLogger(TestDynamicsSchema.class).error("accessToken: "+accessToken);
+		getLogger(TestDynamicsSchema.class).error("properties: "+properties);
 		assertTrue(properties.get("mobilephone").equals("Edm.String"));
 		assertTrue(properties.get("spousesname").equals("Edm.String"));
 		assertTrue(properties.get("merged").equals("Edm.Boolean"));
 		System.out.println(test.propertiesToJSON().toString());
-//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//		System.out.println(authentication.toString());
 	}
 	
-//	@Test
-//	public void testStoreDB() throws Exception {
-//		test.getDynamicsSchema(dynamicsAccountEntity);
-//		test.storeDynamicsSchemaDB();
-//		test.setPropertiesFromDB(test.dynamicsSchemaEntityLists);
-//		HashMap<String, String> properties = test.getProperties();
-//		assertTrue(properties.get("mobilephone").equals("Edm.String"));
-//		assertTrue(properties.get("spousesname").equals("Edm.String"));
-//		assertTrue(properties.get("merged").equals("Edm.Boolean"));
-//		System.out.println(test.propertiesToJSON().toString());
-//	}
+	@Test
+	public void testStoreDB() throws Exception {
+		test.getDynamicsSchema(dynamicsAccountEntity);
+		test.storeDynamicsSchemaDB();
+		test.setPropertiesFromDB(test.dynamicsSchemaEntityLists);
+		HashMap<String, String> properties = test.getProperties();
+		assertTrue(properties.get("mobilephone").equals("Edm.String"));
+		assertTrue(properties.get("spousesname").equals("Edm.String"));
+		assertTrue(properties.get("merged").equals("Edm.Boolean"));
+		System.out.println(test.propertiesToJSON().toString());
+	}
 	
 	
 	private void makeEntity() {
