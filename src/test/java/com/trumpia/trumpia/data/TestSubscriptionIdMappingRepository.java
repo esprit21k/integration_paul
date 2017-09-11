@@ -21,10 +21,7 @@ public class TestSubscriptionIdMappingRepository {
 
 	@Autowired
 	SubscriptionIdMappingRepository repo;
-	@Autowired
-	public void setRepository(SubscriptionIdMappingRepository repo) {
-		this.repo = repo;
-	}
+	
 	@Test
 	public void test() {
 		SubscriptionIdMappingEntity test = new SubscriptionIdMappingEntity("trumpia", "target");

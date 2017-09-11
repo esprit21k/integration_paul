@@ -19,6 +19,5 @@ public class TestAccountController {
 	@Test
 	public void test() {
 		String url = "http://localhost:" + String.valueOf(port) + "/trumpia/account";
-		
 	}
 }

@@ -6,15 +6,19 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.trumpia.trumpia.data.SubscriptionIdMappingRepository;
 import com.trumpia.trumpia.model.Subscription;
 import com.trumpia.trumpia.model.SubscriptionIdMappingEntity;
 import com.trumpia.trumpia.model.TrumpiaAccountEntity;
 
+@Service
 public class TrumpiaAPIcaller {
+	
 	@Autowired
 	private SubscriptionIdMappingRepository mappingRepo;
+	
 	private SubscriptionPostHandler post;
 	private boolean deleteOption;
 	private List<Subscription> putList;
@@ -25,6 +29,27 @@ public class TrumpiaAPIcaller {
 	postOption = update / replace
 	deleteOption = delete / undelete
 	*/
+	
+	public TrumpiaAPIcaller() {
+		putList = new ArrayList<Subscription>();
+	}
+	
+	
+	public void setPost(String post, TrumpiaAccountEntity trumpia) {
+		this.post = TrumpiaAPIcallerFactory.post(post, trumpia);
+	}
+
+
+	public void setDeleteOption(boolean deleteOption) {
+		this.deleteOption = deleteOption;
+	}
+
+
+	public void setTrumpia(TrumpiaAccountEntity trumpia) {
+		this.trumpia = trumpia;
+	}
+
+
 	public TrumpiaAPIcaller(TrumpiaAccountEntity trumpia, String postOption, boolean deleteOption){
 		this.trumpia = trumpia; 
 		putList = new ArrayList<Subscription>();
@@ -40,10 +65,10 @@ public class TrumpiaAPIcaller {
 	}
 	
 	private void handleSubscription(Subscription subs, String listName) {
-		if(subs.noContactInfo()) // this part need LOG!! 
-			return; 
 		if(subs.isDeleted())
 			deleteSubs(subs);
+		if(subs.noContactInfo()) // this part need LOG!! 
+			return; 
 		else
 			upload(subs, listName);		
 	}
@@ -80,12 +105,10 @@ public class TrumpiaAPIcaller {
 	private void postAndSaveToRepo(Subscription subs, String list) {
 		String trumpiaId = post.postSubscription(subs, list);
 		String targetId = subs.getId();
-		
 		SubscriptionIdMappingEntity map = mappingRepo.findOneByTargetSubscriptionId(targetId);
-		
 		//if trumpiaId == null, exception happened
 		if(trumpiaId != null) {
-			if(map != null)
+			if(map != null) 
 				mappingRepo.delete(map.getId());
 			
 			mappingRepo.save(createMappingEntity(trumpiaId, targetId));
@@ -122,7 +145,7 @@ public class TrumpiaAPIcaller {
 
 	private void sendPutRequest(String listName) {
 		if(putList.size() == 0) return;
-
+		
 		JSONObject response = TrumpiaAPILibrary.putNewSubscriptionInfo(createSubscriptionBody(listName).toString(), trumpia);
 		saveSubscriptionMappingInfo(response);
 	}

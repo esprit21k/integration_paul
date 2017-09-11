@@ -114,9 +114,6 @@ public class TestSubscriptionPostUpdateHandler {
 	
 	@After
 	public void tearUp() {
-		for(int i = 0 ; i < ids.length ; i++)
-			TrumpiaAPILibrary.deleteSubscriptionInfo(ids[i], trumpia);
-
 		TrumpiaAPILibrary.deleteList(listId, trumpia);
 	}
 	

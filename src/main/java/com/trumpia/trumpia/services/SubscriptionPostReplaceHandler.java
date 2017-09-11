@@ -36,7 +36,6 @@ public class SubscriptionPostReplaceHandler implements SubscriptionPostHandler {
 		System.out.println(subscriptionsBody);
 		JSONObject response = TrumpiaAPILibrary.putNewSubscriptionInfo(subscriptionsBody, trumpia);
 		JSONArray request = new JSONArray(TrumpiaAPILibrary.getStatusReport(response.getString("request_id"), trumpia));
-		System.out.println(request.toString());
 		//return id
 		return request.getJSONObject(0).get("subscription_id").toString();
 	}
