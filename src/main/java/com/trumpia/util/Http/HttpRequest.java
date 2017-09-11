@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.trumpia.util.JSONUtils;
 
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -69,6 +71,30 @@ public class HttpRequest {
 				throw new UnsuccessfulRequestException("Content : " + response + "\nStatus code : " + String.valueOf(responseObj.code()), responseObj.code());
 			}
 			response = responseObj.body().string();
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (responseObj != null)
+				responseObj.body().close();
+		}
+		return response;
+	}
+	
+	public String postHeader() throws IOException { // to get responseObj.headers()
+		String response = null;
+		Response responseObj = null;
+		try {
+			responseObj = client.newCall(request.post(body).build())
+					.execute();
+			if (responseObj.code() >= 400) {
+				getLogger(HttpRequest.class).error(responseObj.message());
+				getLogger(HttpRequest.class).error(responseObj.body().string());
+				final Buffer buffer = new Buffer();
+				body.writeTo(buffer);
+				getLogger(HttpRequest.class).error(buffer.readUtf8());
+				throw new UnsuccessfulRequestException("Content : " + response + "\nStatus code : " + String.valueOf(responseObj.code()), responseObj.code());
+			}
+			response = responseObj.headers().toString();
 		} catch (Exception e) {
 			throw e;
 		} finally {

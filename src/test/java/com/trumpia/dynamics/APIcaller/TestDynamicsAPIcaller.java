@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.trumpia.Main;
 import com.trumpia.dynamics.data.DynamicsAccountRepository;
 import com.trumpia.dynamics.model.DynamicsAccountEntity;
@@ -24,6 +25,9 @@ import com.trumpia.mapping.data.MappingRepository;
 import com.trumpia.mapping.model.MappingEntity;
 import com.trumpia.util.JSONUtils;
 import com.trumpia.util.Http.HttpRequest;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {Main.class})
@@ -61,15 +65,22 @@ public class TestDynamicsAPIcaller {
 		dynamics = new DynamicsAPIcaller(dynamicsEntity, "contact", schema);
 		
 	}
-
-	@Test
-	public void initializeTest() throws Exception {
-		assertEquals(getDynamicsContactNum(resourceUrl+"/api/data/v8.2/contacts"), dynamics.getContactChange().size());
-	}
 	
 	@Test
-	public void changeTest() {
+	public void changeTest() throws Exception {
+//		initializeTest
+		assertEquals(getDynamicsContactNum(resourceUrl+"/api/data/v8.2/contacts"), dynamics.getContactChange().size());
 		
+//		changeTest
+		ObjectNode contactBody = JSONUtils.getNewObjectNode();
+		contactBody.put("firstname", "sample");
+		contactBody.put("lastname", "account");
+		contactBody.put("emailaddress1", "asdf@gmail.com");
+		String contactId = makeDynamicsContact(contactBody);
+		String change = dynamics.getContactChange().get(0).toString();
+		System.out.println("change: "+change);
+		assertEquals("sample", change.substring(change.indexOf("firstName")+10, change.indexOf("firstName")+16));
+		deleteDynamicsContact(contactId);
 	}
 	
 	private void makeEntity() {
@@ -100,6 +111,37 @@ public class TestDynamicsAPIcaller {
 		ArrayNode arrayNode = JSONUtils.getNewArrayNode();
 		arrayNode = (ArrayNode)JSONUtils.stringToJSON(request.get()).get("value");
 		return arrayNode.size();
+	}
+	
+	private String makeDynamicsContact(ObjectNode contactBody) throws Exception {
+		RequestBody body = RequestBody.create(MediaType.parse("application/json"), contactBody.toString());
+		HashMap<String, String> headers = new HashMap<String, String>();
+		headers.put("Authorization", accessToken);
+		headers.put("OData-MaxVersion", "4.0");
+		headers.put("OData-Version", "4.0");
+
+		HttpRequest request = new HttpRequest.Builder()
+				.URL(resourceUrl+"/api/data/v8.2/contacts")
+				.headers(headers)
+				.setRawBody(body)
+				.build();
+		String msg = request.postHeader();
+		String contactid = msg.substring(msg.indexOf("contacts")+9, msg.indexOf("contacts")+45);
+		return contactid;
+	}
+	
+	private String deleteDynamicsContact(String contactid) throws IOException {
+		HashMap<String, String> headers = new HashMap<String, String>();
+		headers.put("Authorization", accessToken);
+		headers.put("OData-MaxVersion", "4.0");
+		headers.put("OData-Version", "4.0");
+
+		HttpRequest request = new HttpRequest.Builder()
+				.URL(resourceUrl+"/api/data/v8.2/contacts("+contactid+")")
+				.headers(headers)
+				.build();
+		String msg = request.delete();
+		return msg;
 	}
 
 }

@@ -14,12 +14,12 @@ import com.trumpia.dynamics.data.DynamicsAccountRepository;
 import com.trumpia.dynamics.model.DynamicsAccountEntity;
 import com.trumpia.dynamics.services.SubscriptionParser;
 import com.trumpia.mapping.model.MappingEntity;
+import com.trumpia.trumpia.model.Subscription;
 import com.trumpia.util.JSONUtils;
 import com.trumpia.util.Http.HttpRequest;
 
 public class DynamicsAPIcaller {
-	@Autowired
-	private DynamicsAccountRepository dynamicsRepo;
+
 	
 	private DynamicsAccountEntity dynamicsAccount;
 	private String accessToken;
@@ -28,23 +28,21 @@ public class DynamicsAPIcaller {
 	private String deltaToken;
 	private String field = "contact";
 
-	private List<SubscriptionParser> changedSubscription;
+	private List<Subscription> changedSubscription;
 	private List<MappingEntity> schema;
 
 	public DynamicsAPIcaller(DynamicsAccountEntity dynamicsAccount, String field, List<MappingEntity> schema) {
-		this.dynamicsAccount = new DynamicsAccountEntity();
-		this.dynamicsAccount = dynamicsAccount;
 		this.accessToken = dynamicsAccount.getAccessToken();
 		this.resourceUrl = dynamicsAccount.getResourceUrl();
 		this.field = field;
 		this.initializeUrl = resourceUrl+"/api/data/v8.2/"+field+"s?$select="+field+"id";
-		this.deltaToken = dynamicsAccount.getDeltaToken();
+		this.deltaToken = null;
 		this.schema = schema;
 	}
 
 
-	public List<SubscriptionParser> getContactChange() throws Exception {
-		changedSubscription = new ArrayList<SubscriptionParser>();
+	public List<Subscription> getContactChange() throws Exception {
+		changedSubscription = new ArrayList<Subscription>();
 		try {
 			if(deltaToken == null) {
 				getDeltaKey();
@@ -106,11 +104,12 @@ public class DynamicsAPIcaller {
 
 	private void getChangedData(ArrayNode arr) throws Exception {
 		for(Object tmp : arr) {
-			changedSubscription.add(new SubscriptionParser(JSONUtils.stringToJSON(tmp.toString()), schema));
+			SubscriptionParser subParser = new SubscriptionParser(JSONUtils.stringToJSON(tmp.toString()), schema);
+			changedSubscription.add(subParser.getParsedSubscription());
 		}
 	}
 
-	public List<SubscriptionParser> getChangedSubscription() {
+	public List<Subscription> getChangedSubscription() {
 		return changedSubscription;
 	}
 }
