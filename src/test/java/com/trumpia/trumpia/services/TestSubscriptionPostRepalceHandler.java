@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import com.trumpia.trumpia.model.Subscription;
 import com.trumpia.trumpia.model.TrumpiaAccountEntity;
+import com.trumpia.trumpia.util.SubscriptionBody;
 
 public class TestSubscriptionPostRepalceHandler {
 	TrumpiaAccountEntity trumpia;
@@ -25,7 +26,7 @@ public class TestSubscriptionPostRepalceHandler {
 		///Trumpia account 
 		trumpia = new TrumpiaAccountEntity();
 		trumpia.setApikey("0c900c585477152326c20ff757625926");
-		trumpia.setUniqueId("JohnHan");
+		trumpia.setUsername("JohnHan");
 		replace =  new SubscriptionPostReplaceHandler(trumpia);
 
 		// list info
@@ -49,7 +50,7 @@ public class TestSubscriptionPostRepalceHandler {
 		subs[2].setLandLine("7143004000");
 
 		for(int i = 0; i < subs.length ; i++) {
-			String tmp = createSubscriptionBody(subs[i], "test1qw32");
+			String tmp = SubscriptionBody.createSubscriptionBody(subs[i], "test1qw32");
 			JSONObject response = TrumpiaAPILibrary.putNewSubscriptionInfo(tmp, trumpia);
 			String report = TrumpiaAPILibrary.getStatusReport(response.getString("request_id"), trumpia);			
 			JSONArray reportArray = new JSONArray(report);
@@ -85,17 +86,5 @@ public class TestSubscriptionPostRepalceHandler {
 
 		TrumpiaAPILibrary.deleteList(listId, trumpia);
 	}
-
-	private String createSubscriptionBody(Subscription subs, String list) {
-		JSONObject body = new JSONObject();
-		JSONArray subscriptions = new JSONArray();
-		subscriptions.put(subs.toJSON());
-
-		body.put("list_name", list);
-		body.put("subscriptions", subscriptions);
-
-		return body.toString();
-	}	
-
 }
 

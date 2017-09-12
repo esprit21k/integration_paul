@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.trumpia.data.UserRepository;
 import com.trumpia.model.UserEntity;
 import com.trumpia.trumpia.data.TrumpiaAccountRepository;
@@ -32,7 +33,7 @@ public class AccountController {
 	/*
 	 * INPUT:
 	 {
-		"uniqueID" : "testID1234",
+		"username" : "testID1234",
 		"APIKey" : "some-api-key-thing",
 		"description" : "thisIsExample"
 	 }
@@ -46,16 +47,14 @@ public class AccountController {
 		//valid check
 		if(!TrumpiaAPILibrary.validCheck(account))
 			return authenticationFailJSON();
-		else if(isAlreadyInDB(account))
+		if(isAlreadyInDB(account))
 			return failJSON(account);
-		else {
-			trumRepo.save(account);
-			return successJSON(account);
-		}
+		trumRepo.save(account);
+		return successJSON(account);
 	}
 
 	private boolean isAlreadyInDB(TrumpiaAccountEntity account) {
-		if(trumRepo.findOneByApikey(account.getApikey()) != null && trumRepo.findOneByUniqueId(account.getUniqueId()) != null)
+		if(trumRepo.findOneByApikey(account.getApikey()) != null && trumRepo.findOneByUsername(account.getUsername()) != null)
 			return true;
 		else
 			return false;
@@ -72,7 +71,7 @@ public class AccountController {
 	private String failJSON(TrumpiaAccountEntity account) {
 		APIResponse response = new APIResponse();
 		response.setError(true);
-		response.setMessage("Account already registerd: " + account.getUniqueId());
+		response.setMessage("Account already registerd: " + account.getUsername());
 
 		return response.getJSONResponse();
 	}
@@ -83,8 +82,9 @@ public class AccountController {
 		response.setMessage("success");
 
 		try {
-			String id = "{\"id\":\"" + account.getId().toString()+"\"}";
-			response.setData(JSONUtils.stringToJSON(id));
+			ObjectNode node = JSONUtils.getNewObjectNode();
+			node.put("id", account.getId().toString());
+			response.setData(node);
 			return response.getJSONResponse();
 		} catch (Exception e) {
 			APIResponse fail = new APIResponse();

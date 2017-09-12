@@ -10,6 +10,6 @@ import com.trumpia.trumpia.model.TrumpiaAccountEntity;
 public interface TrumpiaAccountRepository extends PagingAndSortingRepository<TrumpiaAccountEntity, Long>{
 	TrumpiaAccountEntity findByUserEntity(UserEntity entity);
 	TrumpiaAccountEntity findOneByApikey(String APIkey);
-	TrumpiaAccountEntity findOneByUniqueId(String id);
+	TrumpiaAccountEntity findOneByUsername(String id);
 	Page<TrumpiaAccountEntity> findByUserEntity(Pageable page, UserEntity entity);
 }

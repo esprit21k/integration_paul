@@ -46,7 +46,7 @@ public class TestTrumpiaAPIcaller {
 		//Test trumpia account
 		trumpia = new TrumpiaAccountEntity();
 		trumpia.setApikey("0c900c585477152326c20ff757625926");
-		trumpia.setUniqueId("JohnHan");
+		trumpia.setUsername("JohnHan");
 
 		//init data
 		set = new ArrayList<Subscription>();

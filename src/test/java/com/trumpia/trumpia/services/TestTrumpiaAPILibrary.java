@@ -40,7 +40,7 @@ public class TestTrumpiaAPILibrary {
 	public void setUp() {
 		trumpia = new TrumpiaAccountEntity(); 
 		trumpia.setApikey("0c900c585477152326c20ff757625926 ");
-		trumpia.setUniqueId("Johnhan");
+		trumpia.setUsername("Johnhan");
 		
 		JSONObject body = new JSONObject();
 		body.put("list_name", LISTNAME);

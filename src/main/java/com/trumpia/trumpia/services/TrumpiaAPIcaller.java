@@ -1,6 +1,5 @@
 package com.trumpia.trumpia.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -30,11 +29,6 @@ public class TrumpiaAPIcaller {
 	deleteOption = delete / undelete
 	*/
 	
-	public TrumpiaAPIcaller() {
-		putList = new ArrayList<Subscription>();
-	}
-	
-	
 	public void setPost(String post, TrumpiaAccountEntity trumpia) {
 		this.post = TrumpiaAPIcallerFactory.post(post, trumpia);
 	}
@@ -48,20 +42,12 @@ public class TrumpiaAPIcaller {
 	public void setTrumpia(TrumpiaAccountEntity trumpia) {
 		this.trumpia = trumpia;
 	}
-
-
-	public TrumpiaAPIcaller(TrumpiaAccountEntity trumpia, String postOption, boolean deleteOption){
-		this.trumpia = trumpia; 
-		putList = new ArrayList<Subscription>();
-		post = TrumpiaAPIcallerFactory.post(postOption, trumpia);
-		this.deleteOption = deleteOption;
-	}
 	
 	public void handleSubscriptionList(List<Subscription> subscriptions, String listName) { 
 		for(Subscription subs : subscriptions)
 			handleSubscription(subs, listName);
 				
-		sendPutRequest(listName);//db접근
+		sendPutRequest(listName);
 	}
 	
 	private void handleSubscription(Subscription subs, String listName) {

@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import com.trumpia.trumpia.model.Subscription;
 import com.trumpia.trumpia.model.TrumpiaAccountEntity;
+import com.trumpia.trumpia.util.SubscriptionBody;
 
 /*
  * Post Option - REPLACE
@@ -32,7 +33,7 @@ public class SubscriptionPostReplaceHandler implements SubscriptionPostHandler {
 		deleteRelatedIds(relatedIds);
 
 		//put subscription
-		String subscriptionsBody = createSubscriptionBody(subs, list);
+		String subscriptionsBody = SubscriptionBody.createSubscriptionBody(subs, list);
 		System.out.println(subscriptionsBody);
 		JSONObject response = TrumpiaAPILibrary.putNewSubscriptionInfo(subscriptionsBody, trumpia);
 		JSONArray request = new JSONArray(TrumpiaAPILibrary.getStatusReport(response.getString("request_id"), trumpia));
@@ -67,18 +68,7 @@ public class SubscriptionPostReplaceHandler implements SubscriptionPostHandler {
 	}
 	
 	private void deleteRelatedIds(List<String> relatedIds) {
-		for(int i = 0 ; i < relatedIds.size() ; i++) 
-			TrumpiaAPILibrary.deleteSubscriptionInfo(relatedIds.get(i), trumpia);
-	}
-
-	private String createSubscriptionBody(Subscription subs, String list) {
-		JSONObject body = new JSONObject();
-		JSONArray subscriptions = new JSONArray();
-		subscriptions.put(subs.toJSON());
-		
-		body.put("list_name", list);
-		body.put("subscriptions", subscriptions);
-		
-		return body.toString();
+		for(String relatedId : relatedIds) 
+			TrumpiaAPILibrary.deleteSubscriptionInfo(relatedId, trumpia);
 	}
 }

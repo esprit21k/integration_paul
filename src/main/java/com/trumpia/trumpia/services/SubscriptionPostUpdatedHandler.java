@@ -1,10 +1,10 @@
 package com.trumpia.trumpia.services;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.trumpia.trumpia.model.Subscription;
 import com.trumpia.trumpia.model.TrumpiaAccountEntity;
+import com.trumpia.trumpia.util.SubscriptionBody;
 
 public class SubscriptionPostUpdatedHandler implements SubscriptionPostHandler {
 
@@ -18,7 +18,7 @@ public class SubscriptionPostUpdatedHandler implements SubscriptionPostHandler {
 		try {
 			String id = findSubscriptionId(subscription);
 			deleteRepeatedContactInfo(id, subscription);
-			JSONObject response = TrumpiaAPILibrary.postChangedSubscriptionInfo(createSubscriptionBody(subscription, list), id, trumpia);
+			JSONObject response = TrumpiaAPILibrary.postChangedSubscriptionInfo(SubscriptionBody.createSubscriptionBody(subscription, list), id, trumpia);
 			JSONObject request = new JSONObject(TrumpiaAPILibrary.getStatusReport(response.getString("request_id"), trumpia));
 			return request.get("subscription_id").toString();
 		}
@@ -89,15 +89,4 @@ public class SubscriptionPostUpdatedHandler implements SubscriptionPostHandler {
 					subs.setLandLine(null);
 		}
 	}
-
-	private String createSubscriptionBody(Subscription subs, String list) {
-		JSONObject body = new JSONObject();
-		JSONArray subscriptions = new JSONArray();
-		subscriptions.put(subs.toJSON());
-		
-		body.put("list_name", list);
-		body.put("subscriptions", subscriptions);
-		
-		return body.toString();
-	}	
 }

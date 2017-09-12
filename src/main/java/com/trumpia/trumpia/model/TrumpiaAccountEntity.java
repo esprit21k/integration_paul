@@ -21,11 +21,10 @@ public class TrumpiaAccountEntity {
 	private Long id;
 
 	@Column( length=36)
-	private String uniqueId;
+	private String username;
 
 	@Column( length=36)
 	private String apikey;
-
 
 	@Column
 	private String description;
@@ -46,8 +45,8 @@ public class TrumpiaAccountEntity {
 			this.apikey = parsed.getString("APIKey");
 		if(parsed.has("description"))
 			this.description = parsed.getString("description");
-		if(parsed.has("uniqueID"))
-			this.uniqueId = parsed.getString("uniqueID");
+		if(parsed.has("username"))
+			this.username = parsed.getString("username");
 		if(parsed.has("baseURL"))
 			this.baseURL = parsed.getString("baseURL");
 	}
@@ -55,7 +54,7 @@ public class TrumpiaAccountEntity {
 	public JSONObject IdAndDescriptionJSON() {
 		JSONObject json = new JSONObject();
 		json.put("description", this.description);
-		json.put("id", this.uniqueId);
+		json.put("id", this.username);
 		return json;
 	}
 	
@@ -85,10 +84,6 @@ public class TrumpiaAccountEntity {
 	public Long getId() {
 		return id;
 	}
-
-	public String getUniqueId() {
-		return uniqueId;
-	}
 	
 	public String getBaseURL() {
 		return baseURL;
@@ -97,18 +92,23 @@ public class TrumpiaAccountEntity {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public void setUniqueId(String uniqueId) {
-		this.uniqueId = uniqueId;
-	}
 	
 	public void setBaseURL(String baseURL) {
 		this.baseURL = baseURL;
 	}
+	
+	public String getUsername() {
+		return username;
+	}
 
+	public void setUsername(String username) {
+		this.username = username;
+	}
 	@Override
 	public String toString() {
-		return "TrumpiaAccountEntity [id=" + id + ", uniqueId=" + uniqueId + ", APIkey=" + apikey + ", baseURL="
+		return "TrumpiaAccountEntity [id=" + id + ", username=" + username + ", APIkey=" + apikey + ", baseURL="
 				+ baseURL + ", userEntity=" + userEntity + "]";
 	}
+
+
 }

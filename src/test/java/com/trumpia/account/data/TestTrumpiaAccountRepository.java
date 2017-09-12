@@ -65,7 +65,7 @@ public class TestTrumpiaAccountRepository {
 		
 
 		TrumpiaAccountEntity trumEntity = new TrumpiaAccountEntity();
-		trumEntity.setUniqueId("trumtest");
+		trumEntity.setUsername("trumtest");
 		trumEntity.setApikey("trumtest");
 		trumEntity.setUserEntity(userEntity);
 
