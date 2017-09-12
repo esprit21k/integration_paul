@@ -5,12 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.trumpia.dynamics.data.DynamicsAccountRepository;
 import com.trumpia.dynamics.model.DynamicsAccountEntity;
 import com.trumpia.dynamics.services.SubscriptionParser;
 import com.trumpia.mapping.model.MappingEntity;
@@ -19,14 +15,12 @@ import com.trumpia.util.JSONUtils;
 import com.trumpia.util.Http.HttpRequest;
 
 public class DynamicsAPIcaller {
-
-	
-	private DynamicsAccountEntity dynamicsAccount;
 	private String accessToken;
 	private String initializeUrl;
 	private String resourceUrl;
 	private String deltaToken;
 	private String field = "contact";
+	private String targetFieldNames;
 
 	private List<Subscription> changedSubscription;
 	private List<MappingEntity> schema;
@@ -37,19 +31,19 @@ public class DynamicsAPIcaller {
 		this.field = field;
 		this.initializeUrl = resourceUrl+"/api/data/v8.2/"+field+"s?$select="+field+"id";
 		this.deltaToken = null;
-		this.schema = schema;
+		this.schema = schema;			
 	}
-
 
 	public List<Subscription> getContactChange() throws Exception {
 		changedSubscription = new ArrayList<Subscription>();
+		getTargetFields();
 		try {
 			if(deltaToken == null) {
 				getDeltaKey();
-				retrieveChangedData(resourceUrl+"/api/data/v8.2/"+field+"s");
+				retrieveChangedData(resourceUrl+"/api/data/v8.2/"+field+"s/?$"+targetFieldNames);
 			}
 			else
-				retrieveChangedData(resourceUrl+"/api/data/v8.2/"+field+"s/?$"+deltaToken);
+				retrieveChangedData(resourceUrl+"/api/data/v8.2/"+field+"s/?$"+targetFieldNames+"&$"+deltaToken);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -107,6 +101,14 @@ public class DynamicsAPIcaller {
 			SubscriptionParser subParser = new SubscriptionParser(JSONUtils.stringToJSON(tmp.toString()), schema);
 			changedSubscription.add(subParser.getParsedSubscription());
 		}
+	}
+	
+	private void getTargetFields() {
+		targetFieldNames = "select=";
+		for (MappingEntity i : schema ) {
+			targetFieldNames = targetFieldNames.concat(i.getTargetFieldName()+",");
+		}
+		targetFieldNames = targetFieldNames.substring(0, targetFieldNames.length()-1);
 	}
 
 	public List<Subscription> getChangedSubscription() {

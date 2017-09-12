@@ -80,7 +80,7 @@ public class TestDynamicsAPIcaller {
 		String change = dynamics.getContactChange().get(0).toString();
 		System.out.println("change: "+change);
 		assertEquals("sample", change.substring(change.indexOf("firstName")+10, change.indexOf("firstName")+16));
-		deleteDynamicsContact(contactId);
+		System.out.println(deleteDynamicsContact(contactId));
 	}
 	
 	private void makeEntity() {
@@ -119,14 +119,18 @@ public class TestDynamicsAPIcaller {
 		headers.put("Authorization", accessToken);
 		headers.put("OData-MaxVersion", "4.0");
 		headers.put("OData-Version", "4.0");
+		headers.put("Prefer", "return=representation");
+		headers.put("Content-Type", "application/json");
 
 		HttpRequest request = new HttpRequest.Builder()
-				.URL(resourceUrl+"/api/data/v8.2/contacts")
+				.URL(resourceUrl+"/api/data/v8.2/contacts?$select=contactid")
 				.headers(headers)
 				.setRawBody(body)
 				.build();
-		String msg = request.postHeader();
-		String contactid = msg.substring(msg.indexOf("contacts")+9, msg.indexOf("contacts")+45);
+		String msg = request.post();
+		ObjectNode jsonNode = JSONUtils.getNewObjectNode();
+		jsonNode = JSONUtils.stringToJSON(msg);
+		String contactid = jsonNode.get("contactid").asText();
 		return contactid;
 	}
 	

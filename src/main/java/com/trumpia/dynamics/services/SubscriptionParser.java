@@ -18,7 +18,7 @@ public class SubscriptionParser {
 		this.subs = new Subscription();
 
 		parsing();
-		System.out.println("subs: "+subs.toString());
+//		System.out.println("subs: "+subs.toString());
 	}
 
 	private void parsing() {	
