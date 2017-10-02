@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import static com.trumpia.util.LogUtils.getLogger;
 
 import java.io.IOException;
 
@@ -37,5 +36,12 @@ public class JSONUtils {
 		JsonParser jsonParser = factory.createParser(message);
 		ObjectNode objectNode = objectMapper.readTree(jsonParser);	
 		return objectNode;
+	}
+
+	public static ObjectNode stringToJSON(String message) throws Exception  {
+		JsonFactory factory = objectMapper.getFactory();
+		JsonParser jsonParser = factory.createParser(message);
+		ObjectNode objectNode = objectMapper.readTree(jsonParser); 
+		return objectNode;	
 	}
 }

@@ -3,18 +3,18 @@ package com.trumpia.trumpia.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
-import com.trumpia.util.JSONUtils;
 import com.trumpia.util.PhoneNumberValidationUtils;
 
 /*
  * DeleteSubscription toJSON
  * {
- *  "deletedDynamicID" : id-some-thing
+ * 	"deletedDynamicID" : id-some-thing
  * }
  * 
  * Subscription toJSON
@@ -31,67 +31,77 @@ public class Subscription {
 	private String id;
 	private HashMap<String, String> customField; // HashMap<customData_ID, customData_Value>
 	
-	public ObjectNode toJSON() {
+	public Subscription() {
+		this.customField = new HashMap<String,String>();
+	}
+	public JSONObject toJSON() throws JSONException {
 		if(isDeleted)
 			return deletedSubscriptionToJSON();
 		else
 			return subscriptionToJSON();
 	}
-
-	private ObjectNode deletedSubscriptionToJSON() {
-		ObjectNode subscription = JSONUtils.getNewObjectNode();
+	
+	private JSONObject deletedSubscriptionToJSON() {
+		JSONObject subscription = new JSONObject();
 		subscription.put("deletedDynamicID", id);
 		return subscription;
 	}
-
-	private ObjectNode subscriptionToJSON() {
-		ObjectNode subscription = JSONUtils.getNewObjectNode();
-		ArrayNode customData = JSONUtils.getNewArrayNode();
-
+	
+	private JSONObject subscriptionToJSON() {
+		JSONObject subscription = new JSONObject();
+		JSONArray customData = getCustomDataJSONArray();
+		
 		if(mobileNumber != null)
 			getContactJSONobjectAndPut(subscription, "mobile", mobileNumber);
 		if(landLine != null)
-			getContactJSONobjectAndPut(subscription, "landLine", landLine);
+			getContactJSONobjectAndPut(subscription, "landline", landLine);
 		if(email != null)
 			subscription.put("email", email);
 		if(firstName != null)
 			subscription.put("first_name", firstName);
 		if(lastName != null)
 			subscription.put("last_name", lastName);
-
-		subscription.set("customdata", customData);
-
+		
+		subscription.put("customdata", customData);
+		
 		return subscription;
 	}
-
-	private void getContactJSONobjectAndPut(ObjectNode subscription, String contactKey, String contactValue) {
+	
+	private void getContactJSONobjectAndPut(JSONObject subscription, String contactKey, String contactValue) {
 		try {
-			ObjectNode contactInfo = JSONUtils.getNewObjectNode();
+			JSONObject contactInfo = new JSONObject();
 			PhoneNumber contactNumber = PhoneNumberValidationUtils.parsingPhoneNumber(contactValue);
 			contactInfo.put("number", contactNumber.getNationalNumber() + "");
 			contactInfo.put("country_code", contactNumber.getCountryCode() + "");
-			subscription.set(contactKey, contactInfo);
+			subscription.put(contactKey, contactInfo);
 		} catch (NumberParseException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private ArrayNode getCustomDataJSONArray() {
-		ArrayNode jsonArray = JSONUtils.getNewArrayNode();
+	private JSONArray getCustomDataJSONArray() {
+		JSONArray jsonArray = new JSONArray();
 
 		for(Map.Entry<String, String> entry : customField.entrySet())
-			jsonArray.add(createCustomData(entry));
+			jsonArray.put(createCustomData(entry));
 
 		return jsonArray;
 	}
 
-	private ObjectNode createCustomData(Map.Entry<String, String> entry) {
-		ObjectNode custom = JSONUtils.getNewObjectNode();
+	private JSONObject createCustomData(Map.Entry<String, String> entry) {
+		JSONObject custom = new JSONObject();
 		custom.put("value", entry.getValue());
 		custom.put("customdata_id", entry.getKey());
 		return custom;
 	}
 
+	public boolean noContactInfo() {
+		if(this.landLine==null && this.mobileNumber == null && this.email == null)
+			return true;
+		else
+			return false;
+	}
+	
 	public boolean isDeleted() {
 		return isDeleted;
 	}
@@ -141,10 +151,5 @@ public class Subscription {
 		this.customField = customField;
 	}
 	
-	@Override
-	public String toString() {
-		return "Subscription [mobileNumber=" + mobileNumber + ", landLine=" + landLine + ", firstName=" + firstName
-				+ ", lastName=" + lastName + ", email=" + email + ", customField=" + customField + "]";
-	}
-
 }
+	

@@ -17,7 +17,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.trumpia.Main;
 import com.trumpia.data.UserRepository;
-import com.trumpia.dynamics.data.DynamicsAccountRepository;
 import com.trumpia.dynamics.model.DynamicsAccountEntity;
 import com.trumpia.model.UserEntity;
 
@@ -31,16 +30,6 @@ public class TestDynamicsRepository {
 	
 	@Autowired 
 	private DynamicsAccountRepository dynamicsRepo;
-	
-	@Autowired
-	public void setUserRepository(UserRepository userRepo) {
-		this.userRepo = userRepo;
-	}
-
-	@Autowired
-	public void setDynamicsRepository(DynamicsAccountRepository dynamicsRepo) {
-		this.dynamicsRepo = dynamicsRepo;
-	}
 
 	private UserEntity userEntity;
 
@@ -50,7 +39,6 @@ public class TestDynamicsRepository {
 		userEntity = new UserEntity();
 		userEntity.setEmail("test@mytrum.com");
 		userEntity.setUsername("test");
-		userEntity.setUniqueId("test");
 		userEntity.setPassword("test");
 		userEntity.setUpdatedDate(new Date());
 		userRepo.save(userEntity);

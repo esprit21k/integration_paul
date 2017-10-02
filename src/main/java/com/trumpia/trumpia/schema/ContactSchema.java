@@ -2,10 +2,9 @@ package com.trumpia.trumpia.schema;
 
 import java.io.IOException;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.trumpia.trumpia.model.TrumpiaAccountEntity;
-import com.trumpia.trumpia.schema.api.CustomDataCall;
-import com.trumpia.trumpia.schema.api.DistributionListCall;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.trumpia.trumpia.schema.model.CustomData;
 import com.trumpia.trumpia.schema.model.DistributionList;
 import com.trumpia.util.JSONUtils;

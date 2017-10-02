@@ -16,7 +16,9 @@ class Topbar extends Component {
 
 
   componentDidMount = () => {
+    /*eslint-disable */
     $('.ui.dropdown').dropdown();
+    /*eslint-enable */
   }
 
   logout = () => {

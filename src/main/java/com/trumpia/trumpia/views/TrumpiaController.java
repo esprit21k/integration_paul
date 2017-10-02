@@ -1,7 +1,6 @@
 package com.trumpia.trumpia.views;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,8 +34,8 @@ public class TrumpiaController {
 		UserEntity userEntity = userEntityList.get(0);
 		TrumpiaAccountEntity fetchedTrumpia = trumpiaAccountRepository.findByUserEntity(userEntity);
 		
-		String APIkey = fetchedTrumpia.getAPIkey();
-		String user = fetchedTrumpia.getUniqueId();
+		String APIkey = fetchedTrumpia.getApikey();
+		String user = fetchedTrumpia.getUsername();
 		String baseURL = fetchedTrumpia.getBaseURL();
 		
 		ContactSchema trumpiaUserSchema = new ContactSchema(APIkey, user, baseURL);

@@ -24,7 +24,7 @@ import com.trumpia.util.JSONUtils;
 @RestController
 @RequestMapping(path = "/trumpia/account")
 public class AccountController {
-	//trumpiaRepo 
+	//trumpiaRepo	
 	@Autowired
 	private TrumpiaAccountRepository trumRepo;
 	@Autowired
@@ -32,17 +32,16 @@ public class AccountController {
 
 	/*
 	 * INPUT:
-  {
-  "username" : "testID1234",
-  "APIKey" : "some-api-key-thing",
-  "description" : "thisIsExample"
-  }
+	 {
+		"username" : "testID1234",
+		"APIKey" : "some-api-key-thing",
+		"description" : "thisIsExample"
+	 }
 	 */
 
 	@RequestMapping(method = RequestMethod.PUT)
 	public String putTrumpiaAccount(@RequestBody String input) {
 		UserEntity user = userRepo.findOneByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-
 		TrumpiaAccountEntity account = new TrumpiaAccountEntity(new JSONObject(input));
 		account.setUserEntity(user);
 		//valid check
@@ -94,12 +93,6 @@ public class AccountController {
 			return fail.getJSONResponse();
 		}
 	}
-	//post
-	@RequestMapping(method = RequestMethod.POST)
-	public String modifyTrumpiaAccount(@RequestBody String input) {
-		return null;
-	}
-
 
 	//get
 	/*
@@ -107,23 +100,23 @@ public class AccountController {
 	 * (page starts with index 0)
 	 * RESPONSE:  
 	 * {
-      "data": [
-          {
-              "description": "test",
-              "id": "test2"
-          },
-          {
-              "description": "test",
-              "id": "test2"
-          }
-      ],
-      "page": 2
-  }
+		    "data": [
+		        {
+		            "description": "test",
+		            "id": "test2"
+		        },
+		        {
+		            "description": "test",
+		            "id": "test2"
+		        }
+		    ],
+		    "page": 2
+		}
 	 */
 	@RequestMapping(method = RequestMethod.GET) // ?size=2&page=0 (page starts with index 0)
 	public String getTrumpiaAccount(Pageable page) {
 		UserEntity user = userRepo.findOneByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-		Page<TrumpiaAccountEntity> fetchedPage = trumRepo.findByUserEntity(new PageRequest(page.getPageNumber(), page.getPageSize(), Sort.Direction.ASC, "updatedDate"), user); 
+		Page<TrumpiaAccountEntity> fetchedPage = trumRepo.findByUserEntity(new PageRequest(page.getPageNumber(), page.getPageSize(), Sort.Direction.ASC, "updatedDate"), user);	
 
 		JSONObject info = new JSONObject();
 		JSONArray data = new JSONArray();

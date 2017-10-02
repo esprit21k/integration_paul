@@ -1,6 +1,8 @@
 package com.trumpia.dynamics.schema.data;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.Date;
 
@@ -55,7 +57,6 @@ public class TestDynamicsSchemaRepository {
 		userEntity = new UserEntity();
 		userEntity.setEmail("test@mytrum.com");
 		userEntity.setUsername("test");
-		userEntity.setUniqueId("test");
 		userEntity.setPassword("test");
 		userEntity.setUpdatedDate(new Date());
 		userRepo.save(userEntity);

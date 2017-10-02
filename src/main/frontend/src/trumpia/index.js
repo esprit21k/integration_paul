@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import TrumpiaRegisterModal from './registerModal';
 import { openModal } from '../ui/modal/actions';
-import { OPEN_TRUMPIA_ACCOUNT_REGISTER_MODAL, TRUMPIA_ACCOUNT_REGISTER_MODAL_ID } from './registerModal/constants';
+import { TRUMPIA_ACCOUNT_REGISTER_MODAL_ID } from './registerModal/constants';
 
 
 class Trumpia extends Component {
