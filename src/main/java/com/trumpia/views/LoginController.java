@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -64,4 +65,13 @@ public class LoginController {
 		return response.getJSONResponse();
     }
 	
+//	@RequestMapping(path = "account/{user_id}", method = RequestMethod.GET)
+//	public String getAccount()
+//	
+//	@ResponseBody
+//	@RequestMapping(path ="account/{user_id}", method = RequestMethod.POST)
+//	public String updateAccount(@PathVariable String user_id, @org.springframework.web.bind.annotation.RequestBody UserEntity user, HttpServletResponse servletResponse) {
+//		UserEntity user = userRepository.findOneByUsername(user_id);
+//		return null;
+//	}
 }

@@ -78,6 +78,6 @@ public class TrumpiaAccountEntity {
 	@Override
 	public String toString() {
 		return "TrumpiaAccountEntity [id=" + id + ", uniqueId=" + uniqueId + ", APIkey=" + APIkey + ", baseURL="
-				+ baseURL + ", userEntity=" + userEntity + "]";
+				+ baseURL + ", userEntity=" + userEntity.getUsername() + "]";
 	}
 }

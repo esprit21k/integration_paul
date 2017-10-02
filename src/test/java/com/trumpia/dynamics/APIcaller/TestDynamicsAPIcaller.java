@@ -62,7 +62,7 @@ public class TestDynamicsAPIcaller {
 		makeMapping("last_name", "lastname");
 		makeMapping("email", "emailaddress1");
 		mappingRepo.save(schema);
-		dynamics = new DynamicsAPIcaller(dynamicsEntity, "contact", schema);
+		dynamics = new DynamicsAPIcaller(dynamicsEntity, schema);
 		
 	}
 	
@@ -87,6 +87,7 @@ public class TestDynamicsAPIcaller {
 		dynamicsEntity = new DynamicsAccountEntity();
 		dynamicsEntity.setAccessToken(accessToken);
 		dynamicsEntity.setResourceUrl(resourceUrl);
+		dynamicsEntity.setField("contact");
 		dynamicsRepo.save(dynamicsEntity);
 	}
 	

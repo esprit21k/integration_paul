@@ -10,4 +10,5 @@ import com.trumpia.model.UserEntity;
 public interface DynamicsAccountRepository extends CrudRepository<DynamicsAccountEntity, Long>{
 	DynamicsAccountEntity findOneByResourceUrl(String resourceUrl);
 	DynamicsAccountEntity findByUserEntity(UserEntity user);
+	DynamicsAccountEntity findOneByDynamicsId(String dynamicsId);
 }

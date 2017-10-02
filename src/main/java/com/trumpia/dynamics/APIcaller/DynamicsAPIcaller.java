@@ -12,6 +12,7 @@ import com.trumpia.dynamics.services.SubscriptionParser;
 import com.trumpia.mapping.model.MappingEntity;
 import com.trumpia.trumpia.model.Subscription;
 import com.trumpia.util.JSONUtils;
+import com.trumpia.util.QueryUtils;
 import com.trumpia.util.Http.HttpRequest;
 
 public class DynamicsAPIcaller {
@@ -25,10 +26,10 @@ public class DynamicsAPIcaller {
 	private List<Subscription> changedSubscription;
 	private List<MappingEntity> schema;
 
-	public DynamicsAPIcaller(DynamicsAccountEntity dynamicsAccount, String field, List<MappingEntity> schema) {
+	public DynamicsAPIcaller(DynamicsAccountEntity dynamicsAccount, List<MappingEntity> schema) {
 		this.accessToken = dynamicsAccount.getAccessToken();
 		this.resourceUrl = dynamicsAccount.getResourceUrl();
-		this.field = field;
+		this.field = dynamicsAccount.getField();
 		this.initializeUrl = resourceUrl+"/api/data/v8.2/"+field+"s?$select="+field+"id";
 		this.deltaToken = null;
 		this.schema = schema;			
@@ -36,7 +37,7 @@ public class DynamicsAPIcaller {
 
 	public List<Subscription> getContactChange() throws Exception {
 		changedSubscription = new ArrayList<Subscription>();
-		getTargetFields();
+		targetFieldNames = QueryUtils.getTargetFields(schema);
 		try {
 			if(deltaToken == null) {
 				getDeltaKey();
@@ -101,14 +102,6 @@ public class DynamicsAPIcaller {
 			SubscriptionParser subParser = new SubscriptionParser(JSONUtils.stringToJSON(tmp.toString()), schema);
 			changedSubscription.add(subParser.getParsedSubscription());
 		}
-	}
-	
-	private void getTargetFields() {
-		targetFieldNames = "select=";
-		for (MappingEntity i : schema ) {
-			targetFieldNames = targetFieldNames.concat(i.getTargetFieldName()+",");
-		}
-		targetFieldNames = targetFieldNames.substring(0, targetFieldNames.length()-1);
 	}
 
 	public List<Subscription> getChangedSubscription() {

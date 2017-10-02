@@ -103,6 +103,30 @@ public class HttpRequest {
 		}
 		return response;
 	}
+	
+	public String patch() throws IOException {
+		String response = null;
+		Response responseObj = null;
+		try {
+			responseObj = client.newCall(request.patch(body).build())
+					.execute();
+			response = responseObj.body().string();
+			if (responseObj.code() >= 400) {
+				getLogger(HttpRequest.class).error(responseObj.message());
+				getLogger(HttpRequest.class).error(responseObj.body().string());
+				final Buffer buffer = new Buffer();
+				body.writeTo(buffer);
+				getLogger(HttpRequest.class).error(buffer.readUtf8());
+				throw new UnsuccessfulRequestException("Content : " + response + "\nStatus code : " + String.valueOf(responseObj.code()), responseObj.code());
+			}
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (responseObj != null)
+				responseObj.body().close();
+		}
+		return response;
+	}
 
 	public String delete() throws IOException {
 		String response = null;

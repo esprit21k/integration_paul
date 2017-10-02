@@ -24,6 +24,9 @@ public class DynamicsAccountEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	@Column
+	private String dynamicsId;
+	
 	@Column(length=500)
 	private String resourceUrl;
 	
@@ -32,6 +35,9 @@ public class DynamicsAccountEntity {
 	
 	@Column(length=2000)
 	private String refreshToken;
+	
+	@Column
+	private String field;
 	
 	@Column(columnDefinition="timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -56,6 +62,14 @@ public class DynamicsAccountEntity {
 		expireDate = DateUtils.addMinutes(expireDate, 60);
 	}
 	
+	public String getDynamicsId() {
+		return dynamicsId;
+	}
+
+	public void setDynamicsId(String dynamicsId) {
+		this.dynamicsId = dynamicsId;
+	}
+
 	public UserEntity getUserEntity() {
 		return userEntity;
 	}
@@ -96,12 +110,20 @@ public class DynamicsAccountEntity {
 	public void setRefreshToken(String refreshToken) {
 		this.refreshToken = refreshToken;
 	}
+	
+	public String getField() {
+		return field;
+	}
+
+	public void setField(String field) {
+		this.field = field;
+	}
 
 	@Override
 	public String toString() {
-		return "DynamicsAccountEntity [id=" + id + ", resourceUrl=" + resourceUrl + ", accessToken=" + accessToken
-				+ ", refreshToken=" + refreshToken + ", expireDate=" + expireDate + ", createdDate=" + createdDate 
-				+ ", updatedDate=" + updatedDate + ", userEntity=" + userEntity + "]";
+		return "DynamicsAccountEntity [dynamicsId=" + dynamicsId + ", resourceUrl=" + resourceUrl + ", accessToken="
+				+ accessToken + ", refreshToken=" + refreshToken + ", field=" + field + ", expireDate=" + expireDate
+				+ ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + ", userEntity=" + userEntity + "]";
 	}
 
 }
