@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.trumpia.data.UserRepository;
 import com.trumpia.model.UserEntity;
@@ -40,7 +41,7 @@ public class AccountController {
 	 */
 
 	@RequestMapping(method = RequestMethod.PUT)
-	public String putTrumpiaAccount(@RequestBody String input) {
+	public String putTrumpiaAccount(@RequestBody String input) throws JsonProcessingException {
 		UserEntity user = userRepo.findOneByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 		TrumpiaAccountEntity account = new TrumpiaAccountEntity(new JSONObject(input));
 		account.setUserEntity(user);
@@ -60,7 +61,7 @@ public class AccountController {
 			return false;
 	}
 
-	private String authenticationFailJSON() {
+	private String authenticationFailJSON() throws JsonProcessingException {
 		APIResponse response = new APIResponse();
 		response.setError(true);
 		response.setMessage("Requested information failed to be authenticated.");
@@ -68,7 +69,7 @@ public class AccountController {
 		return response.getJSONResponse();
 	}
 
-	private String failJSON(TrumpiaAccountEntity account) {
+	private String failJSON(TrumpiaAccountEntity account) throws JsonProcessingException {
 		APIResponse response = new APIResponse();
 		response.setError(true);
 		response.setMessage("Account already registerd: " + account.getUsername());
@@ -76,7 +77,7 @@ public class AccountController {
 		return response.getJSONResponse();
 	}
 
-	private String successJSON(TrumpiaAccountEntity account) {
+	private String successJSON(TrumpiaAccountEntity account) throws JsonProcessingException {
 		APIResponse response = new APIResponse();
 		response.setError(false);
 		response.setMessage("success");

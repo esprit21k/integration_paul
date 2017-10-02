@@ -1,10 +1,6 @@
 package com.trumpia.trumpia.schema;
 
-import java.io.IOException;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.trumpia.trumpia.schema.model.CustomData;
 import com.trumpia.trumpia.schema.model.DistributionList;
 import com.trumpia.util.JSONUtils;

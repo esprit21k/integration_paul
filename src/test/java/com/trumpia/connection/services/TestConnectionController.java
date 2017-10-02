@@ -86,7 +86,7 @@ public class TestConnectionController {
 			return response.getJSONResponse();
 		}
 
-		TrumpiaAccountEntity trumEntity = trumRepo.findByUniqueId(requestData.get("platform_id").asText());
+		TrumpiaAccountEntity trumEntity = trumRepo.findOneByUsername(requestData.get("platform_id").asText());
 		DynamicsAccountEntity dynamicsEntity = dynamicsRepo.findOneByDynamicsId(requestData.get("thirdparty_id").asText());
 
 		ConnectionEntity connection = new ConnectionEntity();
@@ -148,7 +148,6 @@ public class TestConnectionController {
 		user = new UserEntity();
 		user.setEmail("test@mytrum.com");
 		user.setUsername("test");
-		user.setUniqueId("test");
 		user.setPassword("test");
 		user.setUpdatedDate(new Date());
 		userRepo.save(user);
@@ -163,10 +162,10 @@ public class TestConnectionController {
 		dynamicsRepo.save(dynamicsEntity);
 		
 		trumEntity = new TrumpiaAccountEntity();
-		trumEntity.setUniqueId("platform");
+		trumEntity.setUsername("platform");
 		trumEntity.setBaseURL("baseURL");
 		trumEntity.setUserEntity(user);
-		trumEntity.setAPIkey("aPIkey");
+		trumEntity.setApikey("aPIkey");
 		trumRepo.save(trumEntity);
 	}
 	

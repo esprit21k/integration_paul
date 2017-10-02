@@ -56,7 +56,7 @@ public class ConnectionController {
 			return response.getJSONResponse();
 		}
 		
-		TrumpiaAccountEntity trumEntity = trumRepo.findByUniqueId(requestData.get("platform_id").asText());
+		TrumpiaAccountEntity trumEntity = trumRepo.findOneByUsername(requestData.get("platform_id").asText());
 		DynamicsAccountEntity dynamicsEntity = dynamicsRepo.findOneByDynamicsId(requestData.get("thirdparty_id").asText());
 			
 		ConnectionEntity connection = new ConnectionEntity();
@@ -121,7 +121,7 @@ public class ConnectionController {
 		
 		for(ConnectionEntity content : fetchedPage.getContent()) {
 			data.add(content.getConnectionName());
-			data.add(content.getTrumpiaAccount().getUniqueId());
+			data.add(content.getTrumpiaAccount().getUsername());
 			data.add(content.getDynamicsAccount().getDynamicsId());
 		}
 

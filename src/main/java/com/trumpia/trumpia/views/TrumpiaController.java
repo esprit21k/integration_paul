@@ -1,6 +1,7 @@
 package com.trumpia.trumpia.views;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +30,7 @@ public class TrumpiaController {
 	//GET schema
 	@RequestMapping(path="/{username}/schema", method = RequestMethod.GET)
 	public String getTrumpiaSchema(@PathVariable String username) throws Exception {
-		List<UserEntity> userEntityList = userRepository.findByUniqueId(username);
+		List<UserEntity> userEntityList = userRepository.findByUsername(username);
 		//unique id must return one entity
 		UserEntity userEntity = userEntityList.get(0);
 		TrumpiaAccountEntity fetchedTrumpia = trumpiaAccountRepository.findByUserEntity(userEntity);

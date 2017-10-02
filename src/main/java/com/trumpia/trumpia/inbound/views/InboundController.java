@@ -25,7 +25,7 @@ public class InboundController {
 	public void handleInboundMessage(@PathVariable String username, @RequestParam("xml") String query) throws Exception {
     	if (query.isEmpty())
     		return;
-    	TrumpiaAccountEntity trumpiaAccount = trumRepo.findByUniqueId(username);
+    	TrumpiaAccountEntity trumpiaAccount = trumRepo.findOneByUsername(username);
     	InboundInfoHandler inboundHandler = new InboundInfoHandler(trumpiaAccount, inboundInfo);
     	InboundParser parser = new InboundParser(query);
     	inboundInfo = new InboundInfo();

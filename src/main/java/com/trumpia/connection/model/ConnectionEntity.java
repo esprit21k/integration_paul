@@ -103,7 +103,7 @@ public class ConnectionEntity {
 	@Override
 	public String toString() {
 		return "{ \"connectionName\" : \"" + connectionName + "\", \"userId\" : \"" + userEntity.getUsername()
-				+ "\", \"platformId\" : \"" + trumpiaAccount.getUniqueId() + "\", \"thirdpartyId\" : \"" + dynamicsAccount.getDynamicsId() + "\", \"post\" : "
+				+ "\", \"platformId\" : \"" + trumpiaAccount.getUsername() + "\", \"thirdpartyId\" : \"" + dynamicsAccount.getDynamicsId() + "\", \"post\" : "
 				+ postOption + ", \"delete\" : " + deleteOption + ", \"direction\" : \"" + direction + "\"}";
 	}
 	

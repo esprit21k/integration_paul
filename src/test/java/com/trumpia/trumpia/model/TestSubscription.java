@@ -11,14 +11,16 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.trumpia.dynamics.services.SubscriptionParser;
 import com.trumpia.mapping.model.MappingEntity;
+import com.trumpia.util.JSONUtils;
 
 
 
 public class TestSubscription {
 	List<MappingEntity> testSchema;
-	JSONObject testObject;
+	ObjectNode testObject;
 	
 	@Before
 	public void setUp() {
@@ -31,7 +33,7 @@ public class TestSubscription {
 		testSchema.add(makeCustomEntity("customData2", "customData2", "78901"));
 		testSchema.add(makeCustomEntity("customData3", "customData3", "45621"));
 		//testJSON
-		testObject = new JSONObject();
+		testObject = JSONUtils.getNewObjectNode();
 		testObject.put("id", "something-id-is-inside");
 		testObject.put("firstname", "firstname");
 		testObject.put("lastname", "lastname");
@@ -54,7 +56,7 @@ public class TestSubscription {
 	@Test
 	public void TestDeletedSubscriptionToJSON() {
 		//DeletedJSON object
-		JSONObject deletedObject =new JSONObject();
+		ObjectNode deletedObject = JSONUtils.getNewObjectNode();
 		deletedObject.put("id", "something-id-is-inside");
 		deletedObject.put("reason", "deleted");
 		

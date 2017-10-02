@@ -38,10 +38,4 @@ public class JSONUtils {
 		return objectNode;
 	}
 
-	public static ObjectNode stringToJSON(String message) throws Exception  {
-		JsonFactory factory = objectMapper.getFactory();
-		JsonParser jsonParser = factory.createParser(message);
-		ObjectNode objectNode = objectMapper.readTree(jsonParser); 
-		return objectNode;	
-	}
 }
