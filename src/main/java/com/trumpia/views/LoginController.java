@@ -13,11 +13,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.trumpia.data.UserRepository;
 import com.trumpia.model.UserEntity;
 import com.trumpia.util.APIResponse;
@@ -65,13 +67,50 @@ public class LoginController {
 		return response.getJSONResponse();
     }
 	
-//	@RequestMapping(path = "account/{user_id}", method = RequestMethod.GET)
-//	public String getAccount()
-//	
-//	@ResponseBody
-//	@RequestMapping(path ="account/{user_id}", method = RequestMethod.POST)
-//	public String updateAccount(@PathVariable String user_id, @org.springframework.web.bind.annotation.RequestBody UserEntity user, HttpServletResponse servletResponse) {
-//		UserEntity user = userRepository.findOneByUsername(user_id);
-//		return null;
-//	}
+	@RequestMapping(path = "account/{user_id}", method = RequestMethod.GET)
+	public String getAccount(@PathVariable String user_id) throws Exception {
+		UserEntity user = userRepository.findOneByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		APIResponse response = new APIResponse();
+		if (user.getId() != userRepository.findOneByUsername(user_id).getId()) {
+			response.setError(true);
+			response.setMessage("Authentication failed");
+			return response.getJSONResponse();
+		}
+		ObjectNode data = JSONUtils.getNewObjectNode();
+		data = JSONUtils.stringToJSON(user.toString());
+		response.setError(false);
+		response.setMessage("User data retrieved");
+		response.setData(data);
+		return response.getJSONResponse(); 
+	}
+	
+	@ResponseBody
+	@RequestMapping(path ="account/{user_id}", method = RequestMethod.POST)
+	public String updateAccount(@PathVariable String user_id, @RequestBody String input, HttpServletResponse servletResponse) throws JsonProcessingException {
+		UserEntity user = userRepository.findOneByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		ObjectNode requestData = JSONUtils.getNewObjectNode();
+		APIResponse response = new APIResponse();
+		try {
+			requestData = JSONUtils.stringToJSON(input);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setError(true);
+			response.setMessage("Invalid request data :"+input);
+			return response.getJSONResponse();
+		}
+		if (requestData.get("email") != null) {
+			boolean emailExists = userRepository.getUserCountByEmail(user.getEmail()) !=0;
+			if (emailExists) {
+				response.setError(true);
+				response.setMessage("Email already exists");
+				return response.getJSONResponse();
+			}
+			user.setEmail(requestData.get("email").asText());
+		}
+		if (requestData.get("password") != null) 
+			user.setPassword(password);
+		
+		
+		return null;
+	}
 }

@@ -3,6 +3,8 @@ package com.trumpia.account.data;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Date;
 
 import org.junit.Before;
@@ -29,24 +31,8 @@ public class TestTrumpiaAccountRepository {
 	
 	@Autowired 
 	private TrumpiaAccountRepository trumRepo;
-	
-	@Autowired
-	public void setUserRepository(UserRepository userRepo) {
-		this.userRepo = userRepo;
-	}
-
-	@Autowired
-	public void setTrumpiaAccountRepository(TrumpiaAccountRepository trumRepo) {
-		this.trumRepo = trumRepo;
-	}
-
 
 	private UserEntity userEntity;
-
-	@Before
-	public void setUp() {
-
-	}
 
 	@Test
 	public void test() {
@@ -83,6 +69,7 @@ public class TestTrumpiaAccountRepository {
 		trumRepo.save(fetchedEntity);
 		TrumpiaAccountEntity fetchedAndUpdatedEntity = trumRepo.findOne(fetchedEntity.getId());
 		assertEquals(fetchedEntity.getApikey(), fetchedAndUpdatedEntity.getApikey());
+		
 
 		//Delete
 		trumRepo.delete(fetchedEntity);

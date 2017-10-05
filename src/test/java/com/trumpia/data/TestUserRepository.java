@@ -3,6 +3,7 @@ package com.trumpia.data;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 
@@ -11,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -44,6 +46,7 @@ public class TestUserRepository {
 		testEntity.setUsername("test");
 		testEntity.setPassword("test");
 		testEntity.setUpdatedDate(new Date());
+		assertTrue(BCrypt.checkpw("test", testEntity.getPassword()));
 
 		//Save
 		assertNull(testEntity.getId());

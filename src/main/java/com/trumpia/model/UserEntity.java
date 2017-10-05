@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.security.crypto.bcrypt.BCrypt;
+
 @Entity
 @Table(name="e_user")
 public class UserEntity {
@@ -15,13 +17,13 @@ public class UserEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@Column( length=50)
+	@Column( length=50, nullable=false)
 	private String username;
 
 	@Column( length=200)
 	private String email;
 	
-	@Column( length=200)
+	@Column(nullable=false)
 	private String password;
 
 	@Column(columnDefinition="DATE") // @Temporal(TemporalType.TIMESTAMP)
@@ -85,8 +87,8 @@ public class UserEntity {
 
 	@Override
 	public String toString() {
-		return "UserEntity [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
-				+ ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + "]";
+		return "{\n\"id\" : \"" + id + "\", \nusername\" : \"" + username + "\", \nemail\" : \"" + email
+				+ "\", \ncreatedDate\" : \"" + createdDate + "\", \nupdatedDate\" : \"" + updatedDate + "\n}";
 	}
 
 	

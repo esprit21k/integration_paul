@@ -104,10 +104,12 @@ public class TrumpiaAccountEntity {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
 	@Override
 	public String toString() {
-		return "TrumpiaAccountEntity [id=" + id + ", username=" + username + ", APIkey=" + apikey + ", baseURL="
-				+ baseURL + ", userEntity=" + userEntity + "]";
+		return "{\n\"id\" : \"" + id + "\", \nusername\" : \"" + username + "\", \napikey\" : \"" + apikey
+				+ "\", \ndescription\" : \"" + description + "\", \nbaseURL\" : \"" + baseURL
+				+ "\", \nuserEntity\" : \"" + userEntity + "\n}";
 	}
 
 

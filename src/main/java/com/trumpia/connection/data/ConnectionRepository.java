@@ -13,7 +13,7 @@ import com.trumpia.model.UserEntity;
 import com.trumpia.trumpia.model.TrumpiaAccountEntity;
 
 public interface ConnectionRepository extends PagingAndSortingRepository<ConnectionEntity, Long>{
-	ConnectionEntity findOneByConnectionName(UserEntity userEntity, String connection_id);
+	ConnectionEntity findOneByUserEntityAndConnectionName(UserEntity userEntity, String connectionName);
 	
 	@Query(nativeQuery=true,value="select count(*) FROM e_connection WHERE LOWER(connection_id) = LOWER(:connection_id)")
 	int getConnectionCountByName(@Param("connection_id") String connectionName);

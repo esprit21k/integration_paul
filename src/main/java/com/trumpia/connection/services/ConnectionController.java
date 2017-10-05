@@ -131,41 +131,94 @@ public class ConnectionController {
 	}
 	
 	@RequestMapping(path = "/{connection_id}", method = RequestMethod.GET)
-	public String getConnection0(@PathVariable String connection_id) {
+	public String getConnection0(@PathVariable String connection_id) throws Exception {
 		UserEntity user = userRepo.findOneByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-		ConnectionEntity connection = connectionRepo.findOneByConnectionName(user, connection_id);
-		
-		return connection.toString();
+		ConnectionEntity connection = connectionRepo.findOneByUserEntityAndConnectionName(user, connection_id);
+		APIResponse response = new APIResponse();
+		response.setError(false);
+		response.setMessage("Successfully read connection: "+connection_id);
+		ObjectNode data = JSONUtils.getNewObjectNode();
+		data = JSONUtils.stringToJSON(connection.toString());
+		response.setData(data);
+		return response.getJSONResponse();
 	}
 	
 	@RequestMapping(path = "/{connection_id}", method = RequestMethod.POST)
-	public String postConnection(@RequestBody String input, @PathVariable String connection_id) {
+	public String postConnection(@RequestBody String input, @PathVariable String connection_id) throws Exception {
 		UserEntity user = userRepo.findOneByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 		ObjectNode requestData = JSONUtils.getNewObjectNode();
+		APIResponse response = new APIResponse();
 		try {
 			requestData = JSONUtils.stringToJSON(input);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "Invalid request data :"+input;
+			response.setError(true);
+			response.setMessage("Invalid request data :"+input);
+			return response.getJSONResponse();
 		}
-		ConnectionEntity connection = connectionRepo.findOneByConnectionName(user, connection_id);
-		if(requestData.get("post").asText().equals("true"))
-			connection.setPostOption(true);
-		else if (requestData.get("post").asText().equals("false"))
-			connection.setPostOption(false);
-		else
-			return "Invalid post option";
-		if(requestData.get("delete").asText().equals("true"))
-			connection.setDeleteOption(true);
-		else if(requestData.get("delete").asText().equals("false"))
-			connection.setDeleteOption(false);
-		else
-			return "Invalid delete option";
-		connection.setConnectionName(requestData.get("connection_name").asText());
+		ConnectionEntity connection = connectionRepo.findOneByUserEntityAndConnectionName(user, connection_id);
+		if(requestData.get("post") != null) {
+			if(requestData.get("post").asText().equals("true"))
+				connection.setPostOption(true);
+			else if (requestData.get("post").asText().equals("false"))
+				connection.setPostOption(false);
+			else {
+				response.setError(true);
+				response.setMessage("Invalid post option");
+				return response.getJSONResponse();
+			}
+		}
+		if (requestData.get("delete") != null) {
+			if(requestData.get("delete").asText().equals("true"))
+				connection.setDeleteOption(true);
+			else if(requestData.get("delete").asText().equals("false"))
+				connection.setDeleteOption(false);
+			else {
+				response.setError(true);
+				response.setMessage("Invalid delete option");
+				return response.getJSONResponse();
+			}
+		}
+		if(requestData.get("direction") != null) {
+			if(requestData.get("direction").asText().equals("bi"))
+				connection.setDirection("bi");
+			else if (requestData.get("direction").asText().equals("toPlatform"))
+				connection.setDirection("toPlatform");
+			else if (requestData.get("direction").asText().equals("toThirdparty"))
+				connection.setDirection("toThirdparty");
+			else {
+				response.setError(true);
+				response.setMessage("Invalid direction option");
+				return response.getJSONResponse();
+			}
+		}
+		if(requestData.get("connection_name") != null) 
+			connection.setConnectionName(requestData.get("connection_name").asText());
 
 		connectionRepo.save(connection);
-		
-		return connection.toString();
+		response.setError(false);
+		response.setMessage("Successfully updated connection: "+connection_id);
+		ObjectNode data = JSONUtils.getNewObjectNode();
+		data = JSONUtils.stringToJSON(connection.toString());
+		response.setData(data);
+		return response.getJSONResponse();
 	}
 
+	@RequestMapping(path = "/{connection_id}", method = RequestMethod.DELETE) 
+	public String deleteConnection(@PathVariable String connection_id) throws JsonProcessingException {
+		UserEntity user = userRepo.findOneByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		ConnectionEntity connection = connectionRepo.findOneByUserEntityAndConnectionName(user, connection_id);
+		connectionRepo.delete(connection);
+		APIResponse response = new APIResponse();
+		if (connectionRepo.findOneByUserEntityAndConnectionName(user, connection_id).equals(null)) {
+			response.setError(false);
+			response.setMessage("Connection id: "+connection_id+" is successfully deleted");
+			return response.getJSONResponse();
+		}
+		else {
+			response.setError(true);
+			response.setMessage("Deleting Connection id: "+connection_id+" is failed");
+			return response.getJSONResponse();
+		}
+	}
 }
