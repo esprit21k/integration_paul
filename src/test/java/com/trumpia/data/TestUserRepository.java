@@ -46,12 +46,12 @@ public class TestUserRepository {
 		testEntity.setUsername("test");
 		testEntity.setPassword("test");
 		testEntity.setUpdatedDate(new Date());
-		assertTrue(BCrypt.checkpw("test", testEntity.getPassword()));
 
 		//Save
 		assertNull(testEntity.getId());
 		repo.save(testEntity);
 		assertNotNull(testEntity.getId());
+		System.out.println(testEntity.toString());
 
 		//Fetch
 		UserEntity fetchedEntity = repo.findOne(testEntity.getId());

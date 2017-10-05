@@ -20,9 +20,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.trumpia.data.DeletedUserRepository;
 import com.trumpia.data.UserRepository;
+import com.trumpia.model.DeletedUserEntity;
 import com.trumpia.model.UserEntity;
 import com.trumpia.util.APIResponse;
+import com.trumpia.util.FormValidationUtils;
 import com.trumpia.util.JSONUtils;
 
 @Controller
@@ -30,6 +33,9 @@ public class LoginController {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private DeletedUserRepository deletedUserRepo;
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -86,7 +92,7 @@ public class LoginController {
 	
 	@ResponseBody
 	@RequestMapping(path ="account/{user_id}", method = RequestMethod.POST)
-	public String updateAccount(@PathVariable String user_id, @RequestBody String input, HttpServletResponse servletResponse) throws JsonProcessingException {
+	public String updateAccount(@PathVariable String user_id, @RequestBody String input, HttpServletResponse servletResponse) throws Exception {
 		UserEntity user = userRepository.findOneByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 		ObjectNode requestData = JSONUtils.getNewObjectNode();
 		APIResponse response = new APIResponse();
@@ -100,6 +106,11 @@ public class LoginController {
 		}
 		if (requestData.get("email") != null) {
 			boolean emailExists = userRepository.getUserCountByEmail(user.getEmail()) !=0;
+			if (!FormValidationUtils.emailValidator(requestData.get("email").asText())) {
+				response.setError(true);
+				response.setMessage("Invalid email address");
+				return response.getJSONResponse();
+			}
 			if (emailExists) {
 				response.setError(true);
 				response.setMessage("Email already exists");
@@ -107,10 +118,37 @@ public class LoginController {
 			}
 			user.setEmail(requestData.get("email").asText());
 		}
-		if (requestData.get("password") != null) 
-			user.setPassword(password);
-		
-		
-		return null;
+		if (requestData.get("password") != null) {
+			if (!FormValidationUtils.pwValidator(requestData.get("password").asText())) {
+				response.setError(true);
+				response.setMessage("Invalid password");
+				return response.getJSONResponse();
+			}
+			user.setPassword(bCryptPasswordEncoder.encode(requestData.get("password").asText()));
+		}
+		ObjectNode data = JSONUtils.getNewObjectNode();
+		data = JSONUtils.stringToJSON(user.toString());
+		response.setError(false);
+		response.setMessage("User data updated");
+		response.setData(data);
+		return response.getJSONResponse();
+	}
+	
+	@ResponseBody
+	@RequestMapping(path = "account/{user_id}", method = RequestMethod.DELETE)
+	public String deleteAccount(@PathVariable String user_id, HttpServletResponse servletResponse ) throws Exception {
+		UserEntity user = userRepository.findOneByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		if (user.getId() != userRepository.findOneByUsername(user_id).getId())
+			return null;
+		DeletedUserEntity deletedUser = new DeletedUserEntity(user); 
+		deletedUserRepo.save(deletedUser);
+		userRepository.delete(user);
+		APIResponse response = new APIResponse();
+		ObjectNode data = JSONUtils.getNewObjectNode();
+		data = JSONUtils.stringToJSON(deletedUser.toString());
+		response.setError(false);
+		response.setMessage("User Account deleted");
+		response.setData(data);
+		return response.getJSONResponse();
 	}
 }

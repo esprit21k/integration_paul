@@ -1,4 +1,5 @@
 package com.trumpia.model;
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -8,11 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.springframework.security.crypto.bcrypt.BCrypt;
-
 @Entity
-@Table(name="e_user")
-public class UserEntity {
+@Table(name="e_deleted_user")
+public class DeletedUserEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -25,70 +24,52 @@ public class UserEntity {
 	
 	@Column(nullable=false)
 	private String password;
-
-	@Column(columnDefinition="DATE") // @Temporal(TemporalType.TIMESTAMP)
+	
+	@Column(columnDefinition="DATE") 
 	private Date createdDate;
 
-	@Column(columnDefinition="DATE")
-	private Date updatedDate;
+	@Column(columnDefinition="DATE") // @Temporal(TemporalType.TIMESTAMP)
+	private Date deletedDate;
 	
-	public UserEntity() {
-		this.createdDate = new Date();
+	
+	public DeletedUserEntity(UserEntity user) {
+		this.username = user.getUsername();
+		this.email = user.getEmail();
+		this.password = user.getPassword();
+		this.createdDate = user.getCreatedDate();
+		this.deletedDate = new Date();
 	}
 	
 	public String getUsername() {
 		return this.username;
 	}
 	
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	
 	public String getPassword() {
 		return this.password;
-	}
-	
-	public void setPassword(String password) {
-		this.password = password;
 	}
 	
 	public Date getCreatedDate() {
 		return this.createdDate;
 	}
 	
-	public Date getUpdatedDate() {
-		return this.updatedDate;
+	public Date getDeletedDate() {
+		return this.deletedDate;
 	}
 
 	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public void setUpdatedDate(Date updatedDate) {
-		this.updatedDate = updatedDate;
-	}
-
 	public String getEmail() {
 		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	@Override
 	public String toString() {
 		return "{\n\"id\" : \"" + id + "\", \n\"username\" : \"" + username + "\", \n\"email\" : \"" + email
-				+ "\", \n\"createdDate\" : \"" + createdDate + "\", \n\"updatedDate\" : \"" + updatedDate + "\"\n}";
+				+ "\", \n\"createdDate\" : \"" + createdDate + "\", \n\"deletedDate\" : \"" + deletedDate + "\"\n}";
 	}
 
 	
+
 }
